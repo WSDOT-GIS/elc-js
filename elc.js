@@ -34,9 +34,11 @@
 	function toQueryString(/**{Object}*/ o) {
 		var output = [];
 		for (var name in o) {
+			/*jshint eqnull:true*/
 			if (o.hasOwnProperty(name) && o[name] != null) {
 				output.push([name, encodeURIComponent(o[name])].join("="));
 			}
+			/*jshint eqnull:false*/
 		}
 		return output.join('&');
 	}
@@ -606,9 +608,12 @@
 		var elcParams = {
 			f: "json"
 		};
+		/*jshint eqnull:true*/
 		if (params.useCors == null) {
 			params.useCors = true;
 		}
+		/*jshint eqnull:false*/
+
 		if (typeof (params.referenceDate) === "undefined" || params.referenceDate === null) {
 			throw new Error("referenceDate not provided.");
 		} else {
