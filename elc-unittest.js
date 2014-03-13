@@ -1,5 +1,5 @@
 /*jslint devel: true, browser: true, white: true */
-/*globals wsdot, jQuery, dojo, esri, test, equal, module, notEqual, start, ok, raises, asyncTest, window */
+/*globals jQuery, test, equal, module, start, ok, asyncTest, window, elc */
 
 /**
 * Make a copy of this file called unittest.js and modify the URLs to match those of the web service you will be testing with.
@@ -8,11 +8,11 @@
 (function ($) {
 	"use strict";
 	
-	var elc;
-	elc = new $.wsdot.elc.RouteLocator("http://www.wsdot.wa.gov/geoservices/ArcGIS/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSOE");
+	var routeLocator;
+	routeLocator = new elc.RouteLocator("http://www.wsdot.wa.gov/geoservices/ArcGIS/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe");
 	
 	function onDocumentReady() {
-		var mapServerUrl, clientSupportsCors = $.support.cors, messageList, testCount = 0;
+		var clientSupportsCors = $.support.cors, messageList, testCount = 0;
 
 		function writeMessage(message, level) {
 			var li = $("<li>").html(message).appendTo(messageList);
@@ -25,17 +25,17 @@
 			}
 		}
 
-		function isNullOrEmpty(input, message) {
-			var t = typeof(input);
-			ok(t === "undefined" || input === null || t === "string" && input.length === 0, message);
-		}
+		////function isNullOrEmpty(input, message) {
+		////	var t = typeof(input);
+		////	ok(t === "undefined" || input === null || t === "string" && input.length === 0, message);
+		////}
 
-		function testResponseForError(data, message) {
-			if (typeof(message) === "undefined" || message === null) {
-				message = "Response should not have an \"error\" property.";
-			}
-			ok(data !== null && typeof(data.error) === "undefined", message);
-		}
+		////function testResponseForError(data, message) {
+		////	if (typeof(message) === "undefined" || message === null) {
+		////		message = "Response should not have an \"error\" property.";
+		////	}
+		////	ok(data !== null && typeof(data.error) === "undefined", message);
+		////}
 
 		/**
 		 * Starts the QUnit tests for the ELC REST SOE.
@@ -46,10 +46,10 @@
 			
 			(function (testCount) {
 				asyncTest("Find Route Locaitons, minimum required parameters specified.", function () {
-					var rl, json, dateString, params;
+					var rl, dateString, params;
 					dateString = "12/31/2011";
 					
-					rl = new $.wsdot.elc.RouteLocation({
+					rl = new elc.RouteLocation({
 						Route: "005",
 						Arm: 0,
 						ReferenceDate: new Date(dateString)
@@ -70,7 +70,7 @@
 						}
 					};
 					
-					elc.findRouteLocations(params);
+					routeLocator.findRouteLocations(params);
 				});
 			}(testCount));
 			
@@ -100,7 +100,7 @@
 						}
 					};
 					
-					elc.findNearestRouteLocations(params);
+					routeLocator.findNearestRouteLocations(params);
 				});
 			}(testCount));
 			
@@ -110,7 +110,7 @@
 			
 			(function (testId) {
 				asyncTest("Get \"routes\" test", function () {
-					elc.getRouteList(function (routeList) {
+					routeLocator.getRouteList(function (routeList) {
 						console.log(testId, routeList);
 						ok(true, "Route list retrieved");
 						start();
@@ -138,7 +138,7 @@
 				try {
 					$.ajax({
 						type: "HEAD", 
-						url: /(.+)\/exts\/ElcRestSoe\/?/.exec(elc.url)[1],
+						url: /(.+)\/exts\/ElcRestSoe\/?/.exec(routeLocator.url)[1],
 						data: {
 							f: "json"
 						},
@@ -147,7 +147,7 @@
 						success: function (/*data, textStatus, jqXHR*/) {
 							progress.remove();
 							// The server supports CORS.
-							writeMessage("<a href='" + elc.url + "'>Map server</a>" + " supports CORS.");
+							writeMessage("<a href='" + routeLocator.url + "'>Map server</a>" + " supports CORS.");
 							if (typeof(testCompleteHandler) === "function") {
 								testCompleteHandler(true);
 							}
@@ -155,7 +155,7 @@
 						error: function (/*jqXHR, textStatus, errorThrown*/) {
 							progress.remove();
 							// The server does not support CORS.
-							writeMessage("<a href='" + elc.url + "'>Map Server</a>" + " does not support CORS.");
+							writeMessage("<a href='" + routeLocator.url + "'>Map Server</a>" + " does not support CORS.");
 							if (typeof(testCompleteHandler) === "function") {
 								testCompleteHandler(false);
 							}
@@ -165,7 +165,7 @@
 					progress.remove();
 					// The server does not support CORS.
 					console.error(err);
-					writeMessage("<a href='" + elc.url + "'>Map Server</a>" + " does not support CORS.");
+					writeMessage("<a href='" + routeLocator.url + "'>Map Server</a>" + " does not support CORS.");
 					if (typeof(testCompleteHandler) === "function") {
 						testCompleteHandler(false);
 					}
@@ -206,7 +206,7 @@
 				[1, 2],
 				[3, 4]
 			];
-			flattened = $.wsdot.elc.flattenArray(array);
+			flattened = elc.flattenArray(array);
 			
 			equal(flattened.length, 4, "flattened array should have four elements.");
 		});
@@ -214,7 +214,7 @@
 		testCount += 1;
 		
 		test("flattenArray on array that doesn't need it", function () {
-			var input = [1, 2, 3, 4], output = $.wsdot.elc.flattenArray(input);
+			var input = [1, 2, 3, 4], output = elc.flattenArray(input);
 			
 			equal(input.length, output.length, "input and output arrays should have the same number of elements.");
 			ok(input[0] === output[0] && input[1] === output[1] && input[2] === output[2] && input[3] === output[3], "Each element in input array should match element at corresponding index in output array.");
@@ -229,7 +229,7 @@
 			var rl, json, dateString;
 			dateString = "12/31/2011";
 			
-			rl = new $.wsdot.elc.RouteLocation({
+			rl = new elc.RouteLocation({
 				Route: "005",
 				Arm: 0,
 				ReferenceDate: new Date(dateString)

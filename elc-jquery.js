@@ -83,14 +83,14 @@
 	 * A helper object for querying the ELC REST SOE endpoints.
 	 * @author Jeff Jacobson
 	 * @class A helper object for querying the ELC REST SOE endpoints.
-	 * @param {String} [url="http://wsdot.wa.gov/geosvcs/ArcGIS/rest/services/Shared/RouteLocatorRestSoe/MapServer/exts/RouteLocatorRestSoe"] The URL for the ELC REST Endpoint.
+	 * @param {String} [url="http://www.wsdot.wa.gov/geoservices/ArcGIS/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"] The URL for the ELC REST Endpoint.
 	 * @param {String} [findRouteLocationsOperationName="Find Route Locations"]
 	 * @param {String} [findNearestRouteLocationsOperationName="Find Nearest Route Locations"]
 	 * @param {String} [routesResourceName="routes"]
 	 * @memberOf $.wsdot.elc
 	 */
 	function RouteLocator(url, findRouteLocationsOperationName, findNearestRouteLocationsOperationName, routesResourceName) {
-		this.url = url || "http://wsdot.wa.gov/geosvcs/ArcGIS/rest/services/Shared/RouteLocatorRestSoe/MapServer/exts/RouteLocatorRestSoe";
+		this.url = url || "http://www.wsdot.wa.gov/geoservices/ArcGIS/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
 		this.findRouteLocationsOperationName = findRouteLocationsOperationName || "Find Route Locations";
 		this.findNearestRouteLocationsOperationName = findNearestRouteLocationsOperationName || "Find Nearest Route Locations";
 		this.routesResourceName = routesResourceName || "routes";
@@ -268,8 +268,6 @@
 				jsonpCallback: "jsonp",
 				data: data,
 				success: function (data) {
-					var layers;
-
 					if (typeof (data.error) !== "undefined" && typeof (errorHandler === "function")) {
 						errorHandler(data);
 					}

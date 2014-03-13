@@ -828,6 +828,7 @@
 		ROUTE_TYPE_BOTH: ROUTE_TYPE_BOTH,
 		ROUTE_TYPE_RAMP: ROUTE_TYPE_RAMP,
 		RouteLocator: RouteLocator,
-		RouteLocation: RouteLocation
+		RouteLocation: RouteLocation,
+		flattenArray: flattenArray
 	};
 }));

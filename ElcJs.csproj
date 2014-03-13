@@ -38,9 +38,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="elc-unittest.html" />
+    <Content Include="elc-unittest.js" />
     <Content Include="elc-jquery.js" />
-    <Content Include="elc-test.html" />
-    <Content Include="elc-test.js" />
     <Content Include="elc.js" />
     <Content Include="elc-jquery-unittest.html" />
     <Content Include="elc-jquery-unittest.js" />
