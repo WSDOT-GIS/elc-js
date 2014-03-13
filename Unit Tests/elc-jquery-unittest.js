@@ -9,7 +9,7 @@
 	"use strict";
 	
 	var elc;
-	elc = new $.wsdot.elc.RouteLocator("http://www.wsdot.wa.gov/geoservices/ArcGIS/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSOE");
+	elc = new $.wsdot.elc.RouteLocator("http://www.wsdot.wa.gov/geoservices/ArcGIS/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe");
 	
 	function onDocumentReady() {
 		var mapServerUrl, clientSupportsCors = $.support.cors, messageList, testCount = 0;
