@@ -32,15 +32,34 @@
 	}
 
 	function toQueryString(/**{Object}*/ o) {
-		var output = [];
+		var output = [], value;
 		for (var name in o) {
 			/*jshint eqnull:true*/
-			if (o.hasOwnProperty(name) && o[name] != null) {
-				output.push([name, encodeURIComponent(o[name])].join("="));
+			if (o.hasOwnProperty(name)) {
+				value = o[name];
+				if (value == null) {
+					value = "";
+				}
+				output.push([name, encodeURIComponent(value)].join("="));
 			}
 			/*jshint eqnull:false*/
 		}
 		return output.join('&');
+	}
+
+	/** Tests if a URL is under a certain length. This is used to determine whether POST should be used instead of GET.
+	 * @param {string} url
+	 * @param {number} [maxLength=2000]
+	 * @returns {Boolean}
+	 */
+	function isUrlTooLong(url, maxLength) {
+		if (!maxLength) {
+			maxLength = 2000;
+		}
+		if (typeof url === "string") {
+			return url.length > 2000;
+		}
+		return false;
 	}
 
 	/**
@@ -549,9 +568,9 @@
 			data = {
 				f: "json",
 				locations: JSON.stringify(locations),
-				outSR: outSR || undefined,
-				referenceDate: referenceDate,
-				lrsYear: lrsYear || undefined
+				outSR: outSR || null,
+				referenceDate: referenceDate || null,
+				lrsYear: lrsYear || null
 			};
 
 			var url = [this.url, this.findRouteLocationsOperationName].join("/");
@@ -560,8 +579,17 @@
 			}
 			var request = new XMLHttpRequest();
 			var formData = toQueryString(data);
-			request.open("POST", url);
-			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			// Determine whether to use GET or POST based on URL length.
+			var method = isUrlTooLong([url, formData].join("?")) ? "POST" : "GET";
+
+			if (method === "GET") {
+				url = [url, formData].join("?");
+				formData = null;
+			}
+			request.open(method, url);
+			if (formData) {
+				request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			}
 			request.responseType = "json";
 			request.addEventListener("loadend", function (e) {
 				var json;
@@ -677,9 +705,15 @@
 				elcParams.callback = "jsonp";
 			}
 			var formData = toQueryString(elcParams);
+			var method = isUrlTooLong(url + "?" + formData) ? "POST" : "GET";
 			var request = new XMLHttpRequest();
-			request.open("POST", url);
-			request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			if (method === "GET") {
+				url = [url, formData].join("?");
+			}
+			request.open(method, url);
+			if (method === "POST") {
+				request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			}
 			request.responseType = "json";
 			request.addEventListener("loadend", function (e) {
 				var json;
@@ -696,7 +730,11 @@
 					}
 				}
 			});
-			request.send(formData);
+			if (method === "POST") {
+				request.send(formData);
+			} else {
+				request.send();
+			}
 		} catch (err) {
 			if (typeof (params.errorHandler) === "function") {
 				params.errorHandler(err);

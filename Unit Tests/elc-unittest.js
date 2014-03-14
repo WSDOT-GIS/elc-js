@@ -75,6 +75,38 @@
 			}(testCount));
 			
 			testCount += 1;
+
+			(function (testCount) {
+				asyncTest("Find Route Locaitons, global reference date specified.", function () {
+					var rl, dateString, params;
+					dateString = "12/31/2011";
+
+					rl = new elc.RouteLocation({
+						Route: "005",
+						Arm: 0
+					});
+
+					params = {
+						useCors: useCors,
+						locations: [rl],
+						referenceDate: dateString,
+						successHandler: function (data) {
+							console.log(testCount, { input: [rl], output: data });
+							ok(true, "Success");
+							start();
+						},
+						errorHandler: function (error) {
+							console.log(testCount, { input: [rl], error: error });
+							ok(false, error.error);
+							start();
+						}
+					};
+
+					routeLocator.findRouteLocations(params);
+				});
+			}(testCount));
+
+			testCount += 1;
 			
 			module("Find Nearest Route Locations operation");
 			
