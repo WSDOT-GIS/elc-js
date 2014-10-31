@@ -297,6 +297,9 @@
 			request.addEventListener("loadend", function (e) {
 				var layerList, data;
 				data = e.target.response;
+				if (typeof data === "string") {
+					data = JSON.parse(data);
+				}
 				if (this.status === 200) {
 					layerList = new RouteList(data);
 					elc.layerList = layerList;
@@ -594,6 +597,9 @@
 			request.addEventListener("loadend", function (e) {
 				var json;
 				json = e.target.response;
+				if (typeof json === "string") {
+					json = JSON.parse(json);
+				}
 				if (e.target.status === 200) {
 					if (json.error && typeof errorHandler === "function") {
 						errorHandler(json);
@@ -718,6 +724,9 @@
 			request.addEventListener("loadend", function (e) {
 				var json;
 				json = e.target.response;
+				if (typeof json === "string") {
+					json = JSON.parse(json);
+				}
 				if (e.target.status === 200) {
 					if (json.error && typeof params.errorHandler === "function") {
 						params.errorHandler(json);
