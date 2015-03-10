@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ELC UI Template</title>
+</head>
+<body>
+    <div class="elc-ui-root">
+        <section class="find-route-location-section">
+            <h1>Find Route Location</h1>
+            <form action="/">
+                <div>
+                    <label>Route</label>
+                    <div class="flex-row">
+                        <input name="route" type="text" pattern="^(\d{3})(?:([A-Za-z0-9]{2})([A-Za-z0-9]{0,6}))?$" required="required" title="3 to 12 character route id" />
+                        <label><input type="checkbox" /> Decrease</label>
+                    </div>
+                </div>
+                <div class="radio-group">
+                    <label>Milepost Type</label>
+                    <label><input type="radio" name="milepostType" value="SRMP" checked="checked" /> SRMP</label>
+                    <label><input type="radio" name="milepostType" value="ARM" /> ARM</label>
+                </div>
+                <div class="radio-group">
+                    <label>Geometry Type</label>
+                    <label><input type="radio" name="geometryType" value="point" checked="checked" /> Point</label>
+                    <label><input type="radio" name="geometryType" value="line" /> Line</label>
+                </div>
+                <div>
+                    <label>Reference Date</label>
+                    <input name="referenceDate" type="date" required="required" />
+                </div>
+                <div>
+                    <div class="start-milepost-section">
+                        <label>Start Milepost</label>
+                        <div class="flex-row">
+                            <input name="startMilepost" type="number" required="required" min="0" />
+                            <label class="for-srmp-only"><input type="checkbox" /> Back</label>
+                        </div>
+                    </div>
+                    <div class="end-milepost-section for-lines-only">
+                        <label>End Milepost</label>
+                        <div class="flex-row">
+                            <input name="endMilepost" type="number" min="0" />
+                            <label class="for-srmp-only"><input type="checkbox" /> Back</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button type="submit">Find</button>
+                    <button type="reset">Reset</button>
+                </div>
+            </form>
+        </section>
+        <section class="find-nearest-route-location-section">
+            <h1>Find Nearest Route Location</h1>
+
+            <form action="/" method="post">
+                <div>
+                    <label>Radius (in feet)</label>
+                    <input type="number" required="required" />
+                </div>
+                <button type="submit">Find</button>
+            </form>
+        </section>
+        <section class="options-section">
+            <h1>Options</h1>
+            <button type="button" title="Clears graphics created by this tool.">Clear Graphics</button>
+        </section>
+    </div>
+</body>
+</html>

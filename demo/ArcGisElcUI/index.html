@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <link href="//js.arcgis.com/3.13/esri/css/esri.css" rel="stylesheet" />
+    <link href="Style/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="flexcontainer">
+        <div id="map"></div>
+        <div id="elcUI"></div>
+    </div>
+    <script>
+        (function (root) {
+            var dojoConfig = {
+                async: true,
+                packages: [
+                    {
+                        name: "elc-ui",
+                        location: root + "../../../elc-ui"
+                    }
+                ]
+            };
+            window.dojoConfig = dojoConfig;
+        }(location.href.replace(/\/[^\/]*$/, "")));
+    </script>
+    <script src="//js.arcgis.com/3.13/init.js"></script>
+    <script src="Script/index.js"></script>
+</body>
+</html>

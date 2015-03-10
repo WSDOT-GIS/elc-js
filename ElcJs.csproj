@@ -38,22 +38,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="demo\ArcGisElcUI\index.html" />
+    <Content Include="demo\ArcGisElcUI\Script\index.js" />
+    <Content Include="demo\ArcGisElcUI\Style\index.css" />
     <Content Include="elc-jquery.min.js">
       <DependentUpon>elc-jquery.js</DependentUpon>
+    </Content>
+    <Content Include="elc-ui\Templates\elc-ui.min.html">
+      <DependentUpon>elc-ui.html</DependentUpon>
     </Content>
     <Content Include="elc.min.js">
       <DependentUpon>elc.js</DependentUpon>
     </Content>
+    <Content Include="elc-ui\main.js" />
+    <Content Include="elc-ui\Templates\elc-ui.html" />
     <Content Include="Unit Tests\elc-unittest.html" />
     <Content Include="Unit Tests\elc-unittest.js" />
     <Content Include="elc-jquery.js" />
     <Content Include="elc.js" />
     <Content Include="Unit Tests\elc-jquery-unittest.html" />
     <Content Include="Unit Tests\elc-jquery-unittest.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="LICENSE" />
-    <Content Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
