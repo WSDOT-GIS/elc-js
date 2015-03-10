@@ -7,7 +7,7 @@
     <div class="elc-ui-root">
         <section class="find-route-location-section">
             <h1>Find Route Location</h1>
-            <form action="/">
+            <form action="/" class="find-route-location-form mp-mode-srmp geo-mode-point">
                 <div>
                     <label>Route</label>
                     <div class="flex-row">
@@ -31,13 +31,13 @@
                 </div>
                 <div>
                     <div class="start-milepost-section">
-                        <label>Start Milepost</label>
+                        <label><span class="for-line-only">Start </span>Milepost</label>
                         <div class="flex-row">
                             <input name="startMilepost" type="number" required="required" min="0" />
                             <label class="for-srmp-only"><input type="checkbox" /> Back</label>
                         </div>
                     </div>
-                    <div class="end-milepost-section for-lines-only">
+                    <div class="end-milepost-section for-line-only">
                         <label>End Milepost</label>
                         <div class="flex-row">
                             <input name="endMilepost" type="number" min="0" />
