@@ -112,3 +112,15 @@ body {
 .elc-ui-root  .mp-mode-arm .for-srmp-only, .elc-ui-root .geo-mode-point .for-line-only {
     display: none;
 }
+
+.find-nearest-route-location-section > form {
+
+}
+
+.elc-ui-root button:only-of-type {
+    padding: 0.3em 0.5em;
+}
+
+.elc-ui-root button:only-of-type, .find-nearest-route-location-section input {
+    width: 100%;
+}

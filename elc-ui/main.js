@@ -1,6 +1,7 @@
 ﻿/*global define*/
 define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 	function ElcUI(rootNode) {
+		var self = this;
 		var parser = new DOMParser();
 		var doc = parser.parseFromString(templateHtml, "text/html");
 		var uiDom = doc.body.querySelector(".elc-ui-root").cloneNode(true);
@@ -11,29 +12,59 @@ define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 
 		// Setup radio button events.
 		var changeMPMode = function () {
-			var val = this.value;
-			var classToRemove, classToAdd;
-			if (val === "SRMP") {
-				classToRemove = "mp-mode-arm";
-				classToAdd = "mp-mode-srmp";
-			} else if (val === "ARM") {
-				classToRemove = "mp-mode-srmp";
-				classToAdd = "mp-mode-arm";
-			} else if (val === "point") {
-				findRouteLocationForm.endMilepost.removeAttribute("required");
-				classToRemove = "geo-mode-line";
-				classToAdd = "geo-mode-point";
-			} else if (val === "line") {
-				findRouteLocationForm.endMilepost.setAttribute("required", "required");
-				classToRemove = "geo-mode-point";
-				classToAdd = "geo-mode-line";
+			//var val = this.value;
+			var isSrmp = Boolean(findRouteLocationForm.querySelector("input[value=SRMP]:checked"));
+			var isLine = Boolean(findRouteLocationForm.querySelector("input[value=line]:checked"));
+			var classList = findRouteLocationForm.classList;
+
+			if (isSrmp) {
+				classList.add("mp-mode-srmp");
+				classList.remove("mp-mode-arm");
+			} else {
+				classList.add("mp-mode-arm");
+				classList.remove("mp-mode-srmp");
 			}
-			findRouteLocationForm.classList.add(classToAdd);
-			findRouteLocationForm.classList.remove(classToRemove);
+
+			if (isLine) {
+				findRouteLocationForm.endMilepost.setAttribute("required", "required");
+				classList.add("geo-mode-line");
+				classList.remove("geo-mode-point");
+			} else {
+				findRouteLocationForm.endMilepost.removeAttribute("required");
+				classList.add("geo-mode-point");
+				classList.remove("geo-mode-line");
+			}
 		};
 
 		findRouteLocationForm.onsubmit = function () {
+			var detail = {
+				Route: this.route.value,
+				Decrease: this.decrease.checked,
+				ReferenceDate: new Date(this.referenceDate.value),
+			};
 
+			var isSrmp = Boolean(this.milepostType.value === "SRMP");
+
+			if (!isSrmp) {
+				detail.Arm = parseFloat(this.milepost.value);
+			} else {
+				detail.Srmp = parseFloat(this.milepost.value);
+				detail.Back = this.back.checked;
+			}
+
+			if (this.geometryType.value === "line") {
+				if (!isSrmp) {
+					detail.EndArm = parseFloat(this.endMilepost.value);
+				} else {
+					detail.EndSrmp = parseFloat(this.endMilepost.value);
+					detail.EndBack = this.endBack.checked;
+				}
+			}
+
+			var evt = new CustomEvent('find-route-location-submit', {
+				detail: detail
+			});
+			self.root.dispatchEvent(evt);
 			return false;
 		};
 
