@@ -27,6 +27,10 @@ define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 		// Setup route location form.
 		(function () {
 			var findRouteLocationForm = self.root.querySelector(".find-route-location-form");
+			// Default the reference date to today.
+			var today = new Date();
+			today = today.toISOString().replace(/T.+$/i, '');
+			findRouteLocationForm.referenceDate.value = today;
 
 
 			// Setup radio button events.
