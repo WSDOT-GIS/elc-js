@@ -8,6 +8,10 @@ require(["esri/map", "elc-ui"], function (esriMap, ElcUI) {
 		console.log(e.detail);
 	});
 
+	elcUI.root.addEventListener('find-nearest-route-location-submit', function (e) {
+		console.log(e.detail);
+	});
+
 	map = new esriMap("map", {
 		basemap: "gray",
 		center: [-120.80566406246835, 47.41322033015946],
