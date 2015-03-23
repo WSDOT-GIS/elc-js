@@ -435,7 +435,7 @@
 	 * @param {number} [json.Angle] {@link RouteLocation#Angle}  You will normally never need to set this in the constructor.
 	 * @property {number} Id Since the Find Nearest Route Location method does not return records for locations where it could not find any routes within the search parameters, this ID parameter can be used to indicate which source location a route location corresponds to.
 	 * @property {string} Route An 3 to 11 digit state route identifier.
-	 * @property {Decrease} Decrease Indicates of this location is on the Decrease LRS.  This value will be ignored if Route is a ramp.
+	 * @property {Boolean} Decrease Indicates of this location is on the Decrease LRS.  This value will be ignored if Route is a ramp.
 	 * @property {number} Arm The starting measure value.
 	 * @property {number} Srmp The SRMP for the start point of a route segment or the only point of a point.
 	 * @property {Boolean} Back Indicates if the SRMP value is back mileage.
