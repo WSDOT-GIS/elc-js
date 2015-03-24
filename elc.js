@@ -793,17 +793,19 @@
 		var prop, value, match, output, numFieldRe, srmpFieldRe, dateFieldRe, boolFieldRe;
 		output = {};
 
-		numFieldRe = /(?:Id)|(?:(?:End)?Arm)|(ReturnCode)|(Distance)|(Angle)/gi;
+		numFieldRe = /(?:Id)|(?:(?:End)?Arm)|(ReturnCode)|(Distance)|(Angle)/i;
 		srmpFieldRe = /Srmp$/gi;
 		boolFieldRe = /(?:Decrease)|(Back)$/gi;
-		dateFieldRe = /Date$/gi;
+		dateFieldRe = /Date$/i;
 
 		// Loop through all of the properties in the RouteLocation and copy to the output object.
 		for (prop in this) {
 			if (this.hasOwnProperty(prop)) {
 				value = this[prop];
 
-				if (numFieldRe.test(prop)) { // Id, Arm, EndArm, or ...ReturnCode
+				if (value && value instanceof Date && dateFieldRe.test(prop)) {
+					output[prop] = [String(getActualMonth(value)), String(value.getDate()), String(value.getFullYear())].join("/");
+				} else if (numFieldRe.test(prop)) { // Id, Arm, EndArm, or ...ReturnCode
 					if (value !== null) {
 						output[prop] = toNumber(value, prop);
 					}
@@ -843,13 +845,6 @@
 				} else if (boolFieldRe.test(prop)) { // Decrease, Back or EndBack
 					// If provided set Decrease to its boolean equivalent.  Leave as null if its null.
 					output.Decrease = value === null ? null : Boolean(value);
-				} else if (dateFieldRe.test(prop) && Boolean(value)) {
-					// If a value has been provided for this date property... 
-					if (value instanceof Date) {
-						// Convert any date properties to strings in a format that the ELC REST SOE can handle.
-						// Note that the Date.getMonth()
-						output[prop] = [String(getActualMonth(value)), String(value.getDate()), String(value.getFullYear())].join("/");
-					}
 				} else if (value !== null) {
 					output[prop] = value;
 				}

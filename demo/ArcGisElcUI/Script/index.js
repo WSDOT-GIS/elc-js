@@ -35,7 +35,6 @@ require([
 	 */
 	function graphicToHtml(graphic) {
 		var dl = document.createElement("dl"), dt, dd, v;
-		console.debug("graphic", graphic);
 		var layer = graphic._layer;
 
 		layer.fields.forEach(function (field) {
