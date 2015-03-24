@@ -30,7 +30,8 @@ define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 			// Default the reference date to today.
 			var today = new Date();
 			today = today.toISOString().replace(/T.+$/i, '');
-			findRouteLocationForm.referenceDate.value = today;
+			// Use set attribute so that resetting the form returns to this value.
+			findRouteLocationForm.referenceDate.setAttribute("value", today);
 
 
 			// Setup radio button events.
@@ -56,6 +57,16 @@ define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 					findRouteLocationForm.endMilepost.removeAttribute("required");
 					classList.add("geo-mode-point");
 					classList.remove("geo-mode-line");
+				}
+			};
+
+			findRouteLocationForm.route.onblur = function () {
+				if (this.value && /^\d{1,2}$/.test(this.value)) {
+					if (this.value.length === 1) {
+						this.value = "00" + this.value;
+					} else if (this.value.length === 2) {
+						this.value = "0" + this.value;
+					}
 				}
 			};
 
