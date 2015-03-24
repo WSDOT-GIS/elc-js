@@ -28,22 +28,29 @@ require([
 		return graphic;
 	}
 
+	/**
+	 * Creates popup content from graphic attributes.
+	 * @param {esri/Graphic} graphic
+	 * @returns {HTMLDListElement}
+	 */
 	function graphicToHtml(graphic) {
-		var dl = document.createElement("dl"), dt, dd;
-		for (var name in graphic.attributes) {
-			if (graphic.attributes.hasOwnProperty(name)) {
-				v = graphic.attributes[name];
-				if (v || v === 0) {
+		var dl = document.createElement("dl"), dt, dd, v;
+		console.debug("graphic", graphic);
+		var layer = graphic._layer;
+
+		layer.fields.forEach(function (field) {
+			if (graphic.attributes.hasOwnProperty(field.name)) {
+				v = graphic.attributes[field.name];
+				if (v || (v === 0 && !/Code$/i.test(field.name))) {
 					dt = document.createElement("dt");
-					dt.textContent = name;
+					dt.textContent = field.alias || field.name;
 					dd = document.createElement("dd");
 					dd.textContent = v;
 					dl.appendChild(dt);
 					dl.appendChild(dd);
 				}
 			}
-		}
-
+		});
 		return dl;
 	}
 
@@ -165,4 +172,10 @@ require([
 
 	map.addLayer(pointResultsLayer);
 	map.addLayer(lineResultsLayer);
+
+	var clearBtn = document.querySelector(".clear-graphics-button");
+	clearBtn.addEventListener("click", function () {
+		pointResultsLayer.clear();
+		lineResultsLayer.clear();
+	});
 });

@@ -57,14 +57,15 @@
             <form action="." method="post" class="find-nearest-route-location-form">
                 <div>
                     <label>Radius (in feet)</label>
-                    <input name="radius" type="number" required="required" />
+                    <input name="radius" type="number" required="required" 
+                           title="Determines how far around the clicked point to search for a route." />
                 </div>
                 <button type="submit">Find</button>
             </form>
         </section>
         <section class="options-section">
             <h1>Options</h1>
-            <button type="button" title="Clears graphics created by this tool.">Clear Graphics</button>
+            <button type="button" class="clear-graphics-button" title="Clears graphics created by this tool.">Clear Graphics</button>
         </section>
     </div>
 </body>
