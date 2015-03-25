@@ -793,7 +793,7 @@
 		var prop, value, match, output, numFieldRe, srmpFieldRe, dateFieldRe, boolFieldRe;
 		output = {};
 
-		numFieldRe = /(?:Id)|(?:(?:End)?Arm)|(ReturnCode)|(Distance)|(Angle)/i;
+		numFieldRe = /^(?:(?:Id)|(?:(?:End)?Arm)|(ReturnCode)|(Distance)|(Angle))$/gi;
 		srmpFieldRe = /Srmp$/gi;
 		boolFieldRe = /(?:Decrease)|(Back)$/gi;
 		dateFieldRe = /Date$/i;

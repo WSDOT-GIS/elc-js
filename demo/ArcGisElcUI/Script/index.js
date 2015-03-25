@@ -14,6 +14,20 @@ require([
 
 	elcUI.on("non-geometry-results-returned", function (e) {
 		console.log("non geometry results found", e);
+		var elcResult = e.elcResults[0];
+		var output = [];
+		var properties = [
+			"LocatingError",
+			"ArmCalcReturnMessage",
+			"ArmCalcEndReturnMessage"
+		];
+		properties.forEach(function (name) {
+			if (elcResult[name]) {
+				output.push([name, elcResult[name]].join(": "));
+			}
+		});
+		output = output.join("\n");
+		alert(output);
 	});
 
 	elcUI.on("elc-results-found", function (e) {
