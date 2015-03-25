@@ -34,6 +34,9 @@ require([
 		var point;
 		if (e && e.graphics && e.graphics.length > 0) {
 			point = e.graphics[0].geometry;
+			if (point.getPoint) {
+				point = point.getPoint(0, 0);
+			}
 			map.infoWindow.show(point);
 			map.centerAt(point);
 			map.infoWindow.setFeatures(e.graphics);
