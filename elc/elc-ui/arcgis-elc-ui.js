@@ -6,7 +6,7 @@ define([
 	"esri/geometry/jsonUtils",
 	"esri/layers/FeatureLayer",
 	"esri/InfoTemplate",
-	"elc-ui",
+	"elc/elc-ui/main",
 	"elc"
 ], function (on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, ElcUI, Elc) {
 	var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;

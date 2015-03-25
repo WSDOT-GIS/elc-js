@@ -41,26 +41,16 @@
     <Content Include="demo\ArcGisElcUI\index.html" />
     <Content Include="demo\ArcGisElcUI\Script\index.js" />
     <Content Include="demo\ArcGisElcUI\Style\index.css" />
-    <Content Include="elc-ui\arcgis-elc-ui.js" />
-    <Content Include="elc-ui\Templates\elc-ui.min.html">
-      <DependentUpon>elc-ui.html</DependentUpon>
-    </Content>
-    <Content Include="elc.min.js">
-      <DependentUpon>elc.js</DependentUpon>
-    </Content>
-    <Content Include="elc-ui\main.js" />
-    <Content Include="elc-ui\Templates\elc-ui.html" />
+    <Content Include="elc\elc-ui\arcgis-elc-ui.js" />
+    <Content Include="elc\elc-ui\main.js" />
+    <Content Include="elc\elc-ui\Templates\elc-ui.html" />
+    <Content Include="elc\elc-ui\Templates\elc-ui.min.html" />
+    <Content Include="elc\main.js" />
     <Content Include="Unit Tests\elc-unittest.html" />
     <Content Include="Unit Tests\elc-unittest.js" />
-    <Content Include="elc.js" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="elc.min.js.map">
-      <DependentUpon>elc.min.js</DependentUpon>
-    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

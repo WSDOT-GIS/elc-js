@@ -1,8 +1,9 @@
 ﻿/*global require*/
 require([
 	"esri/map",
-	"elc-ui/arcgis-elc-ui"
-], function (esriMap, arcgisElcUi) {
+	"elc",
+	"elc/elc-ui/arcgis-elc-ui"
+], function (esriMap, elc, arcgisElcUi) {
 	var map, elcUI;
 
 	elcUI = new arcgisElcUi(document.getElementById("elcUI"));
