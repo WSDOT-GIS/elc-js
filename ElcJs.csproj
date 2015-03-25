@@ -42,6 +42,7 @@
     <Content Include="demo\ArcGisElcUI\Script\index.js" />
     <Content Include="demo\ArcGisElcUI\Style\index.css" />
     <Content Include="elc\elc-ui\arcgis-elc-ui.js" />
+    <Content Include="elc\elc-ui\elc-ui.css" />
     <Content Include="elc\elc-ui\main.js" />
     <Content Include="elc\elc-ui\Templates\elc-ui.html" />
     <Content Include="elc\elc-ui\Templates\elc-ui.min.html" />

@@ -1,6 +1,7 @@
 ﻿/*global define*/
 define([
 	"dojo/_base/declare",
+	"dojo/Evented",
 	"dojo/on",
 	"esri/map",
 	"esri/graphic",
@@ -9,7 +10,7 @@ define([
 	"esri/InfoTemplate",
 	"elc/elc-ui/main",
 	"elc"
-], function (declare, on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, ElcUI, Elc) {
+], function (declare, Evented, on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, ElcUI, Elc) {
 	var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;
 
 	/**
@@ -54,7 +55,7 @@ define([
 		return dl;
 	}
 
-	var ArcGisElcUI = declare(null, {
+	var ArcGisElcUI = declare(Evented, {
 		constructor: function (domNode) {
 
 			var self = this;
@@ -63,23 +64,45 @@ define([
 			 * Adds ELC results to feature layers.
 			 */
 			function addResultsToMap(elcResults) {
+				var nonGraphics, graphic, graphics;
 				if (elcResults && Array.isArray(elcResults)) {
-					pointResultsLayer.suspend();
-					lineResultsLayer.suspend();
-					elcResults.forEach(function (routeLocation) {
-						var graphic = routeLocationToGraphic(routeLocation);
-						if (graphic) {
-							if (graphic.geometry.type === "point") {
-								pointResultsLayer.add(graphic);
-							} else if (graphic.geometry.type === "polyline") {
-								lineResultsLayer.add(graphic);
+					if (elcResults.length === 0) {
+						self.emit("elc-results-not-found", { elcResults: elcResults });
+					} else {
+						pointResultsLayer.suspend();
+						lineResultsLayer.suspend();
+						nonGraphics = [];
+						graphics = [];
+						elcResults.forEach(function (routeLocation) {
+							if (routeLocation.RouteGeometry) {
+								graphic = routeLocationToGraphic(routeLocation);
+								if (graphic) {
+									if (graphic.geometry.type === "point") {
+										pointResultsLayer.add(graphic);
+									} else if (graphic.geometry.type === "polyline") {
+										lineResultsLayer.add(graphic);
+									} else {
+										console.warn("Unexpected geometry type", graphic);
+									}
+								}
+								graphics.push(graphic);
 							} else {
-								console.warn("Unexpected geometry type", graphic);
+								nonGraphics.push(routeLocation);
 							}
-						}
+						});
+						pointResultsLayer.resume();
+						lineResultsLayer.resume();
+						self.emit("elc-results-found", {
+							elcResults: elcResults,
+							graphics: graphics
+						});
+					}
+				}
+				if (nonGraphics && nonGraphics.length > 0) {
+					self.emit("non-geometry-results-returned", {
+						elcResults: elcResults,
+						nonGeometryResults: nonGraphics
 					});
-					pointResultsLayer.resume();
-					lineResultsLayer.resume();
 				}
 			}
 
