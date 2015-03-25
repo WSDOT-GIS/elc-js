@@ -1,11 +1,11 @@
 ﻿/*global require*/
 require([
 	"esri/map",
-	"elc-ui/ArcGisBufferUI"
-], function (esriMap, ArcGisBufferUI) {
+	"elc-ui/arcgis-elc-ui"
+], function (esriMap, arcgisElcUi) {
 	var map, elcUI;
 
-	elcUI = new ArcGisBufferUI(document.getElementById("elcUI"));
+	elcUI = new arcgisElcUi(document.getElementById("elcUI"));
 
 	map = new esriMap("map", {
 		basemap: "gray",

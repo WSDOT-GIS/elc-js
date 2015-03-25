@@ -41,7 +41,7 @@
     <Content Include="demo\ArcGisElcUI\index.html" />
     <Content Include="demo\ArcGisElcUI\Script\index.js" />
     <Content Include="demo\ArcGisElcUI\Style\index.css" />
-    <Content Include="elc-ui\ArcGisBufferUI.js" />
+    <Content Include="elc-ui\arcgis-elc-ui.js" />
     <Content Include="elc-ui\Templates\elc-ui.min.html">
       <DependentUpon>elc-ui.html</DependentUpon>
     </Content>
