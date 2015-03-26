@@ -1,4 +1,4 @@
-﻿/*global define,module*/
+/*global define,module*/
 // if the module has no dependencies, the above pattern can be simplified to
 (function (root, factory) {
 	if (typeof define === 'function' && define.amd) {

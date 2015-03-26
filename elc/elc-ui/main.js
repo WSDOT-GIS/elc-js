@@ -1,4 +1,4 @@
-﻿/*global define*/
+/*global define*/
 define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 	function ElcUI(rootNode) {
 		var self = this;

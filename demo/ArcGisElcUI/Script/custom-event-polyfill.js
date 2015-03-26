@@ -1,4 +1,4 @@
-﻿// Polyfill for creating CustomEvents on IE9/10/11
+// Polyfill for creating CustomEvents on IE9/10/11
 
 // code pulled from:
 // https://github.com/d4tocchini/customevent-polyfill
