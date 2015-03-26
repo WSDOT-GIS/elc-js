@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Content Include="demo\ArcGisElcUI\index.html" />
+    <Content Include="demo\ArcGisElcUI\Script\custom-event-polyfill.js" />
     <Content Include="demo\ArcGisElcUI\Script\index.js" />
     <Content Include="demo\ArcGisElcUI\Style\index.css" />
     <Content Include="elc\elc-ui\arcgis-elc-ui.js" />
@@ -47,6 +48,7 @@
     <Content Include="elc\elc-ui\Templates\elc-ui.html" />
     <Content Include="elc\elc-ui\Templates\elc-ui.min.html" />
     <Content Include="elc\main.js" />
+    <Content Include="index.html" />
     <Content Include="Unit Tests\elc-unittest.html" />
     <Content Include="Unit Tests\elc-unittest.js" />
   </ItemGroup>
