@@ -6,7 +6,7 @@ define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 		var doc = parser.parseFromString(templateHtml, "text/html");
 		var uiDom = doc.body.querySelector(".elc-ui-root").cloneNode(true);
 		this.root = rootNode;
-		this.root.appendChild(uiDom);
+		this.root.innerHTML = uiDom.outerHTML;
 
 		// Setup nearest route location form
 		(function () {
@@ -77,7 +77,7 @@ define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 					ReferenceDate: new Date(this.referenceDate.value),
 				};
 
-				var isSrmp = Boolean(this.milepostType.value === "SRMP");
+				var isSrmp = Boolean(this.querySelector("input[value=SRMP]:checked"));
 
 				if (!isSrmp) {
 					detail.Arm = parseFloat(this.milepost.value);
@@ -86,7 +86,8 @@ define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
 					detail.Back = this.back.checked;
 				}
 
-				if (this.geometryType.value === "line") {
+				// If "line" is checked, add end MP properties.
+				if (this.querySelector("input[value=line]:checked")) {
 					if (!isSrmp) {
 						detail.EndArm = parseFloat(this.endMilepost.value);
 					} else {
