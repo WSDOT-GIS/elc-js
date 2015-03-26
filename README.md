@@ -3,6 +3,8 @@ elc-js
 
 JavaScript client library for accessing WSDOT's [Enterprise Location Class ArcGIS Server SOE].
 
+[![bitHound Score](https://www.bithound.io/github/WSDOT-GIS/elc-js/badges/score.svg)](https://www.bithound.io/github/WSDOT-GIS/elc-js)
+
 ## elc.js ##
 This is a JavaScript library for accessing the ELC SOE.
 
