@@ -398,7 +398,9 @@
 		output = [];
 		for (i = 0, l = array.length; i < l; i += 1) {
 			// Note: JSLint will complain about using new with the constructor variable.
+			/*jshint newcap: false*/
 			output.push(new constructor(array[i]));
+			/*jshint newcap: true*/
 		}
 		return output;
 	}
