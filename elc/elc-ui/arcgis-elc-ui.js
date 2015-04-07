@@ -176,7 +176,7 @@ define([
 					fields: elcFields
 				}
 			}, {
-				id: "ElcLineResults",
+				id: "Located Segment",
 				infoTemplate: infoTemplate
 			});
 
@@ -187,7 +187,7 @@ define([
 					fields: elcFields
 				}
 			}, {
-				id: "ElcPointResults",
+				id: "Located Milepost",
 				infoTemplate: infoTemplate
 			});
 
