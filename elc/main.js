@@ -262,7 +262,7 @@
 	 * Returns a {@link RouteList}
 	 * @param {function} completeHandler This function takes a single {@link RouteList}
 	 * @param {function} errorHandler This function takes a single error parameter.
-	 * @param {boolean|false} useCors Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)  
+	 * @param {boolean} [useCors=true] Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)  
 	 */
 	RouteLocator.prototype.getRouteList = function (completeHandler, errorHandler, useCors) {
 		var elc = this, data, request, url;
