@@ -8,10 +8,23 @@ define([
 	"esri/geometry/jsonUtils",
 	"esri/layers/FeatureLayer",
 	"esri/InfoTemplate",
+	"esri/symbols/SimpleMarkerSymbol",
+	"esri/symbols/SimpleLineSymbol",
+	"esri/Color",
+	"esri/renderers/SimpleRenderer",
 	"elc/elc-ui/main",
 	"elc"
-], function (declare, Evented, on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, ElcUI, Elc) {
+], function (declare, Evented, on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, SimpleMarkerSymbol, SimpleLineSymbol, Color, SimpleRenderer, ElcUI, Elc) {
 	var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;
+
+	var wsdotLogoGreen = new Color([0, 123, 95]);
+
+	var routePointOutlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,255,255,0.8]), 2);
+	var routePointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 12, routePointOutlineSymbol, wsdotLogoGreen);
+	var routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, wsdotLogoGreen, 3);
+
+	var pointRenderer = new SimpleRenderer(routePointSymbol);
+	var lineRenderer = new SimpleRenderer(routeLineSymbol);
 
 	/**
 	 * Converts an ELC RouteLocation object into an ArcGIS JS API Graphic.
@@ -194,6 +207,9 @@ define([
 				id: "Located Segment",
 				infoTemplate: infoTemplate
 			});
+			lineResultsLayer.setRenderer(lineRenderer);
+
+
 
 			pointResultsLayer = new FeatureLayer({
 				featureSet: null,
@@ -205,6 +221,8 @@ define([
 				id: "Located Milepost",
 				infoTemplate: infoTemplate
 			});
+
+			pointResultsLayer.setRenderer(pointRenderer);
 
 			this._layers = {
 				pointResults: pointResultsLayer,
