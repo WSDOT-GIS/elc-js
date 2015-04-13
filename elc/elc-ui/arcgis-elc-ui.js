@@ -114,11 +114,9 @@ define([
 				var locations = [new Elc.RouteLocation(e.detail)];
 				routeLocator.findRouteLocations({
 					locations: locations,
-					outSR: 3857,
-					successHandler: addResultsToMap,
-					errorHandler: function (error) {
-						console.error("find route location error", error);
-					}
+					outSR: 3857
+				}).then(addResultsToMap, function (error) {
+					console.error("find route location error", error);
 				});
 			});
 
@@ -131,11 +129,9 @@ define([
 						searchRadius: e.detail.radius,
 						inSR: mapPoint.spatialReference.wkid,
 						outSR: mapPoint.spatialReference.wkid,
-						referenceDate: new Date(),
-						successHandler: addResultsToMap,
-						errorHandler: function (error) {
-							console.error(error);
-						}
+						referenceDate: new Date()
+					}).then(addResultsToMap, function (error) {
+						console.error(error);
 					});
 				});
 			});

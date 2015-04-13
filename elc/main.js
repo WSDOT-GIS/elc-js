@@ -260,65 +260,69 @@
 
 	/**
 	 * Returns a {@link RouteList}
-	 * @param {function} completeHandler This function takes a single {@link RouteList}
-	 * @param {function} errorHandler This function takes a single error parameter.
 	 * @param {boolean} [useCors=true] Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)  
+	 * @returns {Promise} - Success: This function takes a single {@link RouteList}, Error: This function takes a single error parameter.
 	 */
-	RouteLocator.prototype.getRouteList = function (completeHandler, errorHandler, useCors) {
+	RouteLocator.prototype.getRouteList = function (useCors) {
 		var elc = this, data, request, url;
 
-		/*jshint eqnull:true*/
-		if (useCors == null) { // Testing for null or undefined. Use of == instead of === is intentional.
-			useCors = true;
-		}
-		/*jshint eqnull:false*/
-
-		// If a layer list has already been defined (meaning this method has previously been called), call the completeHandler immediately.  
-		if (elc.layerList) {
-			if (typeof (completeHandler) === "function") {
-				completeHandler(elc.layerList);
+		var promise = new Promise(function (resolve, reject) {
+			/*jshint eqnull:true*/
+			if (useCors == null) { // Testing for null or undefined. Use of == instead of === is intentional.
+				useCors = true;
 			}
-			return;
-		}
+			/*jshint eqnull:false*/
 
-		try {
-			request = new XMLHttpRequest();
-			url = [elc.url, elc.routesResourceName].join('/');
-			data = {
-				"f": "json"
-			};
-			if (!useCors) {
-				data.callback = "jsonp";
-			}
-			data = toQueryString(data);
-			url = [url, data].join("?");
-			request.open("get", url);
-			request.responseType = "json";
-			request.addEventListener("loadend", function (e) {
-				var layerList, data;
-				data = e.target.response;
-				if (typeof data === "string") {
-					data = JSON.parse(data);
+			// If a layer list has already been defined (meaning this method has previously been called), call the resolve immediately.  
+			if (elc.layerList) {
+				if (typeof (resolve) === "function") {
+					resolve(elc.layerList);
 				}
-				if (this.status === 200) {
-					layerList = new RouteList(data);
-					elc.layerList = layerList;
-					completeHandler(layerList);
-				} else {
-					if (typeof errorHandler === "function") {
-						errorHandler(data);
+				return;
+			}
+
+
+			try {
+				request = new XMLHttpRequest();
+				url = [elc.url, elc.routesResourceName].join('/');
+				data = {
+					"f": "json"
+				};
+				if (!useCors) {
+					data.callback = "jsonp";
+				}
+				data = toQueryString(data);
+				url = [url, data].join("?");
+				request.open("get", url);
+				request.responseType = "json";
+				request.addEventListener("loadend", function (e) {
+					var layerList, data;
+					data = e.target.response;
+					if (typeof data === "string") {
+						data = JSON.parse(data);
 					}
-				}
-			});
-			request.send();
+					if (this.status === 200) {
+						layerList = new RouteList(data);
+						elc.layerList = layerList;
+						resolve(layerList);
+					} else {
+						if (typeof reject === "function") {
+							reject(data);
+						}
+					}
+				});
+				request.send();
 
-		} catch (err) {
-			// This situation could occur if you try to use CORS when either
-			// the browser or GIS server does not support it.
-			if (typeof (errorHandler === "function")) {
-				errorHandler(err);
+			} catch (err) {
+				// This situation could occur if you try to use CORS when either
+				// the browser or GIS server does not support it.
+				if (typeof (reject === "function")) {
+					reject(err);
+				}
 			}
-		}
+		});
+
+		return promise;
 	};
 
 	/**
@@ -521,20 +525,17 @@
 	 * @param {Date} [params.referenceDate] The date that the locations were collected.  This can be omitted if each of the locations in the input array have their ReferenceDate properties set to a Date value.
 	 * @param {number|string} [params.outSR] The spatial reference for the output geometry, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service.
 	 * @param {string} [params.lrsYear] Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
-	 * @param {function} params.successHandler The function that will be called when a successful response to the corresponding ELC method is returned.  This function takes a single parameter: an array of {@link RouteLocation} objects.
-	 * @param {function} params.errorHandler The function that will be called when the ELC method completes with an error.  This function takes parameter of type Error. 
 	 * @param {boolean} [params.useCors=false] If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
+	 * @returns {Promise}
 	 * @throws {Error} Thrown if invalid parameters are specified.
 	 */
 	RouteLocator.prototype.findRouteLocations = function (params) {
-		var locations, referenceDate, outSR, lrsYear, successHandler, errorHandler, useCors, data;
+		var locations, referenceDate, outSR, lrsYear, useCors, data;
 		locations = params.locations;
 		// Set the reference date to an empty string if a value is not provided.  This is what the ELC REST SOE expects when omitting this value. (Hopefully this can be changed in the future.)
 		referenceDate = params.referenceDate || "";
 		outSR = params.outSR || null;
 		lrsYear = params.lrsYear || null;
-		successHandler = params.successHandler;
-		errorHandler = params.errorHandler;
 		/*jshint eqnull:true*/
 		useCors = params.useCors != null ? params.useCors : true;
 		/*jshint eqnull:false*/
@@ -566,62 +567,65 @@
 			throw new Error("Invalid lrsYear.  Must be either a string or omitted altogether.");
 		}
 
-		if (typeof (successHandler) !== "function") {
-			throw new Error("No successHandler was specified.");
-		}
-		try {
-			data = {
-				f: "json",
-				locations: JSON.stringify(locations),
-				outSR: outSR || null,
-				referenceDate: referenceDate || null,
-				lrsYear: lrsYear || null
-			};
+		var self = this;
 
-			var url = [this.url, this.findRouteLocationsOperationName].join("/");
-			if (!useCors) {
-				data.callback = "jsonp";
-			}
-			var request = new XMLHttpRequest();
-			var formData = toQueryString(data);
-			// Determine whether to use GET or POST based on URL length.
-			var method = isUrlTooLong([url, formData].join("?")) ? "POST" : "GET";
+		var promise = new Promise(function (resolve, reject) {
+			try {
+				data = {
+					f: "json",
+					locations: JSON.stringify(locations),
+					outSR: outSR || null,
+					referenceDate: referenceDate || null,
+					lrsYear: lrsYear || null
+				};
 
-			if (method === "GET") {
-				url = [url, formData].join("?");
-				formData = null;
-			}
-			request.open(method, url);
-			if (formData) {
-				request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			}
-			request.responseType = "json";
-			request.addEventListener("loadend", function (e) {
-				var json;
-				json = e.target.response;
-				if (typeof json === "string") {
-					json = JSON.parse(json);
+				var url = [self.url, self.findRouteLocationsOperationName].join("/");
+				if (!useCors) {
+					data.callback = "jsonp";
 				}
-				if (e.target.status === 200) {
-					if (json.error && typeof errorHandler === "function") {
-						errorHandler(json);
+				var request = new XMLHttpRequest();
+				var formData = toQueryString(data);
+				// Determine whether to use GET or POST based on URL length.
+				var method = isUrlTooLong([url, formData].join("?")) ? "POST" : "GET";
+
+				if (method === "GET") {
+					url = [url, formData].join("?");
+					formData = null;
+				}
+				request.open(method, url);
+				if (formData) {
+					request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				}
+				request.responseType = "json";
+				request.addEventListener("loadend", function (e) {
+					var json;
+					json = e.target.response;
+					if (typeof json === "string") {
+						json = JSON.parse(json);
+					}
+					if (e.target.status === 200) {
+						if (json.error && typeof reject === "function") {
+							reject(json);
+						} else {
+							resolve(convertObjectsInArray(json, RouteLocation));
+						}
 					} else {
-						successHandler(convertObjectsInArray(json, RouteLocation));
+						if (typeof reject === "function") {
+							reject(json);
+						}
 					}
-				} else {
-					if (typeof errorHandler === "function") {
-						errorHandler(json);
-					}
+				});
+				request.send(formData);
+			} catch (err) {
+				// This situation could occur if you try to use CORS when either
+				// the browser or GIS server does not support it.
+				if (typeof (reject === "function")) {
+					reject(err);
 				}
-			});
-			request.send(formData);
-		} catch (err) {
-			// This situation could occur if you try to use CORS when either
-			// the browser or GIS server does not support it.
-			if (typeof (errorHandler === "function")) {
-				errorHandler(err);
 			}
-		}
+		});
+
+		return promise;
 	};
 
 	/**
@@ -635,15 +639,17 @@
 	 * @param {number|string} [params.outSR] The spatial reference for the output geometry, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service.
 	 * @param {string} [params.lrsYear] Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
 	 * @param {string} [params.routeFilter] A partial SQL query that can be used to limit which routes are searched.  E.g., "LIKE '005%'" or "'005'".
-	 * @param {function} params.successHandler The function that will be called when a successful response to the corresponding ELC method is returned.
-	 * @param {function} [params.errorHandler] The function that will be called when the ELC method completes with an error.
 	 * @param {boolean} [params.useCors=true] If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
 	 * @throws {Error} Throws an error if any of the params properties are provided with invalid values. 
+	 * @returns {Promise}
 	 */
 	RouteLocator.prototype.findNearestRouteLocations = function (params) {
 		var elcParams = {
 			f: "json"
 		};
+
+
+
 		/*jshint eqnull:true*/
 		if (params.useCors == null) {
 			params.useCors = true;
@@ -702,55 +708,53 @@
 			throw new Error("Invalid route filter type.  The routeFilter parameter should be either a string or omitted altogether.");
 		}
 
-		// A success handler must be defined, otherwise calling this function is kind of pointless.
-		if (typeof (params.successHandler) !== "function") {
-			throw new Error("No successHandler was specified.");
-		}
+		var self = this;
 
-		try {
-			var url = [this.url, this.findNearestRouteLocationsOperationName].join("/");
-			if (!params.useCors) {
-				elcParams.callback = "jsonp";
-			}
-			var formData = toQueryString(elcParams);
-			var method = isUrlTooLong(url + "?" + formData) ? "POST" : "GET";
-			var request = new XMLHttpRequest();
-			if (method === "GET") {
-				url = [url, formData].join("?");
-			}
-			request.open(method, url);
-			if (method === "POST") {
-				request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			}
-			request.responseType = "json";
-			request.addEventListener("loadend", function (e) {
-				var json;
-				json = e.target.response;
-				if (typeof json === "string") {
-					json = JSON.parse(json);
+		var promise = new Promise(function (resolve, reject) {
+
+			try {
+				var url = [self.url, self.findNearestRouteLocationsOperationName].join("/");
+				if (!params.useCors) {
+					elcParams.callback = "jsonp";
 				}
-				if (e.target.status === 200) {
-					if (json.error && typeof params.errorHandler === "function") {
-						params.errorHandler(json);
+				var formData = toQueryString(elcParams);
+				var method = isUrlTooLong(url + "?" + formData) ? "POST" : "GET";
+				var request = new XMLHttpRequest();
+				if (method === "GET") {
+					url = [url, formData].join("?");
+				}
+				request.open(method, url);
+				if (method === "POST") {
+					request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+				}
+				request.responseType = "json";
+				request.addEventListener("loadend", function (e) {
+					var json;
+					json = e.target.response;
+					if (typeof json === "string") {
+						json = JSON.parse(json);
+					}
+					if (e.target.status === 200) {
+						if (json.error) {
+							reject(json);
+						} else {
+							resolve(convertObjectsInArray(json, RouteLocation));
+						}
 					} else {
-						params.successHandler(convertObjectsInArray(json, RouteLocation));
+						reject(json);
 					}
+				});
+				if (method === "POST") {
+					request.send(formData);
 				} else {
-					if (typeof params.errorHandler === "function") {
-						params.errorHandler(json);
-					}
+					request.send();
 				}
-			});
-			if (method === "POST") {
-				request.send(formData);
-			} else {
-				request.send();
+			} catch (err) {
+				reject(err);
 			}
-		} catch (err) {
-			if (typeof (params.errorHandler) === "function") {
-				params.errorHandler(err);
-			}
-		}
+		});
+
+		return promise;
 	};
 
 	/**

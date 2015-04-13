@@ -4,6 +4,7 @@
     <title></title>
     <link href="//js.arcgis.com/3.13/esri/css/esri.css" rel="stylesheet" />
     <link href="Style/index.css" rel="stylesheet" />
+    <script src="//cdn.polyfill.io/v1/polyfill.min.js?features=Promise,CustomEvent"></script>
 </head>
 <body>
     <div id="flexcontainer">
@@ -24,7 +25,6 @@
             window.dojoConfig = dojoConfig;
         }(location.href.replace(/\/[^\/]*$/, "")));
     </script>
-    <script src="Script/custom-event-polyfill.js"></script>
     <script src="//js.arcgis.com/3.13/init.js"></script>
     <script src="Script/index.js"></script>
 </body>

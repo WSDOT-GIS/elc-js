@@ -57,20 +57,18 @@
 					
 					params = {
 						useCors: useCors,
-						locations: [rl],
-						successHandler: function (data) {
-							console.log(testCount, {input: [rl], output: data});
-							ok(true, "Success");
-							start();
-						},
-						errorHandler: function (error) {
-							console.log(testCount, {input: [rl], error: error});
-							ok(false, error.error);
-							start();
-						}
+						locations: [rl]
 					};
 					
-					routeLocator.findRouteLocations(params);
+					routeLocator.findRouteLocations(params).then(function (data) {
+						console.log(testCount, { input: [rl], output: data });
+						ok(true, "Success");
+						start();
+					}, function (error) {
+						console.log(testCount, { input: [rl], error: error });
+						ok(false, error.error);
+						start();
+					});
 				});
 			}(testCount));
 			
@@ -89,20 +87,18 @@
 					params = {
 						useCors: useCors,
 						locations: [rl],
-						referenceDate: dateString,
-						successHandler: function (data) {
-							console.log(testCount, { input: [rl], output: data });
-							ok(true, "Success");
-							start();
-						},
-						errorHandler: function (error) {
-							console.log(testCount, { input: [rl], error: error });
-							ok(false, error.error);
-							start();
-						}
+						referenceDate: dateString
 					};
 
-					routeLocator.findRouteLocations(params);
+					routeLocator.findRouteLocations(params).then(function (data) {
+						console.log(testCount, { input: [rl], output: data });
+						ok(true, "Success");
+						start();
+					},  function (error) {
+						console.log(testCount, { input: [rl], error: error });
+						ok(false, error.error);
+						start();
+					});
 				});
 			}(testCount));
 
@@ -119,20 +115,18 @@
 						coordinates: [1083893.182, 111526.885],
 						referenceDate: new Date("12/31/2011"),
 						searchRadius: 1,
-						inSR: 2927,
-						successHandler: function (data) {
-							console.log(testId, {input: params, output: data});
-							ok(true, "Success");
-							start();
-						},
-						errorHandler: function (error) {
-							console.error(testId, error);
-							ok(false, error);
-							start();
-						}
+						inSR: 2927
 					};
 					
-					routeLocator.findNearestRouteLocations(params);
+					routeLocator.findNearestRouteLocations(params).then(function (data) {
+						console.log(testId, {input: params, output: data});
+						ok(true, "Success");
+						start();
+					}, function (error) {
+						console.error(testId, error);
+						ok(false, error);
+						start();
+					});
 				});
 			}(testCount));
 			
@@ -142,7 +136,7 @@
 			
 			(function (testId) {
 				asyncTest("Get \"routes\" test", function () {
-					routeLocator.getRouteList(function (routeList) {
+					routeLocator.getRouteList(useCors).then(function (routeList) {
 						console.log(testId, routeList);
 						ok(true, "Route list retrieved");
 						start();
@@ -150,7 +144,7 @@
 						console.error(testId, error);
 						ok(false, error);
 						start();
-					}, useCors);
+					});
 				});
 			}(testCount));
 		}
