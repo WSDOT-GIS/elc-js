@@ -130,8 +130,21 @@ define([
 						inSR: mapPoint.spatialReference.wkid,
 						outSR: mapPoint.spatialReference.wkid,
 						referenceDate: new Date()
-					}).then(addResultsToMap, function (error) {
-						console.error(error);
+					}).then(function (elcResults) {
+						elcResults.forEach(function (r) {
+							delete r.Coordinates;
+							delete r.Angle;
+							delete r.RouteGeometry;
+						});
+						routeLocator.findRouteLocations({
+							locations: elcResults,
+							outSR: 3857
+						}).then(addResultsToMap, function (error) {
+							console.error("find route location error", error);
+						});
+						////addResultsToMap(elcResults).then(addResultsToMap);
+					}, function (error) {
+						console.error("find nearest route location error", error);
 					});
 				});
 			});
