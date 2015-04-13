@@ -131,10 +131,16 @@ define([
 						outSR: mapPoint.spatialReference.wkid,
 						referenceDate: new Date()
 					}).then(function (elcResults) {
-						elcResults.forEach(function (r) {
+						elcResults = elcResults.map(function (r) {
+							r = r.toJSON();
 							delete r.Coordinates;
 							delete r.Angle;
 							delete r.RouteGeometry;
+							delete r.RealignmentDate;
+							delete r.ArmCalcReturnCode;
+							delete r.ArmCalcReturnMessage;
+							delete r.EventPoint;
+							return new Elc.RouteLocation(r);
 						});
 						routeLocator.findRouteLocations({
 							locations: elcResults,

@@ -467,35 +467,37 @@
 	 * @see Appendix A of <a href="http://wwwi.wsdot.wa.gov/gis/roadwaydata/training/roadwaydata/pdf/PC_ArmCalc_Manual_3-19-2009.pdf">PC ArmCalc Training Program Manual</a> for the meanings of ArmCalc return codes.
 	 */
 	function RouteLocation(json) {
-		var jsonProvided = typeof (json) === "object";
-		this.Id = jsonProvided && typeof (json.Id) !== "undefined" ? json.Id : null;
-		this.Route = jsonProvided && typeof (json.Route) !== "undefined" ? json.Route : null;
-		this.Decrease = jsonProvided && typeof (json.Decrease) !== "undefined" ? json.Decrease : null;
+		if (!(json && typeof (json) === "object")) {
+			throw new TypeError("No data provided");
+		}
+		this.Id = typeof (json.Id) !== "undefined" ? json.Id : null;
+		this.Route = typeof (json.Route) !== "undefined" ? json.Route : null;
+		this.Decrease = typeof (json.Decrease) !== "undefined" ? json.Decrease : null;
 
-		this.Arm = jsonProvided && typeof (json.Arm) !== "undefined" ? json.Arm : null;
-		this.Srmp = jsonProvided && typeof (json.Srmp) !== "undefined" ? json.Srmp : null;
-		this.Back = jsonProvided && typeof (json.Back) !== "undefined" ? json.Back : null;
-		this.ReferenceDate = jsonProvided && typeof (json.ReferenceDate) !== "undefined" ? json.ReferenceDate : null;
-		this.ResponseDate = jsonProvided && typeof (json.ResponseDate) !== "undefined" ? json.ResponseDate : null;
-		this.RealignmentDate = jsonProvided && typeof (json.RealignmentDate) !== "undefined" ? json.RealignmentDate : null;
+		this.Arm = typeof (json.Arm) !== "undefined" ? json.Arm : null;
+		this.Srmp = typeof (json.Srmp) !== "undefined" ? json.Srmp : null;
+		this.Back = typeof (json.Back) !== "undefined" ? json.Back : null;
+		this.ReferenceDate = typeof (json.ReferenceDate) !== "undefined" ? json.ReferenceDate : null;
+		this.ResponseDate = typeof (json.ResponseDate) !== "undefined" ? json.ResponseDate : null;
+		this.RealignmentDate = typeof (json.RealignmentDate) !== "undefined" ? json.RealignmentDate : null;
 
-		this.EndArm = jsonProvided && typeof (json.EndArm) !== "undefined" ? json.EndArm : null;
-		this.EndSrmp = jsonProvided && typeof (json.EndSrmp) !== "undefined" ? json.EndSrmp : null;
-		this.EndBack = jsonProvided && typeof (json.EndBack) !== "undefined" ? json.EndBack : null;
-		this.EndReferenceDate = jsonProvided && typeof (json.EndReferenceDate) !== "undefined" ? json.EndReferenceDate : null;
-		this.EndResponseDate = jsonProvided && typeof (json.EndResponseDate) !== "undefined" ? json.EndResponseDate : null;
-		this.EndRealignDate = jsonProvided && typeof (json.EndRealignDate) !== "undefined" ? json.EndRealignDate : null;
+		this.EndArm = typeof (json.EndArm) !== "undefined" ? json.EndArm : null;
+		this.EndSrmp = typeof (json.EndSrmp) !== "undefined" ? json.EndSrmp : null;
+		this.EndBack = typeof (json.EndBack) !== "undefined" ? json.EndBack : null;
+		this.EndReferenceDate = typeof (json.EndReferenceDate) !== "undefined" ? json.EndReferenceDate : null;
+		this.EndResponseDate = typeof (json.EndResponseDate) !== "undefined" ? json.EndResponseDate : null;
+		this.EndRealignDate = typeof (json.EndRealignDate) !== "undefined" ? json.EndRealignDate : null;
 
-		this.ArmCalcReturnCode = jsonProvided && typeof (json.ArmCalcReturnCode) !== "undefined" ? json.ArmCalcReturnCode : null;
-		this.ArmCalcEndReturnCode = jsonProvided && typeof (json.ArmCalcEndReturnCode) !== "undefined" ? json.ArmCalcEndReturnCode : null;
-		this.ArmCalcReturnMessage = jsonProvided && typeof (json.ArmCalcReturnMessage) !== "undefined" ? json.ArmCalcReturnMessage : null;
-		this.ArmCalcEndReturnMessage = jsonProvided && typeof (json.ArmCalcEndReturnMessage) !== "undefined" ? json.ArmCalcEndReturnMessage : null;
+		this.ArmCalcReturnCode = typeof (json.ArmCalcReturnCode) !== "undefined" ? json.ArmCalcReturnCode : null;
+		this.ArmCalcEndReturnCode = typeof (json.ArmCalcEndReturnCode) !== "undefined" ? json.ArmCalcEndReturnCode : null;
+		this.ArmCalcReturnMessage = typeof (json.ArmCalcReturnMessage) !== "undefined" ? json.ArmCalcReturnMessage : null;
+		this.ArmCalcEndReturnMessage = typeof (json.ArmCalcEndReturnMessage) !== "undefined" ? json.ArmCalcEndReturnMessage : null;
 
-		this.LocatingError = jsonProvided && typeof (json.LocatingError) !== "undefined" ? json.LocatingError : null;
-		this.RouteGeometry = jsonProvided && typeof (json.RouteGeometry) !== "undefined" ? json.RouteGeometry : null;
-		this.EventPoint = jsonProvided && typeof (json.EventPoint) !== "undefined" ? json.EventPoint : null;
-		this.Distance = jsonProvided && typeof (json.Distance) !== "undefined" ? json.Distance : null;
-		this.Angle = jsonProvided && typeof (json.Angle) !== "undefined" ? json.Angle : null;
+		this.LocatingError = typeof (json.LocatingError) !== "undefined" ? json.LocatingError : null;
+		this.RouteGeometry = typeof (json.RouteGeometry) !== "undefined" ? json.RouteGeometry : null;
+		this.EventPoint = typeof (json.EventPoint) !== "undefined" ? json.EventPoint : null;
+		this.Distance = typeof (json.Distance) !== "undefined" ? json.Distance : null;
+		this.Angle = typeof (json.Angle) !== "undefined" ? json.Angle : null;
 
 		// Set the date properties to Date objects, if appropriate.
 		for (var propName in this) {
@@ -850,7 +852,7 @@
 					}
 				} else if (boolFieldRe.test(prop)) { // Decrease, Back or EndBack
 					// If provided set Decrease to its boolean equivalent.  Leave as null if its null.
-					output.Decrease = value === null ? null : Boolean(value);
+					output[prop] = value === null ? null : Boolean(value);
 				} else if (value !== null) {
 					output[prop] = value;
 				}
