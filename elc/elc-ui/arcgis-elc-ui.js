@@ -1,4 +1,4 @@
-/*global define*/
+/*global define, Intl*/
 define([
 	"dojo/_base/declare",
 	"dojo/Evented",
@@ -119,17 +119,31 @@ define([
 	 * @returns {HTMLDListElement}
 	 */
 	function graphicToHtml(graphic) {
-		var dl = document.createElement("dl"), dt, dd, v;
-		var layer = graphic._layer;
+		var dl, dt, dd, v, codeField, ignoredFields, layer, distanceFieldRe, nFmt;
+
+		dl = document.createElement("dl");
+		codeField = /Code$/i;
+		ignoredFields = /^IsEvent$/i;
+		layer = graphic._layer;
+		distanceFieldRe = /^Distance$/i;
+		nFmt;
+		// Not all browsers support Internationalization API. Those browsers will just get an unformatted number.
+		if (window.Intl) {
+			nFmt = new Intl.NumberFormat();
+		}
 
 		layer.fields.forEach(function (field) {
-			if (graphic.attributes.hasOwnProperty(field.name)) {
+			if (graphic.attributes.hasOwnProperty(field.name) && !ignoredFields.test(field.name)) {
 				v = graphic.attributes[field.name];
-				if (v || (v === 0 && !/Code$/i.test(field.name))) {
+				if (v || (v === 0 && !codeField.test(field.name))) {
 					dt = document.createElement("dt");
 					dt.textContent = field.alias || field.name;
 					dd = document.createElement("dd");
-					dd.textContent = v;
+					if (distanceFieldRe.test(field.name) && nFmt) {
+						dd.textContent = [nFmt.format(v), "ft."].join(" ");
+					} else {
+						dd.textContent = v;
+					}
 					dl.appendChild(dt);
 					dl.appendChild(dd);
 				}
