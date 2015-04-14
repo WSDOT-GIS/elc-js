@@ -233,24 +233,27 @@ define([
 						outSR: mapPoint.spatialReference.wkid,
 						referenceDate: new Date()
 					}).then(function (elcResults) {
-						elcResults = elcResults.map(function (r) {
-							r = r.toJSON();
-							delete r.Coordinates;
-							delete r.Angle;
-							delete r.RouteGeometry;
-							delete r.RealignmentDate;
-							delete r.ArmCalcReturnCode;
-							delete r.ArmCalcReturnMessage;
-							//delete r.EventPoint;
-							return new Elc.RouteLocation(r);
-						});
-						routeLocator.findRouteLocations({
-							locations: elcResults,
-							outSR: 3857
-						}).then(addResultsToMap, function (error) {
-							console.error("find route location error", error);
-						});
-						////addResultsToMap(elcResults).then(addResultsToMap);
+						if (elcResults.length) {
+							elcResults = elcResults.map(function (r) {
+								r = r.toJSON();
+								delete r.Coordinates;
+								delete r.Angle;
+								delete r.RouteGeometry;
+								delete r.RealignmentDate;
+								delete r.ArmCalcReturnCode;
+								delete r.ArmCalcReturnMessage;
+								//delete r.EventPoint;
+								return new Elc.RouteLocation(r);
+							});
+							routeLocator.findRouteLocations({
+								locations: elcResults,
+								outSR: 3857
+							}).then(addResultsToMap, function (error) {
+								console.error("find route location error", error);
+							});
+						} else {
+							addResultsToMap(elcResults).then(addResultsToMap);
+						}
 					}, function (error) {
 						console.error("find nearest route location error", error);
 					});
