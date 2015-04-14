@@ -11,36 +11,106 @@ define([
 	"esri/symbols/SimpleMarkerSymbol",
 	"esri/symbols/SimpleLineSymbol",
 	"esri/Color",
-	"esri/renderers/SimpleRenderer",
+	"esri/renderers/UniqueValueRenderer",
 	"elc/elc-ui/main",
 	"elc"
-], function (declare, Evented, on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, SimpleMarkerSymbol, SimpleLineSymbol, Color, SimpleRenderer, ElcUI, Elc) {
+], function (declare, Evented, on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, SimpleMarkerSymbol, SimpleLineSymbol, Color, UniqueValueRenderer, ElcUI, Elc) {
 	var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;
 
 	var wsdotLogoGreen = new Color([0, 123, 95]);
+	var eventColor = new Color([255, 100, 100]);
 
 	var routePointOutlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,255,255,0.8]), 2);
 	var routePointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 12, routePointOutlineSymbol, wsdotLogoGreen);
+	var eventPointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 12, eventLineSymbol, eventColor);
 	var routeLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, wsdotLogoGreen, 3);
+	var eventLineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SHORTDOT, eventColor, 3);
 
-	var pointRenderer = new SimpleRenderer(routePointSymbol);
-	var lineRenderer = new SimpleRenderer(routeLineSymbol);
+	var pointRenderer = new UniqueValueRenderer(routePointSymbol, "IsEvent");
+	var lineRenderer = new UniqueValueRenderer(routeLineSymbol, "IsEvent");
 
-	/**
-	 * Converts an ELC RouteLocation object into an ArcGIS JS API Graphic.
-	 * @param {Elc.RouteLocation} routeLocation
-	 * @returns {esri/Graphic}
-	 */
-	function routeLocationToGraphic(routeLocation) {
-		var graphic, geometry, attributes;
+	pointRenderer.addValue({
+		description: "Where the user clicked",
+		label: "Event",
+		symbol: eventPointSymbol,
+		value: 1
+	});
+
+	pointRenderer.addValue({
+		description: "Route location",
+		label: "Route Location",
+		symbol: routePointSymbol,
+		value: 0
+	});
+
+	lineRenderer.addValue({
+		description: "Where the user clicked",
+		label: "Event",
+		symbol: eventLineSymbol,
+		value: 1
+	});
+
+	lineRenderer.addValue({
+		description: "Route location",
+		label: "Route Location",
+		symbol: routeLineSymbol,
+		value: 0
+	});
+
+	function RouteLocationGraphicSet(routeLocation) {
+		var geometry, attributes, graphic;
+		/** @member {?esri/Graphic} */
+		this.routeFeature = null;
+		/** @member {?esri/Graphic} */
+		this.eventPointFeature = null;
+		/** @member {?esri/Graphic} */
+		this.connectorLineFeature = null;
+
+		var spatialReference = { wkid: 3857 };
+
 		if (routeLocation) {
-			geometry = geometryJsonUtils.fromJson(routeLocation.RouteGeometry);
-			attributes = routeLocation.toJSON();
-			delete attributes.RouteGeometry;
-			delete attributes.EventPoint;
-			graphic = new Graphic(geometry, null, attributes);
+			if (routeLocation.RouteGeometry) {
+				if (!routeLocation.RouteGeometry.spatialReference) {
+					routeLocation.RouteGeometry.spatialReference = spatialReference;
+				}
+				geometry = geometryJsonUtils.fromJson(routeLocation.RouteGeometry);
+				attributes = routeLocation.toJSON();
+				attributes.IsEvent = 0;
+				delete attributes.RouteGeometry;
+				delete attributes.EventPoint;
+				graphic = new Graphic(geometry, null, attributes);
+				this.routeFeature = graphic;
+			}
+			if (routeLocation.EventPoint) {
+				if (!routeLocation.EventPoint.spatialReference) {
+					routeLocation.EventPoint.spatialReference = spatialReference;
+				}
+				geometry = geometryJsonUtils.fromJson(routeLocation.EventPoint);
+				attributes = routeLocation.toJSON();
+				attributes.IsEvent = 1;
+				delete attributes.RouteGeometry;
+				delete attributes.EventPoint;
+				graphic = new Graphic(geometry, null, attributes);
+				this.eventPointFeature = graphic;
+			}
+			if (routeLocation.RouteGeometry && routeLocation.EventPoint) {
+				geometry = geometryJsonUtils.fromJson({
+					paths: [
+						[
+							[this.routeFeature.geometry.x, this.routeFeature.geometry.y],
+							[this.eventPointFeature.geometry.x, this.eventPointFeature.geometry.y]
+						]
+					],
+					spatialReference: spatialReference
+				});
+				attributes = routeLocation.toJSON();
+				attributes.IsEvent = 1;
+				delete attributes.RouteGeometry;
+				delete attributes.EventPoint;
+				graphic = new Graphic(geometry, null, attributes);
+				this.connectorLineFeature = graphic;
+			}
 		}
-		return graphic;
 	}
 
 	/**
@@ -77,7 +147,7 @@ define([
 			 * Adds ELC results to feature layers.
 			 */
 			function addResultsToMap(elcResults) {
-				var nonGraphics, graphic, graphics;
+				var nonGraphics, graphics;
 				if (elcResults && Array.isArray(elcResults)) {
 					if (elcResults.length === 0) {
 						self.emit("elc-results-not-found", { elcResults: elcResults });
@@ -87,21 +157,40 @@ define([
 						nonGraphics = [];
 						graphics = [];
 						elcResults.forEach(function (routeLocation) {
-							if (routeLocation.RouteGeometry) {
-								graphic = routeLocationToGraphic(routeLocation);
-								if (graphic) {
-									if (graphic.geometry.type === "point") {
-										pointResultsLayer.add(graphic);
-									} else if (graphic.geometry.type === "polyline") {
-										lineResultsLayer.add(graphic);
-									} else {
-										console.warn("Unexpected geometry type", graphic);
-									}
+							var gSet = new RouteLocationGraphicSet(routeLocation);
+							if (gSet.routeFeature) {
+								if (gSet.routeFeature.geometry.type === "point") {
+									pointResultsLayer.add(gSet.routeFeature);
+								} else if (gSet.routeFeature.geometry.type === "polyline") {
+									lineResultsLayer.add(gSet.routeFeature);
+								} else {
+									console.warn("Unexpected geometry type", gSet.routeFeature);
 								}
-								graphics.push(graphic);
+								graphics.push(gSet.routeFeature);
 							} else {
 								nonGraphics.push(routeLocation);
 							}
+							if (gSet.eventPointFeature) {
+								pointResultsLayer.add(gSet.eventPointFeature);
+							}
+							if (gSet.connectorLineFeature) {
+								lineResultsLayer.add(gSet.connectorLineFeature);
+							}
+							////if (routeLocation.RouteGeometry) {
+							////	graphic = routeLocationToGraphic(routeLocation);
+							////	if (graphic) {
+							////		if (graphic.geometry.type === "point") {
+							////			pointResultsLayer.add(graphic);
+							////		} else if (graphic.geometry.type === "polyline") {
+							////			lineResultsLayer.add(graphic);
+							////		} else {
+							////			console.warn("Unexpected geometry type", graphic);
+							////		}
+							////	}
+							////	graphics.push(graphic);
+							////} else {
+							////	nonGraphics.push(routeLocation);
+							////}
 						});
 						pointResultsLayer.resume();
 						lineResultsLayer.resume();
@@ -152,7 +241,7 @@ define([
 							delete r.RealignmentDate;
 							delete r.ArmCalcReturnCode;
 							delete r.ArmCalcReturnMessage;
-							delete r.EventPoint;
+							//delete r.EventPoint;
 							return new Elc.RouteLocation(r);
 						});
 						routeLocator.findRouteLocations({
@@ -195,6 +284,7 @@ define([
 					//{ name: "EventPoint", type: "esriFieldTypeGeometry" },
 					{ name: "Distance", type: "esriFieldTypeDouble" },
 					{ name: "Angle", type: "esriFieldTypeDouble" },
+					{ name: "IsEvent", type: "esriFieldTypeSmallInteger", alias: "Is Event"}
 			];
 
 			lineResultsLayer = new FeatureLayer({
