@@ -17,8 +17,8 @@ define([
 ], function (declare, Evented, on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, SimpleMarkerSymbol, SimpleLineSymbol, Color, UniqueValueRenderer, ElcUI, Elc) {
 	var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;
 
-	var wsdotLogoGreen = new Color([0, 123, 95]);
-	var eventColor = new Color([255, 100, 100]);
+	var wsdotLogoGreen = new Color([0, 123, 95]); // This is the same color as the WSDOT logo.
+	var eventColor = new Color([255, 100, 100]); // Color used to indicate where user has clicked as opposed to actual route location.
 
 	var routePointOutlineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255,255,255,0.8]), 2);
 	var routePointSymbol = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_SQUARE, 12, routePointOutlineSymbol, wsdotLogoGreen);
@@ -57,13 +57,16 @@ define([
 		value: 0
 	});
 
-	function RouteLocationGraphicSet(routeLocation) {
+	/**
+	 * A set of graphics for a route location.
+	 */
+	function RouteLocationGraphicSet(/**{elc/RouteLocation}*/ routeLocation) {
 		var geometry, attributes, graphic;
-		/** @member {?esri/Graphic} */
+		/** @member {?esri/Graphic} Actual point or line segment on a route */
 		this.routeFeature = null;
-		/** @member {?esri/Graphic} */
+		/** @member {?esri/Graphic} In a find nearest operation, where the user clicked. */
 		this.eventPointFeature = null;
-		/** @member {?esri/Graphic} */
+		/** @member {?esri/Graphic} A line that connects the routeFeature to the eventPointFeature. */
 		this.connectorLineFeature = null;
 
 		var spatialReference = { wkid: 3857 };
