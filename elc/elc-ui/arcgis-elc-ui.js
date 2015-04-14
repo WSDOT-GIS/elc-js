@@ -176,21 +176,7 @@ define([
 							if (gSet.connectorLineFeature) {
 								lineResultsLayer.add(gSet.connectorLineFeature);
 							}
-							////if (routeLocation.RouteGeometry) {
-							////	graphic = routeLocationToGraphic(routeLocation);
-							////	if (graphic) {
-							////		if (graphic.geometry.type === "point") {
-							////			pointResultsLayer.add(graphic);
-							////		} else if (graphic.geometry.type === "polyline") {
-							////			lineResultsLayer.add(graphic);
-							////		} else {
-							////			console.warn("Unexpected geometry type", graphic);
-							////		}
-							////	}
-							////	graphics.push(graphic);
-							////} else {
-							////	nonGraphics.push(routeLocation);
-							////}
+
 						});
 						pointResultsLayer.resume();
 						lineResultsLayer.resume();
