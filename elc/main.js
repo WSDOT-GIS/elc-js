@@ -99,6 +99,35 @@
 	*/
 
 	/**
+	 * Splits a state route ID into SR, RRT, RRQ components.
+	 */
+	function RouteId(routeId) {
+		var match = routeId.match(routeRe);
+
+		if (!match) {
+			throw new Error("Invalid route ID");
+		}
+
+		/**@member {string}*/
+		this.sr = match[1];
+		/**@member {?string} */
+		this.rrt = match[2] || null;
+		/**@member {?string} */
+		this.rrq = match[3] || null;
+	}
+
+	RouteId.prototype.toString = function () {
+		var output = [this.sr];
+		if (this.rrt) {
+			output.push(this.rrt);
+			if (this.rrq) {
+				output.push(this.rrq);
+			}
+		}
+		return output.join("");
+	};
+
+	/**
 	 * Matches an SRMP value.  Either just a number or a number with a B at the end (indicating back mileage).
 	 * @author Jeff Jacobson
 	 * @memberOf $.wsdot.elc 
@@ -879,6 +908,7 @@
 		ROUTE_TYPE_RAMP: ROUTE_TYPE_RAMP,
 		RouteLocator: RouteLocator,
 		RouteLocation: RouteLocation,
-		flattenArray: flattenArray
+		flattenArray: flattenArray,
+		RouteId: RouteId
 	};
 }));

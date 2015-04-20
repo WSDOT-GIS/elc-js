@@ -3,7 +3,8 @@ define([
 	"dojo/_base/declare",
 	"dojo/Evented",
 	"dojo/on",
-	"esri/map",
+	"esri/config",
+	"esri/request",
 	"esri/graphic",
 	"esri/geometry/jsonUtils",
 	"esri/layers/FeatureLayer",
@@ -14,8 +15,22 @@ define([
 	"esri/renderers/UniqueValueRenderer",
 	"elc/elc-ui/main",
 	"elc"
-], function (declare, Evented, on, esriMap, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, SimpleMarkerSymbol, SimpleLineSymbol, Color, UniqueValueRenderer, ElcUI, Elc) {
+], function (declare, Evented, on, esriConfig, esriRequest, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, SimpleMarkerSymbol, SimpleLineSymbol, Color, UniqueValueRenderer, ElcUI, Elc) {
 	var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;
+
+	var isWsdotInternal;
+
+	esriConfig.defaults.io.corsEnabledServers.push("wwwi.wsdot.wa.gov");
+
+	// Test to see if the client is within the WSDOT internal network.
+	esriRequest({
+		url: "http://wwwi.wsdot.wa.gov/geosvcs/ArcGIS/rest/services?f=json"
+	}).then(function () {
+		isWsdotInternal = true;
+	}, function () {
+		isWsdotInternal = false;
+	});
+
 
 	var wsdotLogoGreen = new Color([0, 123, 95]); // This is the same color as the WSDOT logo.
 	var eventColor = new Color([255, 100, 100]); // Color used to indicate where user has clicked as opposed to actual route location.
@@ -122,9 +137,12 @@ define([
 	 * @returns {HTMLDListElement}
 	 */
 	function graphicToHtml(graphic) {
-		var dl, dt, dd, v, codeField, ignoredFields, layer, distanceFieldRe, nFmt;
+		var frag, dl, dt, dd, v, codeField, ignoredFields, layer, distanceFieldRe, nFmt;
+
+		frag = document.createDocumentFragment();
 
 		dl = document.createElement("dl");
+		frag.appendChild(dl);
 		codeField = /Code$/i;
 		ignoredFields = /^IsEvent$/i;
 		layer = graphic._layer;
@@ -152,7 +170,43 @@ define([
 				}
 			}
 		});
-		return dl;
+
+		var p,a;
+		// Add SRView URL if user is inside WSDOT Intranet.
+		if (isWsdotInternal) {
+			p = document.createElement("p");
+			a = document.createElement("a");
+			var routeId = new Elc.RouteId(graphic.attributes.Route);
+			var url = "http://srview3i.wsdot.loc/stateroute/picturelog/v3/client/SRview.Windows.Viewer.application";
+			var params = {
+				srnum: routeId.sr,
+				rrt: routeId.rrt ? ["rrt", routeId.rrt] : null,
+				rrq: routeId.rrq ? ["rrq", routeId.rrq] : null,
+				dir: graphic.attributes.Decrease ? "D" : null,
+				srmp: graphic.attributes.Srmp,
+				back: graphic.attributes.Back
+			};
+
+			var query = [];
+			for (var k in params) {
+				if (params.hasOwnProperty(k) && params[k] !== null) {
+					query.push([k, params[k]].join("="));
+				}
+			}
+			query = query.join("&");
+			url = [url, query].join("?");
+			
+			a.href = url;
+			a.target = "_blank";
+			a.textContent = "SRView";
+			a.setAttribute("class", "srview clickonce");
+
+			p.appendChild(a);
+
+			frag.appendChild(p);
+		}
+
+		return frag;
 	}
 
 	var ArcGisElcUI = declare(Evented, {
