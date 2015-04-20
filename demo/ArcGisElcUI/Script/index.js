@@ -44,7 +44,7 @@ require([
 	});
 
 	map = new esriMap("map", {
-		basemap: "gray",
+		basemap: "osm",
 		center: [-120.80566406246835, 47.41322033015946],
 		zoom: 7,
 		showAttribution: true

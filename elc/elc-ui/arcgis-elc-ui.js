@@ -288,7 +288,7 @@ define([
 					{ name: "LocatingError", type: "esriFieldTypeString", alias: "Locating Error" },
 					//{ name: "RouteGeometry", type: "esriFieldTypeGeometry" },
 					//{ name: "EventPoint", type: "esriFieldTypeGeometry" },
-					{ name: "Distance", type: "esriFieldTypeDouble" },
+					{ name: "Distance", alias: "Offset", type: "esriFieldTypeDouble" },
 					{ name: "Angle", type: "esriFieldTypeDouble" },
 					{ name: "IsEvent", type: "esriFieldTypeSmallInteger", alias: "Is Event"}
 			];
