@@ -25,6 +25,8 @@
     "test",
     "tests",
     "demo",
-    "index.html"
+    "index.html",
+    "*.sln",
+    "*.csproj"
   ]
 }
