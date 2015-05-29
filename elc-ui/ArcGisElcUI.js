@@ -13,7 +13,7 @@ define([
 	"esri/symbols/SimpleLineSymbol",
 	"esri/Color",
 	"esri/renderers/UniqueValueRenderer",
-	"elc/elc-ui/main",
+	"elc/elc-ui/ElcUI",
 	"elc"
 ], function (declare, Evented, on, esriConfig, esriRequest, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, SimpleMarkerSymbol, SimpleLineSymbol, Color, UniqueValueRenderer, ElcUI, Elc) {
 	var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;
@@ -210,7 +210,7 @@ define([
 	}
 
 	var ArcGisElcUI = declare(Evented, {
-		constructor: function (domNode) {
+		constructor: function (domNode, options) {
 
 			var self = this;
 
@@ -267,7 +267,7 @@ define([
 
 			routeLocator = new Elc.RouteLocator();
 
-			elcUI = new ElcUI(domNode);
+			elcUI = new ElcUI(domNode, options);
 
 			elcUI.root.addEventListener('find-route-location-submit', function (e) {
 				var locations = [new Elc.RouteLocation(e.detail)];

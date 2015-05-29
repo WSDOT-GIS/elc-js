@@ -1,9 +1,16 @@
 /*global define*/
-define(["dojo/text!./Templates/elc-ui.min.html"], function (templateHtml) {
-	function ElcUI(rootNode) {
+define(["dojo/text!./Templates/elc-ui.min.html", "dojo/text!./Templates/elc-ui-bootstrap.min.html"], function (templateHtml, bootstrapTemplateHtml) {
+
+	/**
+	 * 
+	 * @param {HTMLElement} rootNode
+	 * @param {Object} [options]
+	 * @param {Boolean} [options.bootstrap=false] - Use the Bootstrap template instead of default.
+	 */
+	function ElcUI(rootNode, options) {
 		var self = this;
 		var parser = new DOMParser();
-		var doc = parser.parseFromString(templateHtml, "text/html");
+		var doc = parser.parseFromString(options && options.bootstrap ? bootstrapTemplateHtml : templateHtml, "text/html");
 		var uiDom = doc.body.querySelector(".elc-ui-root").cloneNode(true);
 		this.root = rootNode;
 		this.root.innerHTML = uiDom.outerHTML;

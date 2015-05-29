@@ -3,8 +3,13 @@
 <head>
     <title></title>
     <link href="//js.arcgis.com/3.13/esri/css/esri.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link href="../../elc-ui/elc-ui-behavior.css" rel="stylesheet" />
     <link href="Style/index.css" rel="stylesheet" />
     <script src="//cdn.polyfill.io/v1/polyfill.min.js?features=Promise,CustomEvent"></script>
+    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div id="flexcontainer">
@@ -18,7 +23,8 @@
                 packages: [
                     {
                         name: "elc",
-                        location: root + "../../../elc",
+                        location: root + "../../..",
+                        main: "elc"
                     },
                 ]
             };
