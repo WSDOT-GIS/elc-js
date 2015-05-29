@@ -13,7 +13,7 @@ define([
 	"esri/symbols/SimpleLineSymbol",
 	"esri/Color",
 	"esri/renderers/UniqueValueRenderer",
-	"elc/elc-ui/main",
+	"elc/elc-ui/ElcUI",
 	"elc"
 ], function (declare, Evented, on, esriConfig, esriRequest, Graphic, geometryJsonUtils, FeatureLayer, InfoTemplate, SimpleMarkerSymbol, SimpleLineSymbol, Color, UniqueValueRenderer, ElcUI, Elc) {
 	var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;

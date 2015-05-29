@@ -2,7 +2,7 @@
 require([
 	"esri/map",
 	"elc",
-	"elc/elc-ui/arcgis-elc-ui"
+	"elc/elc-ui/ArcGisElcUI"
 ], function (esriMap, elc, arcgisElcUi) {
 	var map, elcUI;
 

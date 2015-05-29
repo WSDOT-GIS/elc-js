@@ -10,7 +10,6 @@
     <ProjectGuid>{1A261022-2793-4421-8322-CD572AE8A9E1}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>ElcJs</RootNamespace>
     <AssemblyName>ElcJs</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
@@ -42,10 +41,10 @@
     <Content Include="demo\ArcGisElcUI\Script\custom-event-polyfill.js" />
     <Content Include="demo\ArcGisElcUI\Script\index.js" />
     <Content Include="demo\ArcGisElcUI\Style\index.css" />
-    <Content Include="elc\elc-ui\arcgis-elc-ui.js" />
+    <Content Include="elc\elc-ui\ArcGisElcUI.js" />
     <Content Include="elc\elc-ui\elc-ui-behavior.css" />
     <Content Include="elc\elc-ui\elc-ui.css" />
-    <Content Include="elc\elc-ui\main.js" />
+    <Content Include="elc\elc-ui\ElcUI.js" />
     <Content Include="elc\elc-ui\Templates\elc-ui-bootstrap.html" />
     <Content Include="elc\elc-ui\Templates\elc-ui-bootstrap.min.html">
       <DependentUpon>elc-ui-bootstrap.html</DependentUpon>
@@ -54,13 +53,10 @@
     <Content Include="elc\elc-ui\Templates\elc-ui.min.html">
       <DependentUpon>elc-ui.html</DependentUpon>
     </Content>
-    <Content Include="elc\main.js" />
+    <Content Include="elc\elc.js" />
     <Content Include="index.html" />
     <Content Include="Unit Tests\elc-unittest.html" />
     <Content Include="Unit Tests\elc-unittest.js" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
