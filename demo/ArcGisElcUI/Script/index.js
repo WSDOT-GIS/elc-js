@@ -6,7 +6,7 @@ require([
 ], function (esriMap, elc, arcgisElcUi) {
 	var map, elcUI;
 
-	elcUI = new arcgisElcUi(document.getElementById("elcUI"));
+	elcUI = new arcgisElcUi(document.getElementById("elcUI"), { bootstrap: true });
 
 	elcUI.on("elc-results-not-found", function () {
 		alert("No results found");
