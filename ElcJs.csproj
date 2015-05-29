@@ -41,22 +41,25 @@
     <Content Include="demo\ArcGisElcUI\Script\custom-event-polyfill.js" />
     <Content Include="demo\ArcGisElcUI\Script\index.js" />
     <Content Include="demo\ArcGisElcUI\Style\index.css" />
-    <Content Include="elc\elc-ui\ArcGisElcUI.js" />
-    <Content Include="elc\elc-ui\elc-ui-behavior.css" />
-    <Content Include="elc\elc-ui\elc-ui.css" />
-    <Content Include="elc\elc-ui\ElcUI.js" />
-    <Content Include="elc\elc-ui\Templates\elc-ui-bootstrap.html" />
-    <Content Include="elc\elc-ui\Templates\elc-ui-bootstrap.min.html">
+    <Content Include="elc-ui\ArcGisElcUI.js" />
+    <Content Include="elc-ui\elc-ui-behavior.css" />
+    <Content Include="elc-ui\elc-ui.css" />
+    <Content Include="elc-ui\ElcUI.js" />
+    <Content Include="elc-ui\Templates\elc-ui-bootstrap.html" />
+    <Content Include="elc-ui\Templates\elc-ui-bootstrap.min.html">
       <DependentUpon>elc-ui-bootstrap.html</DependentUpon>
     </Content>
-    <Content Include="elc\elc-ui\Templates\elc-ui.html" />
-    <Content Include="elc\elc-ui\Templates\elc-ui.min.html">
+    <Content Include="elc-ui\Templates\elc-ui.html" />
+    <Content Include="elc-ui\Templates\elc-ui.min.html">
       <DependentUpon>elc-ui.html</DependentUpon>
     </Content>
-    <Content Include="elc\elc.js" />
+    <Content Include="elc.js" />
     <Content Include="index.html" />
-    <Content Include="Unit Tests\elc-unittest.html" />
-    <Content Include="Unit Tests\elc-unittest.js" />
+    <Content Include="tests\elc-unittest.html" />
+    <Content Include="tests\elc-unittest.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bower.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
