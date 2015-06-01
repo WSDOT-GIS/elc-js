@@ -78,6 +78,7 @@ define(["dojo/text!./Templates/elc-ui.min.html", "dojo/text!./Templates/elc-ui-b
 			};
 
 			findRouteLocationForm.onsubmit = function () {
+				var evt;
 				var detail = {
 					Route: this.route.value,
 					Decrease: this.decrease.checked,
@@ -103,13 +104,23 @@ define(["dojo/text!./Templates/elc-ui.min.html", "dojo/text!./Templates/elc-ui-b
 					}
 				}
 
-				var evt = new CustomEvent('find-route-location-submit', {
+				evt = new CustomEvent('find-route-location-submit', {
 					detail: detail
 				});
 				self.root.dispatchEvent(evt);
 				return false;
 			};
 
+			// Programatically click input elements that are checked by default so that 
+			// appropriate controls are shown / hidden when form is reset.
+			findRouteLocationForm.addEventListener("reset", function () {
+				var checkedRB = findRouteLocationForm.querySelectorAll("input[checked]");
+				for (var i = 0, l = checkedRB.length; i < l; i += 1) {
+					checkedRB[i].click();
+				}
+			});
+
+			// Attach the "changeMPMode" function to radio buttons.
 			var radioButtons = findRouteLocationForm.querySelectorAll("input[type=radio]");
 
 			var rb;
