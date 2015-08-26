@@ -87,7 +87,7 @@ define([
 		var spatialReference = { wkid: 3857 };
 
 		if (routeLocation) {
-			if (routeLocation.RouteGeometry) {
+		    if (routeLocation.RouteGeometry && !routeLocation.RouteGeometry.points) {
 				if (!routeLocation.RouteGeometry.spatialReference) {
 					routeLocation.RouteGeometry.spatialReference = spatialReference;
 				}
