@@ -45,6 +45,7 @@
     <Content Include="elc-ui\elc-ui-behavior.css" />
     <Content Include="elc-ui\elc-ui.css" />
     <Content Include="elc-ui\ElcUI.js" />
+    <Content Include="elc-ui\RouteSelector.js" />
     <Content Include="elc-ui\Templates\elc-ui-bootstrap.html" />
     <Content Include="elc-ui\Templates\elc-ui-bootstrap.min.html">
       <DependentUpon>elc-ui-bootstrap.html</DependentUpon>
@@ -53,10 +54,15 @@
     <Content Include="elc-ui\Templates\elc-ui.min.html">
       <DependentUpon>elc-ui.html</DependentUpon>
     </Content>
-    <Content Include="elc.js" />
+    <Content Include="RouteId.js" />
+    <Content Include="RouteLocator.js" />
     <Content Include="index.html" />
+    <Content Include="routeUtils.js" />
     <Content Include="tests\elc-unittest.html" />
     <Content Include="tests\elc-unittest.js" />
+    <Content Include="RouteLocation.js" />
+    <Content Include="RouteList.js" />
+    <Content Include="Route.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="bower.json" />
@@ -72,7 +78,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>51699</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

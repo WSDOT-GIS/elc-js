@@ -1,8 +1,8 @@
 /*global require*/
 require([
 	"esri/map",
-	"elc",
-	"elc/elc-ui/ArcGisElcUI"
+	"RouteLocator",
+	"RouteLocator/elc-ui/ArcGisElcUI"
 ], function (esriMap, elc, arcgisElcUi) {
 	var map, elcUI;
 
