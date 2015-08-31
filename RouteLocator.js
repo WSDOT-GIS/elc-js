@@ -11,7 +11,7 @@
         module.exports = factory(require("Route", "RouteList", "RouteLocation", "routeUtils"));
     } else {
         // Browser globals (root is window)
-        root.elc = factory(root.Route, root.RouteList, root.RouteLocation, root.routeUtils);
+        root.RouteLocator = factory(root.Route, root.RouteList, root.RouteLocation, root.routeUtils);
     }
 }(this, function (Route, RouteList, RouteLocation, routeUtils) {
 

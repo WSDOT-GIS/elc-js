@@ -1,6 +1,6 @@
 {
   "name": "elc",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "homepage": "https://github.com/WSDOT-GIS/elc-js",
   "authors": [
     "WSDOT-GIS"
@@ -28,5 +28,13 @@
     "index.html",
     "*.sln",
     "*.csproj"
-  ]
+  ],
+  "devDependencies": {
+    "jquery": "~2.1.4",
+    "qunit": "~1.18.0"
+  },
+  "dependencies": {
+    "customevent-polyfill": "~1.0.0",
+    "es6-shim": "~0.33.3"
+  }
 }

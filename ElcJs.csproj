@@ -37,6 +37,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.css" />
+    <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.min.css" />
+    <Content Include="bower_components\bootstrap\dist\css\bootstrap.css" />
+    <Content Include="bower_components\bootstrap\dist\css\bootstrap.min.css" />
+    <Content Include="bower_components\bootstrap\dist\js\bootstrap.js" />
+    <Content Include="bower_components\bootstrap\dist\js\bootstrap.min.js" />
+    <Content Include="bower_components\customevent-polyfill\customevent-polyfill.js" />
+    <Content Include="bower_components\customevent-polyfill\customevent-polyfill.min.js" />
+    <Content Include="bower_components\es6-shim\es6-shim.js" />
+    <Content Include="bower_components\es6-shim\es6-shim.min.js" />
+    <Content Include="bower_components\jquery\dist\jquery.js" />
+    <Content Include="bower_components\jquery\dist\jquery.min.js" />
+    <Content Include="bower_components\qunit\qunit\qunit.css" />
+    <Content Include="bower_components\qunit\qunit\qunit.js" />
     <Content Include="demo\ArcGisElcUI\index.html" />
     <Content Include="demo\ArcGisElcUI\Script\custom-event-polyfill.js" />
     <Content Include="demo\ArcGisElcUI\Script\index.js" />
@@ -66,6 +80,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="bower.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bower_components\jquery\dist\jquery.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bower_components\es6-shim\es6-shim.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.css.map" />
+    <Content Include="bower_components\bootstrap\dist\css\bootstrap.css.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

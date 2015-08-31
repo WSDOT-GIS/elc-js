@@ -11,7 +11,7 @@
         module.exports = factory();
     } else {
         // Browser globals (root is window)
-        root.Route = factory();
+        root.RouteId = factory();
     }
 }(this, function () {
 
