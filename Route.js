@@ -1,19 +1,19 @@
-/*global define,module */
+/*global define,module,require */
 // if the module has no dependencies, the above pattern can be simplified to
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define([], factory);
+        define(["./RouteId"], factory);
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory();
+        module.exports = factory(require("RouteId"));
     } else {
         // Browser globals (root is window)
-        root.Route = factory();
+        root.Route = factory(root.RouteId);
     }
-}(this, function () {
+}(this, function (RouteId) {
 
     "use strict";
 
@@ -55,53 +55,79 @@
      *		{@link ROUTE_TYPE_DECREASE},
      *		{@link ROUTE_TYPE_BOTH},
      *		{@link ROUTE_TYPE_RAMP}	 
-     * @property {string} name The name of the route.
-     * @property {number} lrsTypes An integer from 1 to 4, corresponding to one of the following constants:
-     *		{@link ROUTE_TYPE_INCREASE},
-     *		{@link ROUTE_TYPE_DECREASE},
-     *		{@link ROUTE_TYPE_BOTH},
-     *		{@link ROUTE_TYPE_RAMP}
+
+
      * @memberof $.wsdot.elc
      * @class
      **/
     function Route(name, lrsTypes) {
-        this.name = name;
-        this.lrsTypes = lrsTypes;
+        var _name = name;
+        var _lrsTypes = lrsTypes;
+        var _routeId = new RouteId(_name);
+
+        Object.defineProperties(this, {
+            /* @member {string} name The name of the route. */
+            name: {
+                get: function () {
+                    return _name;
+                }
+            },
+            /* @property {number} lrsTypes An integer from 1 to 4, corresponding to one of the following constants:
+             *      {@link ROUTE_TYPE_INCREASE},
+             *      {@link ROUTE_TYPE_DECREASE},
+             *      {@link ROUTE_TYPE_BOTH},
+             *      {@link ROUTE_TYPE_RAMP}
+             */
+            lrsTypes: {
+                get: function () {
+                    return _lrsTypes;
+                }
+            },
+            routeId: {
+                get: function() {
+                    return _routeId;
+                }
+            },
+            /**
+             * Returns a boolean value indicating whether the route is increase.
+             * @return {boolean} Returns true if {@link Route#lrsTypes} equals 
+             * {@link ROUTE_TYPE_INCREASE} or {@link ROUTE_TYPE_BOTH}.
+             */
+            isIncrease: {
+                get: function () {
+                    return _lrsTypes === ROUTE_TYPE_INCREASE || _lrsTypes === ROUTE_TYPE_BOTH;
+                }
+            },
+            /**
+             * Returns a boolean value indicating whether the route is decrease.
+             * @return {boolean} Returns true if {@link Route#lrsTypes} equals 
+             * {@link ROUTE_TYPE_DECREASE} or {@link ROUTE_TYPE_BOTH}.
+             */
+            isDecrease: {
+                get: function () {
+                    return _lrsTypes === ROUTE_TYPE_DECREASE || _lrsTypes === ROUTE_TYPE_BOTH;
+                }
+            },
+            /**
+             * Returns a boolean value indicating whether the route is both increase and decrease.
+             * @return {boolean} Returns true if {@link Route#lrsTypes} equals {@link ROUTE_TYPE_BOTH}.
+             */
+            isBoth: {
+                get: function () {
+                    return _lrsTypes === ROUTE_TYPE_BOTH;
+                }
+            },
+            /**
+             * Returns a boolean value indicating whether the route is a ramp.
+             * @return {boolean} Returns true if {@link Route#lrsTypes} equals {@link ROUTE_TYPE_RAMP}
+             */
+            isRamp: {
+                get: function () {
+                    return _lrsTypes === ROUTE_TYPE_RAMP;
+                }
+            }
+        });
     }
-
-    /**
-     * Returns a boolean value indicating whether the route is increase.
-     * @return {boolean} Returns true if {@link Route#lrsTypes} equals 
-     * {@link ROUTE_TYPE_INCREASE} or {@link ROUTE_TYPE_BOTH}.
-     */
-    Route.prototype.isIncrease = function () {
-        return this.lrsTypes === ROUTE_TYPE_INCREASE || this.lrsTypes === ROUTE_TYPE_BOTH;
-    };
-
-    /**
-     * Returns a boolean value indicating whether the route is decrease.
-     * @return {boolean} Returns true if {@link Route#lrsTypes} equals 
-     * {@link ROUTE_TYPE_DECREASE} or {@link ROUTE_TYPE_BOTH}.
-     */
-    Route.prototype.isDecrease = function () {
-        return this.lrsTypes === ROUTE_TYPE_DECREASE || this.lrsTypes === ROUTE_TYPE_BOTH;
-    };
-
-    /**
-     * Returns a boolean value indicating whether the route is both increase and decrease.
-     * @return {boolean} Returns true if {@link Route#lrsTypes} equals {@link ROUTE_TYPE_BOTH}.
-     */
-    Route.prototype.isBoth = function () {
-        return this.lrsTypes === ROUTE_TYPE_BOTH;
-    };
-
-    /**
-     * Returns a boolean value indicating whether the route is a ramp.
-     * @return {boolean} Returns true if {@link Route#lrsTypes} equals {@link ROUTE_TYPE_RAMP}
-     */
-    Route.prototype.isRamp = function () {
-        return this.lrsTypes === ROUTE_TYPE_RAMP;
-    };
 
     // Just return a value to define the module export.
     // This example returns an object, but the module

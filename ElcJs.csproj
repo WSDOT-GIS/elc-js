@@ -55,6 +55,8 @@
     <Content Include="demo\ArcGisElcUI\Script\custom-event-polyfill.js" />
     <Content Include="demo\ArcGisElcUI\Script\index.js" />
     <Content Include="demo\ArcGisElcUI\Style\index.css" />
+    <Content Include="demo\RouteSelector\index.html" />
+    <Content Include="demo\RouteSelector\Script\main.js" />
     <Content Include="elc-ui\ArcGisElcUI.js" />
     <Content Include="elc-ui\elc-ui-behavior.css" />
     <Content Include="elc-ui\elc-ui.css" />
@@ -91,6 +93,7 @@
     <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.css.map" />
     <Content Include="bower_components\bootstrap\dist\css\bootstrap.css.map" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

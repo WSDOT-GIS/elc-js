@@ -26,14 +26,23 @@
      * @memberof $.wsdot.elc
      */
     function RouteList(data) {
-        var year, routes, route;
+        var year, routes, route, routeObj;
 
         for (year in data) {
             if (data.hasOwnProperty(year)) {
                 routes = [];
                 for (route in data[year]) {
                     if (data[year].hasOwnProperty(route)) {
-                        routes.push(new Route(route, data[year][route]));
+                        try {
+                            routeObj = new Route(route, data[year][route]);
+                        } catch (e) {
+                            console.warn("Error creating route: '" + route + "', " + year, e);
+                            routeObj = null;
+                        }
+
+                        if (routeObj) {
+                            routes.push(routeObj);
+                        }
                     }
                 }
                 this[year] = routes;
@@ -56,6 +65,22 @@
         output.sort();
 
         return output;
+    };
+
+    RouteList.prototype.getRouteTree = function (year) {
+        var routeArray = this[year];
+        var routeTree = {};
+        routeArray.forEach(function (route) {
+            var routeId, sr, rrt, rrq;
+            routeId = route.routeId;
+            sr = routeId.sr;
+            rrt = routeId.rrt;
+            rrq = routeId.rrq;
+
+            if (!routeTree[sr]) {
+                routeTree[sr] = {};
+            }
+        });
     };
 
 
