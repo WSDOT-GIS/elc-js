@@ -2,14 +2,15 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-    <link href="//js.arcgis.com/3.13/esri/css/esri.css" rel="stylesheet" />
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+    <link href="//js.arcgis.com/3.14/esri/css/esri.css" rel="stylesheet" />
+    <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
     <link href="../../elc-ui/elc-ui-behavior.css" rel="stylesheet" />
     <link href="Style/index.css" rel="stylesheet" />
-    <script src="//cdn.polyfill.io/v1/polyfill.min.js?features=Promise,CustomEvent"></script>
-    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="../../bower_components/customevent-polyfill/customevent-polyfill.min.js"></script>
+    <script src="../../bower_components/es6-shim/es6-shim.js"></script>
+    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div id="flexcontainer">
@@ -22,16 +23,16 @@
                 async: true,
                 packages: [
                     {
-                        name: "elc",
+                        name: "RouteLocator",
                         location: root + "../../..",
-                        main: "elc"
+                        main: "RouteLocator"
                     },
                 ]
             };
             window.dojoConfig = dojoConfig;
         }(location.href.replace(/\/[^\/]*$/, "")));
     </script>
-    <script src="//js.arcgis.com/3.13/init.js"></script>
+    <script src="//js.arcgis.com/3.14/init.js"></script>
     <script src="Script/index.js"></script>
 </body>
 </html>
