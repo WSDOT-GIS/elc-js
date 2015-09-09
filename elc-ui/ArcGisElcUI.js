@@ -289,6 +289,12 @@ define([
 
             elcUI = new ElcUI(domNode, options);
 
+            routeLocator.getRouteList().then(function (routeList) {
+                elcUI.routes = routeList.Current;
+            }, function (error) {
+                console.error("Error getting route list", error);
+            });
+
             elcUI.root.addEventListener('find-route-location-submit', function (e) {
                 var locations = [new RouteLocation(e.detail)];
                 routeLocator.findRouteLocations({
