@@ -1,5 +1,9 @@
 /*global define*/
-define(["dojo/text!./Templates/elc-ui.min.html", "dojo/text!./Templates/elc-ui-bootstrap.min.html"], function (templateHtml, bootstrapTemplateHtml) {
+define([
+	"./RouteSelector",
+	"dojo/text!./Templates/elc-ui.min.html",
+	"dojo/text!./Templates/elc-ui-bootstrap.min.html"
+], function (RouteSelector, templateHtml, bootstrapTemplateHtml) {
 
 	/**
 	 * 
@@ -14,6 +18,10 @@ define(["dojo/text!./Templates/elc-ui.min.html", "dojo/text!./Templates/elc-ui-b
 		var uiDom = doc.body.querySelector(".elc-ui-root").cloneNode(true);
 		this.root = rootNode;
 		this.root.innerHTML = uiDom.outerHTML;
+
+		// Setup route selector
+
+		var routeSelector = new RouteSelector(this.root.querySelector(".route-selector"));
 
 		// Setup nearest route location form
 		(function () {
@@ -64,16 +72,6 @@ define(["dojo/text!./Templates/elc-ui.min.html", "dojo/text!./Templates/elc-ui-b
 					findRouteLocationForm.endMilepost.removeAttribute("required");
 					classList.add("geo-mode-point");
 					classList.remove("geo-mode-line");
-				}
-			};
-
-			findRouteLocationForm.route.onblur = function () {
-				if (this.value && /^\d{1,2}$/.test(this.value)) {
-					if (this.value.length === 1) {
-						this.value = "00" + this.value;
-					} else if (this.value.length === 2) {
-						this.value = "0" + this.value;
-					}
 				}
 			};
 
@@ -129,6 +127,17 @@ define(["dojo/text!./Templates/elc-ui.min.html", "dojo/text!./Templates/elc-ui-b
 				rb.addEventListener("click", changeMPMode);
 			}
 		}());
+
+		Object.defineProperties(this, {
+		    routes: {
+		        get: function () {
+		            return routeSelector.routes;
+		        },
+		        set: function (routesArray) {
+		            routeSelector.routes = routesArray;
+		        }
+		    }
+		});
 	}
 
 	return ElcUI;

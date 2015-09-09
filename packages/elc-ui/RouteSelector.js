@@ -16,7 +16,7 @@
 }(this, function () {
 
     /**
-     * 
+     * Creates a Route Selector UI control.
      * @param {HTMLElement} root
      */
     function RouteSelector(root) {
@@ -31,23 +31,31 @@
         var mainlineSelect = document.createElement("select");
         var routeSelect = document.createElement("select");
         routeSelect.name = "route";
+        routeSelect.required = true;
+        // for bootstrap
+        mainlineSelect.classList.add("form-control");
+        routeSelect.classList.add("form-control");
 
         var cbLabel = document.createElement("label");
         var checkbox = document.createElement("input");
         checkbox.type = "checkbox";
+        checkbox.name = "decrease";
         cbLabel.appendChild(checkbox);
         cbLabel.appendChild(document.createTextNode(" Decrease"));
+        cbLabel.classList.add("input-group-addon");
 
         root.appendChild(mainlineSelect);
         root.appendChild(routeSelect);
         root.appendChild(cbLabel);
 
         Object.defineProperties(this, {
+            /**@property {HTMLElement}*/
             root: {
                 get: function () {
                     return root;
                 }
             },
+            /**@property {Route[]}*/
             routes: {
                 get: function () {
                     return _routes;
