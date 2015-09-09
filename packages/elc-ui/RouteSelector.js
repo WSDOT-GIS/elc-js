@@ -28,23 +28,17 @@
 
         var _routes = null;
 
-        var mainlineLabel = document.createElement("label");
-        mainlineLabel.textContent = "Mainline";
         var mainlineSelect = document.createElement("select");
-        var routeLabel = document.createElement("label");
-        routeLabel.textContent = "Route";
         var routeSelect = document.createElement("select");
         routeSelect.name = "route";
 
         var cbLabel = document.createElement("label");
         var checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-        cbLabel.textContent = "Decrease ";
         cbLabel.appendChild(checkbox);
+        cbLabel.appendChild(document.createTextNode(" Decrease"));
 
-        root.appendChild(mainlineLabel);
         root.appendChild(mainlineSelect);
-        root.appendChild(routeLabel);
         root.appendChild(routeSelect);
         root.appendChild(cbLabel);
 
@@ -94,21 +88,35 @@
             }
         });
 
+        /**
+         * Populates the route box with options associated with the currently selected mainline.
+         */
         function addOptionsForCurrentlySelectedMainline() {
             var mainline = mainlineSelect.value;
             // Remove options.
             routeSelect.innerHTML = "";
 
+            var rampGroup = document.createElement("optgroup");
+            rampGroup.label = "Ramps";
+
             var docFrag = document.createDocumentFragment();
-            var route, option;
+            var route, option, srRe = /^\d{3}\s/, label;
             for (var i = 0, l = _routes.length; i < l; i += 1) {
                 route = _routes[i];
                 if (route.routeId.sr === mainline) {
                     option = document.createElement("option");
                     option.value = route.name;
-                    option.label = route.routeId.description;
+                    label = route.routeId.description;
+                    option.label = label.replace(srRe, "");
                     option.dataset.isBoth = route.isBoth;
-                    docFrag.appendChild(option);
+                    if (route.isRamp) {
+                        rampGroup.appendChild(option);
+                    } else {
+                        docFrag.appendChild(option);
+                    }
+                    if (rampGroup.children.length > 0) {
+                        docFrag.appendChild(rampGroup);
+                    }
                 }
             }
 
@@ -132,8 +140,6 @@
 
         routeSelect.addEventListener("change", setRouteDirectionControls);
     }
-
-
 
     return RouteSelector;
 }));
