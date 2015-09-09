@@ -14,4 +14,4 @@ Provides user interface that allows user to specify ELC parameters.
 See `demo/ArcGisElcUI` folder contents for example usage.
 
 
-[Enterprise Location Class ArcGIS Server SOE]:http://www.wsdot.wa.gov/geoservices/ArcGIS/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/
+[Enterprise Location Class ArcGIS Server SOE]:http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe/
