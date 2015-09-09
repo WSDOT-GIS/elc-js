@@ -141,15 +141,20 @@
                 }
             },
             /** 
-             * @member {?Number} - The milepost on the mainline route where this route attaches. 
+             * @member {?(number|string)} - The milepost on the mainline route where this route attaches. 
              * Will be null if the RRQ is non-numeric.
              */
             mainlineIntersectionMP: {
                 get: function () {
                     var i = null;
-                    if (_rrq && /^\d+$/.test(_rrq)) {
-                        i = parseInt(_rrq, 10);
+                    var re = /^(\d+)(B)?$/i;
+                    var match = _rrq ? _rrq.match(re) : null;
+                    if (match) {
+                        i = parseInt(match[1], 10);
                         i = i / 100;
+                        if (match[2]) {
+                            i = [i, match[2]].join("");
+                        }
                     }
                     return i;
                 }
@@ -177,7 +182,7 @@
                         label = [_sr, this.rrtDescription, _rrq].join(" ");
                     }
 
-                    return label
+                    return label;
                 }
             }
         });
