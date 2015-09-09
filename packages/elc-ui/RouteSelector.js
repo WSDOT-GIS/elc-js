@@ -82,6 +82,7 @@
                             if (route.name.length === 3) {
                                 option = document.createElement("option");
                                 option.label = route.name;
+                                option.textContent = route.name;
                                 option.value = route.name;
                                 option.dataset.isBoth = route.isBoth;
                                 srDocFrag.appendChild(option);
@@ -115,7 +116,10 @@
                     option = document.createElement("option");
                     option.value = route.name;
                     label = route.routeId.description;
-                    option.label = label.replace(srRe, "");
+                    label = label.replace(srRe, "");
+                    option.label = label;
+                    option.textContent = label;
+                    option.title = route.name;
                     option.dataset.isBoth = route.isBoth;
                     if (route.isRamp) {
                         rampGroup.appendChild(option);
