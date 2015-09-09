@@ -58,15 +58,15 @@
     */
 
     var rrtDefinitions = {
-        "AR": "Alternate Route",    
+        "AR": "Alternate Route",
         "CD": "Collector Distributor (Dec)",
-        "CO": "Couplet",    
+        "CO": "Couplet",
         "CI": "Collector Distributor (Inc)",
-        "FI": "Frontage Road (Inc)",    
+        "FI": "Frontage Road (Inc)",
         "FD": "Frontage Road (Dec)",
         "LX": "Crossroad within Interchange",
         "RL": "Reversible Lane",
-        "SP": "Spur",    
+        "SP": "Spur",
         "TB": "Transitional Turnback",
         "TR": "Temporary Route",
         "PR": "Proposed Route",
@@ -98,6 +98,102 @@
             }
         }
     }());
+
+    var rrqAbbreviations = {
+        "2NDST": "2nd St.",
+        "3RDAVE": "3rd Ave.",
+        "6THST": "6th St.",
+        "ABERDN": "Aberdeen",
+        "ANACOR": "Anacortes",
+        "ANACRT": "Anacortes",
+        "ANAFT2": "ANAFT2",
+        "AURORA": "Aurora",
+        "BOONE": "Boone St.",
+        //"BREFT2": "BREFT2",
+        "BREMER": "Bremerton",
+        "BROWNE": "Browne St.",
+        "BURKE": "Beverly Burke Rd.",
+        "CANBY": "Fort Canby",
+        "CEDRWY": "Cedar Way",
+        "CLEELM": "Cle Elem",
+        //"CLIFT2": "CLIFT2",
+        "CLINTN": "Clifton",
+        "COLFAX": "Colfax",
+        "COUGAR": "Cougar",
+        "COUPLT": "COUPLT",
+        "COUPVL": "Coupville",
+        "CRWNPT": "Crown Point",
+        "CS0631": "CS0631",
+        "DIVISN": "Division",
+        "EAGHBR": "Eagle Harbor",
+        "EDMOND": "Edmonds",
+        "EVERET": "Everett",
+        "FAUNTL": "Fauntleroy",
+        "FIFE": "Fife",
+        "FRIDAY": "Friday Harbor",
+        "GNESSE": "GNESSE",
+        "GORST": "Gorst",
+        "HERON": "Heron St.",
+        "HQUIAM": "Hoquiam",
+        "HYAK": "Hyak Dr.",
+        "KELRNO": "Keller North",
+        "KELRSO": "Keller South",
+        "KELSO": "Kelso",
+        "KINFT1": "KINFT1",
+        "KINGST": "Kingston",
+        "KNGSTN": "Kingston",
+        "LEAHY": "Leahy",
+        "LONNGR": "LONNGR",
+        "LOPEZ": "Lopez",
+        "MARYHL": "Maryhill",
+        "MKLTEO": "Mukilteo",
+        "MONROE": "Monroe",
+        "MORA": "Mora Rd.",
+        "MTBAKR": "Mt. Baker",
+        "MUKILT": "Mukilteo",
+        "NEWPRT": "Newport",
+        "NSC": "NSC",
+        "OLD504": "Old 504",
+        "OMAK": "Omak",
+        "ORCAS": "Orcas Island",
+        "ORGBEG": "ORGBEG",
+        "ORGMID": "ORGMID",
+        "ORGSPR": "ORGSPR",
+        "ORONDO": "Orondo",
+        "OSO": "Oso",
+        "PAINE": "Paine",
+        "PEARL": "Pearl St.",
+        "PRTANG": "Port Angeles",
+        "PTDEFI": "Pt. Defiance",
+        "PTTFT2": "PTTFT2",
+        "PTTOWN": "Port Townsend",
+        "PULLMN": "Pullman",
+        "PURDY": "Purdy Ln.",
+        "REDMND": "Redmond",
+        //"SEAFT2": "SEAFT2",
+        //"SEAFT3": "SEAFT3",
+        "SEATAC": "SeaTac",
+        "SEATTL": "Seattle",
+        "SHAW": "Shaw Island",
+        "SIDNEY": "Sidney",
+        "SLVRDL": "Silverdale",
+        "SOUTHW": "Southworth",
+        "SUMAS": "Sumas",
+        "TAHLEQ": "Tahlequa",
+        "TUNNEL": "Tunnel",
+        "UNDRWD": "Underwood",
+        "VANCVR": "Vancouver",
+        //"VASFT2": "VASFT2",
+        "VASHON": "Vashon",
+        "VIADCT": "Alaskan Way Viaduct",
+        "WALULA": "Wallula Junction",
+        "WENTCH": "Wenatchee",
+        "WESTPT": "Westport",
+        //"WINFT2": "WINFT2",
+        "WINSLO": "Winslow",
+        "XBASE": "XBASE",
+        "YELMLP": "Yelm Loop"
+    };
 
     /**
      * Splits a state route ID into SR, RRT, RRQ components.
@@ -147,7 +243,7 @@
             mainlineIntersectionMP: {
                 get: function () {
                     var i = null;
-                    var re = /^(\d+)(B)?$/i;
+                    var re = /^(\d+)([BCRS])?$/i;
                     var match = _rrq ? _rrq.match(re) : null;
                     if (match) {
                         i = parseInt(match[1], 10);
@@ -161,25 +257,33 @@
             },
             rrqDescription: {
                 get: function () {
-                    var n = this.mainlineIntersectionMP;
-                    if (n !== null) {
-                        return " @ MP " + n;
-                    } else {
-                        return null;
+                    var n, output = null;
+                    if (_rrq !== null) {
+                        if (rrqAbbreviations[_rrq]) {
+                            output = rrqAbbreviations[_rrq];
+                        } else {
+                            n = this.mainlineIntersectionMP;
+                            if (n !== null) {
+                                output = " @ MP " + n;
+                            } else {
+                                output = _rrq;
+                            }
+                        }
                     }
+                    return output;
                 }
             },
             description: {
                 get: function () {
                     var label;
-                    if (!_rrt){
+                    if (!_rrt) {
                         label = [_sr, "Mainline"].join(" ");
                     } else if (!_rrq) {
                         label = [_sr, this.rrtDescription].join(" ");
                     } else if (this.mainlineIntersectionMP !== null) {
                         label = [_sr, this.rrtDescription, "@ MP", this.mainlineIntersectionMP].join(" ");
                     } else {
-                        label = [_sr, this.rrtDescription, _rrq].join(" ");
+                        label = [_sr, this.rrtDescription, this.rrqDescription].join(" ");
                     }
 
                     return label;
