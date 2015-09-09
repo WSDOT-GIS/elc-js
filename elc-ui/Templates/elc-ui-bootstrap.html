@@ -15,6 +15,11 @@
                         <span class="glyphicon glyphicon-screenshot"></span> <span class="sr-only">Nearest Route Location</span>
                     </a>
                 </li>
+                <li role="presentation">
+                    <a href="#optionsSection" role="tab" data-toggle="tab" title="Options">
+                        <span class="glyphicon glyphicon-cog"></span> <span class="sr-only">Options</span>
+                    </a>
+                </li>
             </ul>
             <div class="tab-content">
                 <section class="find-route-location-section tab-pane active" id="findRouteLocationSection" role="tabpanel">
@@ -77,16 +82,17 @@
                         </div>
                     </form>
                 </section>
+                <section class="options-section tab-pane" role="tabpanel" id="optionsSection">
+                    <h1>Options</h1>
+                    <div class="btn-group btn-group-justified">
+                        <div class="btn-group">
+                            <button type="button" class="clear-graphics-button btn btn-warning" title="Clears graphics created by this tool.">Clear Graphics</button>
+                        </div>
+                    </div>
+                </section>
             </div>
         </div>
-        <section class="options-section">
-            <h1>Options</h1>
-            <div class="btn-group btn-group-justified">
-                <div class="btn-group">
-                    <button type="button" class="clear-graphics-button btn btn-warning" title="Clears graphics created by this tool.">Clear Graphics</button>
-                </div>
-            </div>
-        </section>
+
     </div>
 </body>
 </html>
