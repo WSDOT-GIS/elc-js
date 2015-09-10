@@ -1,5 +1,10 @@
 /*global define,module */
-// if the module has no dependencies, the above pattern can be simplified to
+
+/**
+ * Represents a WSDOT State Route Identifier
+ * @module RouteId
+ */
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -197,6 +202,8 @@
 
     /**
      * Splits a state route ID into SR, RRT, RRQ components.
+     * @constructor
+     * @alias module:RouteId
      */
     function RouteId(routeId) {
         var match = routeId.match(routeRe);
@@ -212,25 +219,37 @@
         _rrq = match[3] || null;
 
         Object.defineProperties(this, {
-            /**@member {string}*/
+            /**
+             * @member {string}
+             * @readonly
+             */
             sr: {
                 get: function () {
                     return _sr;
                 }
             },
-            /**@member {?string} */
+            /**
+             * @member {?string}
+             * @readonly
+             */
             rrt: {
                 get: function () {
                     return _rrt;
                 }
             },
-            /**@member {?string} */
+            /**
+             * @member {?string}
+             * @readonly
+             */
             rrq: {
                 get: function () {
                     return _rrq;
                 }
             },
-            /**@member {?string} */
+            /**
+             * @member {?string}
+             * @readonly
+             */
             rrtDescription: {
                 get: function () {
                     return _rrt ? rrtDefinitions[_rrt] : null;
@@ -239,6 +258,7 @@
             /** 
              * @member {?(number|string)} - The milepost on the mainline route where this route attaches. 
              * Will be null if the RRQ is non-numeric.
+             * @readonly
              */
             mainlineIntersectionMP: {
                 get: function () {
@@ -255,6 +275,10 @@
                     return i;
                 }
             },
+            /**
+             * @member {?string} - Description of the route ID's RRQ portion, if it exists. Null otherwise.
+             * @readonly
+             */
             rrqDescription: {
                 get: function () {
                     var n, output = null;
@@ -273,6 +297,10 @@
                     return output;
                 }
             },
+            /**
+             * @member {string} - Extended description of the route ID.
+             * @readonly
+             */
             description: {
                 get: function () {
                     var label;
@@ -292,6 +320,10 @@
         });
     }
 
+    /**
+     * Returns a string representation of the RouteID.
+     * @returns {string}
+     */
     RouteId.prototype.toString = function () {
         var output = [this.sr];
         if (this.rrt) {
@@ -305,8 +337,5 @@
 
     RouteId.routeRe = routeRe;
 
-    // Just return a value to define the module export.
-    // This example returns an object, but the module
-    // can return a function as the exported value.
     return RouteId;
 }));
