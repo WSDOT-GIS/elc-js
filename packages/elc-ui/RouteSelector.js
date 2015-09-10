@@ -134,12 +134,9 @@
 
             routeSelect.appendChild(docFrag);
 
-            if (routeSelect.options.length === 1) {
-                routeSelect.disabled = true;
-            } else {
-                routeSelect.disabled = false;
-            }
+            routeSelect.disabled = routeSelect.options.length === 1;
 
+            setRouteDirectionControls();
         }
 
         function setRouteDirectionControls() {
