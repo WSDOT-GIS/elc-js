@@ -136,36 +136,6 @@
         return this.EndArm !== null || this.EndSrmp !== null;
     };
 
-
-    /**
-     * Converts a value into a number.  Similar to passing a value into the Number() function, except that this function will throw an error if
-     * the value cannot be converted to a number, whereas Number() will return NaN.  If null or undefined are passed in, they will also be returned.
-     * @param {(number|string)} value A value that can be converted into a number.  If a number is passed in, the same number will be returned (unless that number is NaN).
-     * @param {string="this"} [propName] A property name that is only used when value cannot be converted to a number. 
-     * @return {number|null|undefined} If null or undefined are passed in, the same value will be returned.  Otherwise the number equivalent of "value" is returned.
-     * @throws {Error} Thrown if "value" cannot be converted into a number (and is not null or undefined).
-     */
-    function toNumber(value, propName) {
-        var output;
-        // If a property name is not provided, set the name to "this" for the error message (if necessary).
-        if (propName === null || typeof (propName) === "undefined") {
-            propName = "this";
-        }
-        // Make sure that if ID is provided it is a number or convertable to a number.
-        if (typeof (value) !== undefined && value !== null) {
-            // Convert value to a number.  Something like "abc" can't be converted and will result in NaN, in which case an error is thrown.
-            value = Number(value);
-            if (isNaN(value)) {
-                throw new Error(["If", propName, "property is provided, it must be a number."].join(" "));
-            }
-            output = value;
-        } else if (value === null) {
-            return null;
-        }
-
-        return output;
-    }
-
     /**
      * Converts the RouteLocation into an object that can be passed to the ELC REST SOE.  
      * This is used internally by {@link RouteLocator#findRouteLocations} and {@link RouteLocator#findNearestRouteLocations}
@@ -193,7 +163,7 @@
                     output[prop] = [String(routeUtils.getActualMonth(value)), String(value.getDate()), String(value.getFullYear())].join("/");
                 } else if (numFieldRe.test(prop)) { // Id, Arm, EndArm, or ...ReturnCode
                     if (value !== null) {
-                        output[prop] = toNumber(value, prop);
+                        output[prop] = routeUtils.toNumber(value, prop);
                     }
                 } else if (srmpFieldRe.test(prop)) {
                     // If the value is already a number or null, just pass it in.
