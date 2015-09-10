@@ -1,5 +1,10 @@
 /*global define,module,require */
-// if the module has no dependencies, the above pattern can be simplified to
+
+/**
+ * A module representing a WSDOT route.
+ * @module Route
+ */
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -51,14 +56,12 @@
      * Represents a state route.
      * @param {string} name The name of the route.
      * @param {number} lrsTypes An integer from 1 to 4, corresponding to one of the following constants:
-     *		{@link ROUTE_TYPE_INCREASE},
-     *		{@link ROUTE_TYPE_DECREASE},
-     *		{@link ROUTE_TYPE_BOTH},
-     *		{@link ROUTE_TYPE_RAMP}	 
-
-
-     * @memberof $.wsdot.elc
-     * @class
+     *      {@link ROUTE_TYPE_INCREASE},
+     *      {@link ROUTE_TYPE_DECREASE},
+     *      {@link ROUTE_TYPE_BOTH},
+     *      {@link ROUTE_TYPE_RAMP}	 
+     * @constructor
+     * @alias module:Route
      **/
     function Route(name, lrsTypes) {
         var _name = name;
