@@ -8,64 +8,38 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(["./RouteId"], factory);
+        define(["./RouteId", "./lrsTypeUtils", "./routeTypeUtils"], factory);
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory(require("RouteId"));
+        module.exports = factory(require("RouteId", "lrsTypeUtils", "routeTypeUtils"));
     } else {
         // Browser globals (root is window)
-        root.Route = factory(root.RouteId);
+        root.Route = factory(root.RouteId, root.lrsTypeUtils, root.routeTypeUtils);
     }
-}(this, function (RouteId) {
+}(this, function (RouteId, lrsTypeUtils, routeTypeUtils) {
 
     "use strict";
 
-    /** 
-     * Route is increase only.
-     * @constant 
-     * @type{number}
-     * @default 1
-     * 
-     */
-    var ROUTE_TYPE_INCREASE = 1;
-    /** 
-     * Route is decrease only
-     * @constant
-     * @type{number}
-     * @default 2
-     */
-    var ROUTE_TYPE_DECREASE = 2;
-    /** 
-     * Route is both increase and decrease.
-     * @constant
-     * @type{number}
-     * @default 3 ({@link ROUTE_TYPE_INCREASE} | {@link ROUTE_TYPE_DECREASE} )
-     */
-    var ROUTE_TYPE_BOTH = 3;
-    /** 
-     * Route is a ramp.
-     * @constant
-     * @type{number}
-     * @default 4
-     */
-    var ROUTE_TYPE_RAMP = 4;
-
     /**
      * Represents a state route.
-     * @param {string} name The name of the route.
-     * @param {number} lrsTypes An integer from 1 to 4, corresponding to one of the following constants:
-     *      {@link ROUTE_TYPE_INCREASE},
-     *      {@link ROUTE_TYPE_DECREASE},
-     *      {@link ROUTE_TYPE_BOTH},
-     *      {@link ROUTE_TYPE_RAMP}	 
+     * @param {string} name - The name of the route.
+     * @param {number} lrsTypesValue - An integer from 1 to 4, corresponding to one of the following constants:
+     *      {@link lrsTypeUtils.LRS_TYPE_INCREASE},
+     *      {@link lrsTypeUtils.LRS_TYPE_DECREASE},
+     *      {@link lrsTypeUtils.LRS_TYPE_BOTH},
+     *      {@link lrsTypeUtils.LRS_TYPE_RAMP}
+     * @param {number} routeType -
      * @constructor
      * @alias module:Route
      **/
-    function Route(name, lrsTypes) {
+    function Route(name, lrsTypesValue, routeType) {
         var _name = name;
-        var _lrsTypes = lrsTypes;
+        var _lrsTypes = lrsTypeUtils.getLrsTypeValue(lrsTypesValue);
+        /*jshint eqnull:true*/
+        var _routeType = routeType != null ? routeTypeUtils.getRouteTypeValue(routeType) : null;
+        /*jshint eqnull:false*/
         var _routeId = new RouteId(_name);
 
         Object.defineProperties(this, {
@@ -76,14 +50,24 @@
                 }
             },
             /* @property {number} lrsTypes An integer from 1 to 4, corresponding to one of the following constants:
-             *      {@link ROUTE_TYPE_INCREASE},
-             *      {@link ROUTE_TYPE_DECREASE},
-             *      {@link ROUTE_TYPE_BOTH},
-             *      {@link ROUTE_TYPE_RAMP}
+             *      {@link lrsTypeUtils.LRS_TYPE_INCREASE},
+             *      {@link lrsTypeUtils.LRS_TYPE_DECREASE},
+             *      {@link lrsTypeUtils.LRS_TYPE_BOTH},
+             *      {@link lrsTypeUtils.LRS_TYPE_RAMP}
              */
             lrsTypes: {
                 get: function () {
                     return _lrsTypes;
+                }
+            },
+            routeType: {
+                get: function() {
+                    return _routeType;
+                }
+            },
+            routeTypeAbbreviation: {
+                get: function() {
+                    return _routeType !== null ? routeTypeUtils.getRouteTypeAbbreviation(_routeType) : null;
                 }
             },
             routeId: {
@@ -94,39 +78,39 @@
             /**
              * Returns a boolean value indicating whether the route is increase.
              * @return {boolean} Returns true if {@link Route#lrsTypes} equals 
-             * {@link ROUTE_TYPE_INCREASE} or {@link ROUTE_TYPE_BOTH}.
+             * {@link lrsTypeUtils.LRS_TYPE_INCREASE} or {@link lrsTypeUtils.LRS_TYPE_BOTH}.
              */
             isIncrease: {
                 get: function () {
-                    return _lrsTypes === ROUTE_TYPE_INCREASE || _lrsTypes === ROUTE_TYPE_BOTH;
+                    return _lrsTypes === lrsTypeUtils.LRS_TYPE_INCREASE || _lrsTypes === lrsTypeUtils.LRS_TYPE_BOTH;
                 }
             },
             /**
              * Returns a boolean value indicating whether the route is decrease.
              * @return {boolean} Returns true if {@link Route#lrsTypes} equals 
-             * {@link ROUTE_TYPE_DECREASE} or {@link ROUTE_TYPE_BOTH}.
+             * {@link lrsTypeUtils.LRS_TYPE_DECREASE} or {@link lrsTypeUtils.LRS_TYPE_BOTH}.
              */
             isDecrease: {
                 get: function () {
-                    return _lrsTypes === ROUTE_TYPE_DECREASE || _lrsTypes === ROUTE_TYPE_BOTH;
+                    return _lrsTypes === lrsTypeUtils.LRS_TYPE_DECREASE || _lrsTypes === lrsTypeUtils.LRS_TYPE_BOTH;
                 }
             },
             /**
              * Returns a boolean value indicating whether the route is both increase and decrease.
-             * @return {boolean} Returns true if {@link Route#lrsTypes} equals {@link ROUTE_TYPE_BOTH}.
+             * @return {boolean} Returns true if {@link Route#lrsTypes} equals {@link lrsTypeUtils.LRS_TYPE_BOTH}.
              */
             isBoth: {
                 get: function () {
-                    return _lrsTypes === ROUTE_TYPE_BOTH;
+                    return _lrsTypes === lrsTypeUtils.LRS_TYPE_BOTH;
                 }
             },
             /**
              * Returns a boolean value indicating whether the route is a ramp.
-             * @return {boolean} Returns true if {@link Route#lrsTypes} equals {@link ROUTE_TYPE_RAMP}
+             * @return {boolean} Returns true if {@link Route#lrsTypes} equals {@link lrsTypeUtils.LRS_TYPE_RAMP}
              */
             isRamp: {
                 get: function () {
-                    return _lrsTypes === ROUTE_TYPE_RAMP;
+                    return _lrsTypes === lrsTypeUtils.LRS_TYPE_RAMP;
                 }
             }
         });

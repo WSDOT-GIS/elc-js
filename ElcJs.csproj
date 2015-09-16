@@ -68,6 +68,8 @@
     <Content Include="elc-ui\Templates\elc-ui.min.html">
       <DependentUpon>elc-ui.html</DependentUpon>
     </Content>
+    <Content Include="routeTypeUtils.js" />
+    <Content Include="lrsTypeUtils.js" />
     <Content Include="RouteId.js" />
     <Content Include="RouteLocator.js" />
     <Content Include="index.html" />
@@ -91,7 +93,9 @@
     <Content Include="bower_components\bootstrap\dist\css\bootstrap-theme.css.map" />
     <Content Include="bower_components\bootstrap\dist\css\bootstrap.css.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
