@@ -14,7 +14,7 @@
     }
 }(this, function () {
 
-    var routeTypeAbbrevsArray = ["SR", "IS", "US", "RA", "LC", "FT", "PR", undefined, "TB"];
+    var routeTypeAbbrevsArray = ["SR", "IS", "US", "RA", "LC", "FT", "PR", "CN", "TB"];
 
     var routeTypeAbbrevs = {
         SR: 0,
@@ -24,10 +24,11 @@
         LC: 4,
         FT: 5,
         PR: 6,
+        CN: 7,
         TB: 8
     };
 
-    var routeClassRe = /^(?:(SR)|(IS)|(US)|(RA)|(LC)|(FT)|(PR)|(TB))$/i;
+    var routeClassRe = /^(?:(SR)|(IS)|(US)|(RA)|(LC)|(FT)|(PR)|(CN)|(TB))$/i;
 
     function getRouteTypeValue(value) {
         var match, output = null;
@@ -49,10 +50,12 @@
                 } else if (match[7]) {
                     output = routeTypeAbbrevs.PR;
                 } else if (match[8]) {
+                    output = routeTypeAbbrevs.CN;
+                } else if (match[9]) {
                     output = routeTypeAbbrevs.TB;
                 }
             }
-        } else if (typeof value === "number" && Math.trunc(value) === value && ((value >= 0 && value <= 8) || value !== 6)) {
+        } else if (typeof value === "number" && Math.trunc(value) === value && (value >= 0 && value <= 8)) {
             output = value;
         }
         return output;
@@ -60,7 +63,7 @@
 
     function getRouteTypeAbbreviation(value) {
         var output;
-        if (typeof value === "number" && value < routeTypeAbbrevsArray.length && value !== 6) {
+        if (typeof value === "number" && value >= 0 && value < routeTypeAbbrevsArray.length) {
             output = routeTypeAbbrevsArray[value];
         } else if (typeof value === "string" && routeClassRe.test(value)) {
             output = value.toUpperCase();
