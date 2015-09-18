@@ -1,5 +1,5 @@
 /*jslint devel: true, browser: true, white: true */
-/*globals jQuery, test, equal, module, start, ok, asyncTest, window, routeUtils, RouteLocator, RouteLocation */
+/*globals jQuery, QUnit, routeUtils, RouteLocator, RouteLocation */
 
 /**
 * Make a copy of this file called unittest.js and modify the URLs to match those of the web service you will be testing with.
@@ -17,9 +17,9 @@
 		function writeMessage(message, level) {
 			var li = $("<li>").html(message).appendTo(messageList);
 			if (level) {
-				if (/warn/i.test(level)) {
+				if (/warn/i.QUnit.test(level)) {
 					li.addClass("warning");
-				} else if (/error/i.test(level)) {
+				} else if (/error/i.QUnit.test(level)) {
 					li.addClass("error");
 				}
 			}
@@ -27,14 +27,14 @@
 
 		////function isNullOrEmpty(input, message) {
 		////	var t = typeof(input);
-		////	ok(t === "undefined" || input === null || t === "string" && input.length === 0, message);
+		////	assert.ok(t === "undefined" || input === null || t === "string" && input.length === 0, message);
 		////}
 
 		////function testResponseForError(data, message) {
 		////	if (typeof(message) === "undefined" || message === null) {
 		////		message = "Response should not have an \"error\" property.";
 		////	}
-		////	ok(data !== null && typeof(data.error) === "undefined", message);
+		////	assert.ok(data !== null && typeof(data.error) === "undefined", message);
 		////}
 
 		/**
@@ -42,13 +42,14 @@
 		 * @param {Boolean} useCors Specifies whether queries to the server will be "json" (true) or "jsonp" (false).
 		 */
 		function performTests(useCors) {
-			module("Find Route Locations operation");
+			QUnit.module("Find Route Locations operation");
 			
 			(function (testCount) {
-				asyncTest("Find Route Locaitons, minimum required parameters specified.", function () {
+				QUnit.test("Find Route Locaitons, minimum required parameters specified.", function (assert) {
 					var rl, dateString, params;
 					dateString = "12/31/2011";
-					
+					var done = assert.async();
+
 					rl = new RouteLocation({
 						Route: "005",
 						Arm: 0,
@@ -62,12 +63,12 @@
 					
 					routeLocator.findRouteLocations(params).then(function (data) {
 						console.log(testCount, { input: [rl], output: data });
-						ok(true, "Success");
-						start();
+						assert.ok(true, "Success");
+						done();
 					}, function (error) {
 						console.log(testCount, { input: [rl], error: error });
-						ok(false, error.error);
-						start();
+						assert.ok(false, error.error);
+						done();
 					});
 				});
 			}(testCount));
@@ -75,9 +76,10 @@
 			testCount += 1;
 
 			(function (testCount) {
-				asyncTest("Find Route Locaitons, global reference date specified.", function () {
+				QUnit.test("Find Route Locaitons, global reference date specified.", function (assert) {
 					var rl, dateString, params;
 					dateString = "12/31/2011";
+					var done = assert.async();
 
 					rl = new RouteLocation({
 						Route: "005",
@@ -92,23 +94,24 @@
 
 					routeLocator.findRouteLocations(params).then(function (data) {
 						console.log(testCount, { input: [rl], output: data });
-						ok(true, "Success");
-						start();
+						assert.ok(true, "Success");
+						done();
 					},  function (error) {
 						console.log(testCount, { input: [rl], error: error });
-						ok(false, error.error);
-						start();
+						assert.ok(false, error.error);
+						done();
 					});
 				});
 			}(testCount));
 
 			testCount += 1;
 			
-			module("Find Nearest Route Locations operation");
+			QUnit.module("Find Nearest Route Locations operation");
 			
 			(function (testId) {
-				asyncTest("Find Nearest Route Locations test", function () {
-					var params;
+				QUnit.test("Find Nearest Route Locations test", function (assert) {
+				    var params;
+				    var done = assert.async();
 					
 					params = {
 						useCors: useCors,
@@ -120,30 +123,31 @@
 					
 					routeLocator.findNearestRouteLocations(params).then(function (data) {
 						console.log(testId, {input: params, output: data});
-						ok(true, "Success");
-						start();
+						assert.ok(true, "Success");
+						done();
 					}, function (error) {
 						console.error(testId, error);
-						ok(false, error);
-						start();
+						assert.ok(false, error);
+						done();
 					});
 				});
 			}(testCount));
 			
 			testCount += 1;
 			
-			module("Get \"routes\" resource");
+			QUnit.module("Get \"routes\" resource");
 			
 			(function (testId) {
-				asyncTest("Get \"routes\" test", function () {
+			    QUnit.test("Get \"routes\" test", function (assert) {
+			        var done = assert.async();
 					routeLocator.getRouteList(useCors).then(function (routeList) {
 						console.log(testId, routeList);
-						ok(true, "Route list retrieved");
-						start();
+						assert.ok(true, "Route list retrieved");
+						done();
 					}, function (error) {
 						console.error(testId, error);
-						ok(false, error);
-						start();
+						assert.ok(false, error);
+						done();
 					});
 				});
 			}(testCount));
@@ -225,33 +229,33 @@
 		
 		// Perform client-only tests.
 		testCount = 1;
-		module("flatten array");
+		QUnit.module("flatten array");
 		
-		test("routeUtils.flattenArray test", function () {
+		QUnit.test("routeUtils.flattenArray test", function (assert) {
 			var flattened, array = [
 				[1, 2],
 				[3, 4]
 			];
 			flattened = routeUtils.flattenArray(array);
 			
-			equal(flattened.length, 4, "flattened array should have four elements.");
+			assert.equal(flattened.length, 4, "flattened array should have four elements.");
 		});
 		
 		testCount += 1;
 		
-		test("routeUtils.flattenArray on array that doesn't need it", function () {
+		QUnit.test("routeUtils.flattenArray on array that doesn't need it", function (assert) {
 			var input = [1, 2, 3, 4], output = routeUtils.flattenArray(input);
 			
-			equal(input.length, output.length, "input and output arrays should have the same number of elements.");
-			ok(input[0] === output[0] && input[1] === output[1] && input[2] === output[2] && input[3] === output[3], "Each element in input array should match element at corresponding index in output array.");
+			assert.equal(input.length, output.length, "input and output arrays should have the same number of elements.");
+			assert.ok(input[0] === output[0] && input[1] === output[1] && input[2] === output[2] && input[3] === output[3], "Each element in input array should match element at corresponding index in output array.");
 			
 		});
 		
 		testCount += 1;
 		
-		module("RouteLocation class");
+		QUnit.module("RouteLocation class");
 		
-		test("RouteLocation.toJSON test", function () {
+		QUnit.test("RouteLocation.toJSON test", function (assert) {
 			var rl, json, dateString;
 			dateString = "12/31/2011";
 			
@@ -262,9 +266,9 @@
 			});
 			
 			json = rl.toJSON();
-			equal(json.ReferenceDate, dateString, "The reference date in the output object should be \"" + dateString + "\".");
-			equal(json.Route, rl.Route, "The \"Route\" properties should be equal.");
-			equal(json.Arm, rl.Arm, "The \"Arm\" properties should be equal.");
+			assert.equal(json.ReferenceDate, dateString, "The reference date in the output object should be \"" + dateString + "\".");
+			assert.equal(json.Route, rl.Route, "The \"Route\" properties should be equal.");
+			assert.equal(json.Arm, rl.Arm, "The \"Arm\" properties should be equal.");
 		});
 		
 		testCount += 1;
