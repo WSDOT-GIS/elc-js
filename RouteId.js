@@ -28,7 +28,8 @@
      * Matches a state route ID.  Regex.exec will return an array with four elements: the entire route name, SR, RRT, and RRQ 
      * @author Jeff Jacobson
      */
-    routeRe = /^(\d{3})(?:((?:AR)|(?:[CH][DI])|(?:C[O])|(?:F[DI])|(?:LX)|(?:[PQRS][\dU])|(?:RL)|(?:SP)|(?:TB)|(?:TR)|(?:PR)|(?:F[UST])|(?:ML)|(?:UC))([A-Z0-9]{0,6}))?$/i;
+    //routeRe = /^(\d{3})(?:((?:AR)|(?:[CH][DI])|(?:C[O])|(?:F[DI])|(?:LX)|(?:[PQRS][\dU])|(?:RL)|(?:SP)|(?:TB)|(?:TR)|(?:PR)|(?:F[UST])|(?:ML)|(?:UC))([A-Z0-9]{0,6}))?$/i;
+    routeRe = /^(\d{3})(?:(?:[A-Z0-9]{2})(?:[A-Z0-9]{0,6}))?/i;
     /*
     ==RRTs (Related Roadway Type)==
     AR Alternate Route 

@@ -26,15 +26,20 @@
      * @memberof $.wsdot.elc
      */
     function RouteList(data) {
-        var year, routes, route, routeObj;
+        var year, routes, route, routeObj, current;
 
         for (year in data) {
             if (data.hasOwnProperty(year)) {
                 routes = [];
                 for (route in data[year]) {
                     if (data[year].hasOwnProperty(route)) {
+                        current = data[year][route];
                         try {
-                            routeObj = new Route(route, data[year][route]);
+                            if (typeof current === "string" || typeof current === "number") {
+                                routeObj = new Route(route, data[year][route]);
+                            } else if (typeof current === "object" && current.routeType) {
+                                routeObj = new Route(route, current.direction, current.routeType);
+                            }
                         } catch (e) {
                             console.warn("Error creating route: '" + route + "', " + year, e);
                             routeObj = null;
@@ -66,25 +71,6 @@
 
         return output;
     };
-
-    RouteList.prototype.getRouteTree = function (year) {
-        var routeArray = this[year];
-        var routeTree = {};
-        routeArray.forEach(function (route) {
-            var routeId, sr, rrt, rrq;
-            routeId = route.routeId;
-            sr = routeId.sr;
-            rrt = routeId.rrt;
-            rrq = routeId.rrq;
-
-            if (!routeTree[sr]) {
-                routeTree[sr] = {};
-            }
-        });
-    };
-
-
-
 
     // Just return a value to define the module export.
     // This example returns an object, but the module

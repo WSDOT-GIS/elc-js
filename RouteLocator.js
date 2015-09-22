@@ -56,14 +56,13 @@
      * @param {String} [url="http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"] The URL for the ELC REST Endpoint.
      * @param {String} [findRouteLocationsOperationName="Find Route Locations"]
      * @param {String} [findNearestRouteLocationsOperationName="Find Nearest Route Locations"]
-     * @param {String} [routesResourceName="routes"]
-     * @memberOf $.wsdot.elc
+     * @param {String} [routesResourceName="Route Info"] - Set to "routes" for pre 3.3 versions which do not support the "Route Info" endpoint.
      */
     function RouteLocator(url, findRouteLocationsOperationName, findNearestRouteLocationsOperationName, routesResourceName) {
         this.url = url || "http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
         this.findRouteLocationsOperationName = findRouteLocationsOperationName || "Find Route Locations";
         this.findNearestRouteLocationsOperationName = findNearestRouteLocationsOperationName || "Find Nearest Route Locations";
-        this.routesResourceName = routesResourceName || "routes";
+        this.routesResourceName = routesResourceName || "Route Info";
         this.layerList = null;
     }
 
