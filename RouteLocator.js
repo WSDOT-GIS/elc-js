@@ -56,14 +56,13 @@
      * @param {String} [url="http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"] The URL for the ELC REST Endpoint.
      * @param {String} [findRouteLocationsOperationName="Find Route Locations"]
      * @param {String} [findNearestRouteLocationsOperationName="Find Nearest Route Locations"]
-     * @param {String} [routesResourceName="routes"]
-     * @memberOf $.wsdot.elc
+     * @param {String} [routesResourceName="Route Info"] - Set to "routes" for pre 3.3 versions which do not support the "Route Info" endpoint.
      */
     function RouteLocator(url, findRouteLocationsOperationName, findNearestRouteLocationsOperationName, routesResourceName) {
         this.url = url || "http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
         this.findRouteLocationsOperationName = findRouteLocationsOperationName || "Find Route Locations";
         this.findNearestRouteLocationsOperationName = findNearestRouteLocationsOperationName || "Find Nearest Route Locations";
-        this.routesResourceName = routesResourceName || "routes";
+        this.routesResourceName = routesResourceName || "Route Info";
         this.layerList = null;
     }
 
@@ -111,17 +110,29 @@
                 data = toQueryString(data);
                 url = [url, data].join("?");
                 request.open("get", url);
-                request.responseType = "json";
+                //request.responseType = "json";
                 request.addEventListener("loadend", function (e) {
-                    var layerList, data;
+                    var data;
                     data = e.target.response;
-                    if (typeof data === "string") {
-                        data = JSON.parse(data);
-                    }
+                    data = Route.parse(data); //JSON.parse(data, routeLocationReviver);
+                    ////if (typeof data === "string") {
+                    ////    data = JSON.parse(data);
+                    ////}
                     if (this.status === 200) {
-                        layerList = new RouteList(data);
-                        elc.layerList = layerList;
-                        resolve(layerList);
+                        if (data.error) {
+                            if (elc.routesResourceName === "Route Info" && data.error.code === 400) {
+                                // If the newer Route Info is not supported, try the older version.
+                                elc.routesResourceName = "routes";
+                                elc.getRouteList(useCors).then(resolve, reject);
+                            } else {
+                                reject(data.error);
+                            }
+                        } else {
+                            //layerList = new RouteList(data);
+                            //elc.layerList = layerList;
+                            elc.layerList = data;
+                            resolve(elc.layerList);
+                        }
                     } else {
                         if (typeof reject === "function") {
                             reject(data);
@@ -168,30 +179,13 @@
 
     RouteLocator.dateToRouteLocatorDate = dateToRouteLocatorDate;
 
-    /**
-     * Converts an array of objects to an array of equivalent {@link RouteLocation} objects.
-     * @param {Array} array
-     * @param {function} constructor The constructor of the class that the elements will be converted to.
-     * @exception {Error} Thrown if the array parameter is not an array.
-     * @return {Array} An array of classes corresponding to the constructor parameter.
-     * @author Jeff Jacobson
-     * @memberOf $.wsdot.elc
-     */
-    function convertObjectsInArray(array, constructor) {
-        var output, i, l;
-        if (typeof (array) === "undefined" || array === null || typeof (array.length) !== "number") {
-            throw new Error("The array parameter must actually be an Array.");
+    var routeLocationReviver = function (k, v) {
+        if (typeof v === "object" && v.hasOwnProperty("Route")) {
+            return new RouteLocation(v);
+        } else {
+            return v;
         }
-
-        output = [];
-        for (i = 0, l = array.length; i < l; i += 1) {
-            // Note: JSLint will complain about using new with the constructor variable.
-            /*jshint newcap: false*/
-            output.push(new constructor(array[i]));
-            /*jshint newcap: true*/
-        }
-        return output;
-    }
+    };
 
     /**
      * Calls the ELC REST SOE to get geometry corresponding to the input locations.
@@ -272,18 +266,15 @@
                 if (formData) {
                     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 }
-                request.responseType = "json";
                 request.addEventListener("loadend", function (e) {
-                    var json;
+                    var json, output;
                     json = e.target.response;
-                    if (typeof json === "string") {
-                        json = JSON.parse(json);
-                    }
                     if (e.target.status === 200) {
-                        if (json.error && typeof reject === "function") {
-                            reject(json);
+                        output = JSON.parse(json, routeLocationReviver);
+                        if (output.error && typeof reject === "function") {
+                            reject(output);
                         } else {
-                            resolve(convertObjectsInArray(json, RouteLocation));
+                            resolve(output);
                         }
                     } else {
                         if (typeof reject === "function") {
@@ -403,18 +394,16 @@
                 if (method === "POST") {
                     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 }
-                request.responseType = "json";
                 request.addEventListener("loadend", function (e) {
                     var json;
                     json = e.target.response;
-                    if (typeof json === "string") {
-                        json = JSON.parse(json);
-                    }
+
                     if (e.target.status === 200) {
+                        json = JSON.parse(json, routeLocationReviver);
                         if (json.error) {
                             reject(json);
                         } else {
-                            resolve(convertObjectsInArray(json, RouteLocation));
+                            resolve(json);
                         }
                     } else {
                         reject(json);

@@ -30,7 +30,7 @@
      *      {@link lrsTypeUtils.LRS_TYPE_DECREASE},
      *      {@link lrsTypeUtils.LRS_TYPE_BOTH},
      *      {@link lrsTypeUtils.LRS_TYPE_RAMP}
-     * @param {number} routeType -
+     * @param {number} routeType -The type of route. E.g., "SR", "IS", "US", "RA"
      * @constructor
      * @alias module:Route
      **/
@@ -115,6 +115,30 @@
             }
         });
     }
+
+    function reviver(k, v) {
+        var route;
+        if (v.hasOwnProperty("routeType")) {
+            try {
+                route = new Route(k, v.direction, v.routeType);
+            } catch (err) {
+                console.warn(err.message, err);
+                return;
+            }
+            return route;
+        } else {
+            return v;
+        }
+    }
+
+    /**
+     * Parses a JSON representation of a Route (or an object containing Route properties)
+     * into corresponding Route objects.
+     * @param {string} json
+     */
+    Route.parse = function (json) {
+        return JSON.parse(json, reviver);
+    };
 
     // Just return a value to define the module export.
     // This example returns an object, but the module
