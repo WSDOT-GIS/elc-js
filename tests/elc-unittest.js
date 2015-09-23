@@ -144,6 +144,7 @@
                     routeLocator.getRouteList(useCors).then(function (routeList) {
                         console.log(testId, routeList);
                         assert.ok(true, "Route list retrieved");
+                        assert.ok(allYearsContainAtLeastOneMainline(routeList), "All route arrays must contain at least one mainline.");
                         done();
                     }, function (error) {
                         console.error(testId, error);
@@ -164,9 +165,10 @@
                     request.onloadend = function () {
                         var routeInfos;
                         if (this.status === 200) {
-                            routeInfos = Route.parse(this.response);
+                            routeInfos = Route.parseRoutes(this.response);
                             console.log(testId, routeInfos);
                             assert.ok(true, "Route infos retrieved and parsed");
+                            assert.ok(allYearsContainAtLeastOneMainline(routeInfos), "All route arrays must contain at least one mainline.");
                             done();
                         } else {
                             console.error(this.statusText + ": Error in test #" + testId, this.response);
@@ -178,6 +180,37 @@
                 });
 
             }(testCount));
+        }
+
+        function allYearsContainAtLeastOneMainline(/**{Object.<string, Route[]>}*/ routeList) {
+            var output = false;
+            
+            if (routeList) {
+                for (var year in routeList) {
+                    if (routeList.hasOwnProperty(year)) {
+                        if (routeArrayContainsMainlines(routeList[year])) {
+                            output = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            return output;
+        }
+
+        function routeArrayContainsMainlines(/**{Route[]}*/ routes) {
+            var output = false;
+            var i, l, route;
+            if (routes && Array.isArray(routes)) {
+                for (i = 0, l = routes.length; i < l; i += 1) {
+                    route = routes[i];
+                    if (route.name.length === 3) {
+                        output = true;
+                        break;
+                    }
+                }
+            }
+            return output;
         }
 
         /**

@@ -117,18 +117,30 @@
     }
 
     function reviver(k, v) {
-        var route;
-        if (v.hasOwnProperty("routeType")) {
-            try {
-                route = new Route(k, v.direction, v.routeType);
-            } catch (err) {
-                console.warn(err.message, err);
-                return;
+        var output = v, currentValue, route;
+        if (/^(?:(?:Current)|(?:\d{4,8}))$/.test(k)) {
+            output = [];
+            for (var routeId in v) {
+                if (v.hasOwnProperty(routeId)) {
+                    currentValue = v[routeId];
+                    try {
+                        if (typeof currentValue === "number") {
+                            route = new Route(routeId, currentValue);
+                        } else if (currentValue.hasOwnProperty("routeType")) {
+                            route = new Route(routeId, currentValue.direction, currentValue.routeType);
+                        }
+                        if (route) {
+                            output.push(route);
+                        }
+                    } catch (err) {
+                        console.warn(err.message, err);
+                    }
+                }
             }
-            return route;
         } else {
-            return v;
+            output = v;
         }
+        return output;
     }
 
     /**
@@ -136,7 +148,7 @@
      * into corresponding Route objects.
      * @param {string} json
      */
-    Route.parse = function (json) {
+    Route.parseRoutes = function (json) {
         return JSON.parse(json, reviver);
     };
 

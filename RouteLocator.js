@@ -18,6 +18,10 @@
     "use strict";
 
 
+    /**
+     * Converts an object into a query string.
+     * @returns {string}
+     */
     function toQueryString(/**{Object}*/ o) {
         var output = [], value;
         for (var name in o) {
@@ -118,7 +122,7 @@
                 request.addEventListener("loadend", function (e) {
                     var data;
                     data = e.target.response;
-                    data = Route.parse(data);
+                    data = Route.parseRoutes(data);
                     if (this.status === 200) {
                         if (data.error) {
                             if (elc.routesResourceName === "Route Info" && data.error.code === 400) {
@@ -179,6 +183,7 @@
 
     RouteLocator.dateToRouteLocatorDate = dateToRouteLocatorDate;
 
+    // Used for JSON deserialization to RouteLocation objects.
     var routeLocationReviver = function (k, v) {
         if (typeof v === "object" && v.hasOwnProperty("Route")) {
             return new RouteLocation(v);
@@ -241,6 +246,7 @@
 
         var promise = new Promise(function (resolve, reject) {
             try {
+                // Construct the HTTP request.
                 data = {
                     f: "json",
                     locations: JSON.stringify(locations),
@@ -255,6 +261,7 @@
                 }
                 var request = new XMLHttpRequest();
                 var formData = toQueryString(data);
+
                 // Determine whether to use GET or POST based on URL length.
                 var method = isUrlTooLong([url, formData].join("?")) ? "POST" : "GET";
 
@@ -266,6 +273,10 @@
                 if (formData) {
                     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 }
+
+                // When the response has been returned from the request,
+                // convert it to RouteLocation objects and resolve the 
+                // Promise. If an error has occured, reject instead.
                 request.addEventListener("loadend", function (e) {
                     var json, output;
                     json = e.target.response;
