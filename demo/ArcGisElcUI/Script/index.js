@@ -3,10 +3,15 @@ require([
     "esri/map",
     "RouteLocator",
     "RouteLocator/elc-ui/ArcGisElcUI"
-], function (esriMap, elc, arcgisElcUi) {
+], function (esriMap, elc, ArcGisElcUI) {
     var map, elcUI;
 
-    elcUI = new arcgisElcUi(document.getElementById("elcUI"), { bootstrap: true });
+
+    var elcUrl = (function (urlMatch) {
+        return urlMatch ? urlMatch[1] : null;
+    }(location.search.match(/url=([^=&]+)/i)));
+
+    elcUI = new ArcGisElcUI(document.getElementById("elcUI"), { bootstrap: true, url: elcUrl });
 
     /**
      * Shows a Bootstrap modal

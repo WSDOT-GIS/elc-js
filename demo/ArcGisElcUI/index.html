@@ -45,7 +45,7 @@
                 ]
             };
             window.dojoConfig = dojoConfig;
-        }(location.href.replace(/\/[^\/]*$/, "")));
+        }(location.href.replace(/\?.+$/i, "").replace(/\/[^\/]*$/, "")));
     </script>
     <script src="//js.arcgis.com/3.14/init.js"></script>
     <script src="Script/index.js"></script>
