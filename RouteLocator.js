@@ -110,20 +110,28 @@
                 data = toQueryString(data);
                 url = [url, data].join("?");
                 request.open("get", url);
-                request.responseType = "json";
+                //request.responseType = "json";
                 request.addEventListener("loadend", function (e) {
-                    var layerList, data;
+                    var data;
                     data = e.target.response;
-                    if (typeof data === "string") {
-                        data = JSON.parse(data);
-                    }
+                    data = Route.parse(data); //JSON.parse(data, routeLocationReviver);
+                    ////if (typeof data === "string") {
+                    ////    data = JSON.parse(data);
+                    ////}
                     if (this.status === 200) {
                         if (data.error) {
-                            reject(data.error);
+                            if (elc.routesResourceName === "Route Info" && data.error.code === 400) {
+                                // If the newer Route Info is not supported, try the older version.
+                                elc.routesResourceName = "routes";
+                                elc.getRouteList(useCors).then(resolve, reject);
+                            } else {
+                                reject(data.error);
+                            }
                         } else {
-                            layerList = new RouteList(data);
-                            elc.layerList = layerList;
-                            resolve(layerList);
+                            //layerList = new RouteList(data);
+                            //elc.layerList = layerList;
+                            elc.layerList = data;
+                            resolve(elc.layerList);
                         }
                     } else {
                         if (typeof reject === "function") {
