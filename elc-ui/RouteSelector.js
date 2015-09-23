@@ -74,20 +74,55 @@
 
                     var srDocFrag = document.createDocumentFragment();
 
+                    var isGroup = document.createElement("optgroup");
+                    isGroup.label = "Interstate Routes";
+
+                    var usGroup = document.createElement("optgroup");
+                    usGroup.label = "US Routes";
+
+                    var waGroup = document.createElement("optgroup");
+                    waGroup.label = "WA State Routes";
+
+
+
                     // Populate the SR Select.
-                    var route, i, l, option;
+                    var route, i, l, option, rt;
                     for (i = 0, l = routesArray.length; i < l; i += 1) {
                         route = routesArray[i];
-                        if (route.name) {
-                            if (route.name.length === 3) {
-                                option = document.createElement("option");
-                                option.label = route.name;
-                                option.textContent = route.name;
-                                option.value = route.name;
-                                option.dataset.isBoth = route.isBoth;
+                        if (route.name && route.isMainline) {
+                            option = document.createElement("option");
+                            option.label = route.label;
+                            option.textContent = route.label;
+                            option.value = route.name;
+                            option.dataset.isBoth = route.isBoth;
+                            rt = route.routeTypeAbbreviation;
+                            ////(rt ? (rt === "IS" ? isGroup : rt === "US" ? usGroup : rt === "WA" ? waGroup : null) : srDocFrag).appendChild(option);
+                            if (rt) {
+                                switch (rt) {
+                                    case "IS":
+                                        isGroup.appendChild(option);
+                                        break;
+                                    case "US":
+                                        usGroup.appendChild(option);
+                                        break;
+                                    case "SR":
+                                        waGroup.appendChild(option);
+                                        break;
+                                }
+                            } else {
                                 srDocFrag.appendChild(option);
                             }
                         }
+                    }
+
+                    if (isGroup.hasChildNodes()) {
+                        srDocFrag.appendChild(isGroup);
+                    }
+                    if (usGroup.hasChildNodes()) {
+                        srDocFrag.appendChild(usGroup);
+                    }
+                    if (waGroup.hasChildNodes()) {
+                        srDocFrag.appendChild(waGroup);
                     }
 
                     mainlineSelect.appendChild(srDocFrag);

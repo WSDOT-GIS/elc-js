@@ -285,7 +285,7 @@ define([
                 }
             }
 
-            routeLocator = new RouteLocator();
+            routeLocator = new RouteLocator(options ? options.url || null : null );
 
             elcUI = new ElcUI(domNode, options);
 

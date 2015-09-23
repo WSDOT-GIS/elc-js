@@ -49,6 +49,36 @@
                     return _name;
                 }
             },
+            isMainline: {
+                get: function() {
+                    return name.length === 3;
+                }
+            },
+            /**
+             * Text label including route type, if available.
+             * @type {string}
+             */
+            label: {
+                get: function() {
+                    var output;
+                    var abbrev = this.routeTypeAbbreviation;
+                    var routeNum = parseInt(_routeId.sr, 10);
+                    if (abbrev) {
+                        if (abbrev === "SR") {
+                            output = ["WA", routeNum].join("-");
+                        } else if (abbrev === "US") {
+                            output = [abbrev, routeNum].join("-");
+                        } else if (abbrev === "IS") {
+                            output = ["I", routeNum].join("-");
+                        }
+                    }
+
+                    if (!output) {
+                        output = String(routeNum);
+                    }
+                    return output;
+                }
+            },
             /* @property {number} lrsTypes An integer from 1 to 4, corresponding to one of the following constants:
              *      {@link lrsTypeUtils.LRS_TYPE_INCREASE},
              *      {@link lrsTypeUtils.LRS_TYPE_DECREASE},

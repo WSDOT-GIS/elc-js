@@ -183,13 +183,13 @@
         }
 
         function allYearsContainAtLeastOneMainline(/**{Object.<string, Route[]>}*/ routeList) {
-            var output = false;
+            var output = true;
             
             if (routeList) {
                 for (var year in routeList) {
                     if (routeList.hasOwnProperty(year)) {
-                        if (routeArrayContainsMainlines(routeList[year])) {
-                            output = true;
+                        if (!routeArrayContainsMainlines(routeList[year])) {
+                            output = false;
                             break;
                         }
                     }
@@ -204,7 +204,7 @@
             if (routes && Array.isArray(routes)) {
                 for (i = 0, l = routes.length; i < l; i += 1) {
                     route = routes[i];
-                    if (route.name.length === 3) {
+                    if (route.isMainline) {
                         output = true;
                         break;
                     }
