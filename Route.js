@@ -133,7 +133,7 @@
                             output.push(route);
                         }
                     } catch (err) {
-                        console.warn(err.message, err);
+                        console.warn([k, err.message].join(": "), err);
                     }
                 }
             }

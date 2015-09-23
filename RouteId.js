@@ -207,10 +207,15 @@
      * @alias module:RouteId
      */
     function RouteId(routeId) {
-        var match = routeId.match(routeRe);
+        var match;
+
+        if (!routeId) {
+            throw new TypeError("No route ID was provided.");
+        }
+        match = routeId.match(routeRe);
 
         if (!match) {
-            throw new Error("Invalid route ID");
+            throw new Error(['Invalid route ID: "', routeId, '".'].join(""));
         }
 
         var _sr, _rrt, _rrq;
