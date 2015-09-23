@@ -77,7 +77,6 @@
     <Content Include="tests\elc-unittest.html" />
     <Content Include="tests\elc-unittest.js" />
     <Content Include="RouteLocation.js" />
-    <Content Include="RouteList.js" />
     <Content Include="Route.js" />
   </ItemGroup>
   <ItemGroup>

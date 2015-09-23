@@ -3,17 +3,17 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(["./Route", "./RouteList", "./RouteLocation", "./routeUtils"], factory);
+        define(["./Route", "./RouteLocation", "./routeUtils"], factory);
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory(require("Route", "RouteList", "RouteLocation", "routeUtils"));
+        module.exports = factory(require("Route", "RouteLocation", "routeUtils"));
     } else {
         // Browser globals (root is window)
-        root.RouteLocator = factory(root.Route, root.RouteList, root.RouteLocation, root.routeUtils);
+        root.RouteLocator = factory(root.Route, root.RouteLocation, root.routeUtils);
     }
-}(this, function (Route, RouteList, RouteLocation, routeUtils) {
+}(this, function (Route, RouteLocation, routeUtils) {
 
     "use strict";
 
@@ -75,6 +75,11 @@
     };
 
     /**
+     * A dictionary of route arrays, keyed by year.
+     * @typedef {Object.<string, Route[]>} RouteList
+     */
+
+    /**
      * Returns a {@link RouteList}
      * @param {boolean} [useCors=true] Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)  
      * @returns {Promise} - Success: This function takes a single {@link RouteList}, Error: This function takes a single error parameter.
@@ -110,26 +115,21 @@
                 data = toQueryString(data);
                 url = [url, data].join("?");
                 request.open("get", url);
-                //request.responseType = "json";
                 request.addEventListener("loadend", function (e) {
                     var data;
                     data = e.target.response;
-                    data = Route.parse(data); //JSON.parse(data, routeLocationReviver);
-                    ////if (typeof data === "string") {
-                    ////    data = JSON.parse(data);
-                    ////}
+                    data = Route.parse(data);
                     if (this.status === 200) {
                         if (data.error) {
                             if (elc.routesResourceName === "Route Info" && data.error.code === 400) {
                                 // If the newer Route Info is not supported, try the older version.
+                                console.warn('The "Route Info" endpoint is not supported. Trying the older "route"..."', url);
                                 elc.routesResourceName = "routes";
                                 elc.getRouteList(useCors).then(resolve, reject);
                             } else {
                                 reject(data.error);
                             }
                         } else {
-                            //layerList = new RouteList(data);
-                            //elc.layerList = layerList;
                             elc.layerList = data;
                             resolve(elc.layerList);
                         }
