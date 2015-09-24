@@ -26,6 +26,11 @@
 
         root.classList.add("route-selector");
 
+        var progressBar = document.createElement("progress");
+        progressBar.classList.add("route-list-progress");
+        progressBar.textContent = "Loading route list...";
+        root.appendChild(progressBar);
+
         var _routes = null;
 
         var mainlineSelect = document.createElement("select");
@@ -128,6 +133,8 @@
                     mainlineSelect.appendChild(srDocFrag);
                     addOptionsForCurrentlySelectedMainline();
                     setRouteDirectionControls();
+
+                    root.classList.add("routes-loaded");
                 }
             }
         });
