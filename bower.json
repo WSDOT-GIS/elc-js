@@ -1,6 +1,6 @@
 {
   "name": "elc",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "homepage": "https://github.com/WSDOT-GIS/elc-js",
   "authors": [
     "WSDOT-GIS"
@@ -29,7 +29,8 @@
     "demo",
     "index.html",
     "*.sln",
-    "*.csproj"
+    "*.csproj",
+    "*.config"
   ],
   "devDependencies": {
     "jquery": "~2.1.4",
