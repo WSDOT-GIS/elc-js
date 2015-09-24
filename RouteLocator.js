@@ -3,21 +3,25 @@
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(["./Route", "./RouteList", "./RouteLocation", "./routeUtils"], factory);
+        define(["./Route", "./RouteLocation", "./routeUtils"], factory);
     } else if (typeof exports === 'object') {
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory(require("Route", "RouteList", "RouteLocation", "routeUtils"));
+        module.exports = factory(require("Route", "RouteLocation", "routeUtils"));
     } else {
         // Browser globals (root is window)
-        root.RouteLocator = factory(root.Route, root.RouteList, root.RouteLocation, root.routeUtils);
+        root.RouteLocator = factory(root.Route, root.RouteLocation, root.routeUtils);
     }
-}(this, function (Route, RouteList, RouteLocation, routeUtils) {
+}(this, function (Route, RouteLocation, routeUtils) {
 
     "use strict";
 
 
+    /**
+     * Converts an object into a query string.
+     * @returns {string}
+     */
     function toQueryString(/**{Object}*/ o) {
         var output = [], value;
         for (var name in o) {
@@ -56,14 +60,13 @@
      * @param {String} [url="http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"] The URL for the ELC REST Endpoint.
      * @param {String} [findRouteLocationsOperationName="Find Route Locations"]
      * @param {String} [findNearestRouteLocationsOperationName="Find Nearest Route Locations"]
-     * @param {String} [routesResourceName="routes"]
-     * @memberOf $.wsdot.elc
+     * @param {String} [routesResourceName="Route Info"] - Set to "routes" for pre 3.3 versions which do not support the "Route Info" endpoint.
      */
     function RouteLocator(url, findRouteLocationsOperationName, findNearestRouteLocationsOperationName, routesResourceName) {
         this.url = url || "http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
         this.findRouteLocationsOperationName = findRouteLocationsOperationName || "Find Route Locations";
         this.findNearestRouteLocationsOperationName = findNearestRouteLocationsOperationName || "Find Nearest Route Locations";
-        this.routesResourceName = routesResourceName || "routes";
+        this.routesResourceName = routesResourceName || "Route Info";
         this.layerList = null;
     }
 
@@ -74,6 +77,11 @@
     RouteLocator.prototype.getMapServiceUrl = function () {
         return this.url.match(/.+\/MapServer/gi)[0];
     };
+
+    /**
+     * A dictionary of route arrays, keyed by year.
+     * @typedef {Object.<string, Route[]>} RouteList
+     */
 
     /**
      * Returns a {@link RouteList}
@@ -111,17 +119,24 @@
                 data = toQueryString(data);
                 url = [url, data].join("?");
                 request.open("get", url);
-                request.responseType = "json";
                 request.addEventListener("loadend", function (e) {
-                    var layerList, data;
+                    var data;
                     data = e.target.response;
-                    if (typeof data === "string") {
-                        data = JSON.parse(data);
-                    }
+                    data = Route.parseRoutes(data);
                     if (this.status === 200) {
-                        layerList = new RouteList(data);
-                        elc.layerList = layerList;
-                        resolve(layerList);
+                        if (data.error) {
+                            if (elc.routesResourceName === "Route Info" && data.error.code === 400) {
+                                // If the newer Route Info is not supported, try the older version.
+                                console.warn('The "Route Info" endpoint is not supported. Trying the older "route"..."', url);
+                                elc.routesResourceName = "routes";
+                                elc.getRouteList(useCors).then(resolve, reject);
+                            } else {
+                                reject(data.error);
+                            }
+                        } else {
+                            elc.layerList = data;
+                            resolve(elc.layerList);
+                        }
                     } else {
                         if (typeof reject === "function") {
                             reject(data);
@@ -168,30 +183,14 @@
 
     RouteLocator.dateToRouteLocatorDate = dateToRouteLocatorDate;
 
-    /**
-     * Converts an array of objects to an array of equivalent {@link RouteLocation} objects.
-     * @param {Array} array
-     * @param {function} constructor The constructor of the class that the elements will be converted to.
-     * @exception {Error} Thrown if the array parameter is not an array.
-     * @return {Array} An array of classes corresponding to the constructor parameter.
-     * @author Jeff Jacobson
-     * @memberOf $.wsdot.elc
-     */
-    function convertObjectsInArray(array, constructor) {
-        var output, i, l;
-        if (typeof (array) === "undefined" || array === null || typeof (array.length) !== "number") {
-            throw new Error("The array parameter must actually be an Array.");
+    // Used for JSON deserialization to RouteLocation objects.
+    var routeLocationReviver = function (k, v) {
+        if (typeof v === "object" && v.hasOwnProperty("Route")) {
+            return new RouteLocation(v);
+        } else {
+            return v;
         }
-
-        output = [];
-        for (i = 0, l = array.length; i < l; i += 1) {
-            // Note: JSLint will complain about using new with the constructor variable.
-            /*jshint newcap: false*/
-            output.push(new constructor(array[i]));
-            /*jshint newcap: true*/
-        }
-        return output;
-    }
+    };
 
     /**
      * Calls the ELC REST SOE to get geometry corresponding to the input locations.
@@ -247,6 +246,7 @@
 
         var promise = new Promise(function (resolve, reject) {
             try {
+                // Construct the HTTP request.
                 data = {
                     f: "json",
                     locations: JSON.stringify(locations),
@@ -261,6 +261,7 @@
                 }
                 var request = new XMLHttpRequest();
                 var formData = toQueryString(data);
+
                 // Determine whether to use GET or POST based on URL length.
                 var method = isUrlTooLong([url, formData].join("?")) ? "POST" : "GET";
 
@@ -272,18 +273,19 @@
                 if (formData) {
                     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 }
-                request.responseType = "json";
+
+                // When the response has been returned from the request,
+                // convert it to RouteLocation objects and resolve the 
+                // Promise. If an error has occured, reject instead.
                 request.addEventListener("loadend", function (e) {
-                    var json;
+                    var json, output;
                     json = e.target.response;
-                    if (typeof json === "string") {
-                        json = JSON.parse(json);
-                    }
                     if (e.target.status === 200) {
-                        if (json.error && typeof reject === "function") {
-                            reject(json);
+                        output = JSON.parse(json, routeLocationReviver);
+                        if (output.error && typeof reject === "function") {
+                            reject(output);
                         } else {
-                            resolve(convertObjectsInArray(json, RouteLocation));
+                            resolve(output);
                         }
                     } else {
                         if (typeof reject === "function") {
@@ -403,18 +405,16 @@
                 if (method === "POST") {
                     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 }
-                request.responseType = "json";
                 request.addEventListener("loadend", function (e) {
                     var json;
                     json = e.target.response;
-                    if (typeof json === "string") {
-                        json = JSON.parse(json);
-                    }
+
                     if (e.target.status === 200) {
+                        json = JSON.parse(json, routeLocationReviver);
                         if (json.error) {
                             reject(json);
                         } else {
-                            resolve(convertObjectsInArray(json, RouteLocation));
+                            resolve(json);
                         }
                     } else {
                         reject(json);
