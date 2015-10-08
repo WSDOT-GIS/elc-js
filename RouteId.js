@@ -343,5 +343,42 @@
 
     RouteId.routeRe = routeRe;
 
+    /**
+     * A comparison method used for sorting {@link RouteId} objects.
+     * @param {RouteId} a
+     * @param {RouteId} b
+     * @returns {number}
+     */
+    RouteId.sort = function (a, b) {
+        var sa, sb;
+        if (a.sr > b.sr) {
+            return 1;
+        } else if (a.sr < b.sr) {
+            return -1;
+        } else if (a.rrq !== null && b.rrq !== null) {
+            if (a.rrq === b.rrq) {
+                return 0;
+            } else if (a.mainlineIntersectionMP === null && b.mainlineIntersectionMP !== null) {
+                return -1;
+            } else if (a.mainlineIntersectionMP !== null && b.mainlineIntersectionMP === null) {
+                return 1;
+            } else if (a.rrq > b.rrq) {
+                return 1;
+            } else {
+                return -1;
+            }
+        } else {
+            sa = a.toString();
+            sb = b.toString();
+            if (sa === sb) {
+                return 0;
+            } else if (sa > sb) {
+                return 1;
+            } else {
+                return -1;
+            }
+        }
+    };
+
     return RouteId;
 }));
