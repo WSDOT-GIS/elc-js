@@ -13,7 +13,7 @@
         // Browser globals (root is window)
         root.elc = factory(root.Route, root.RouteId);
     }
-}(this, function () {
+}(this, function (Route, RouteId) {
 
     /**
      * Creates a Route Selector UI control.
@@ -67,15 +67,8 @@
                 },
                 set: function (routesArray) {
                     _routes = routesArray;
-                    _routes.sort(function (a, b) {
-                        if (a.name === b.name) {
-                            return 0;
-                        } else if (a.name < b.name) {
-                            return -1;
-                        } else {
-                            return 1;
-                        }
-                    });
+                    // Sort the routes by route IDs' SR then RRQ (non numeric comes before numeric).
+                    _routes.sort(function (a, b) { return RouteId.sort(a.routeId, b.routeId); });
 
                     var srDocFrag = document.createDocumentFragment();
 
@@ -101,7 +94,6 @@
                             option.value = route.name;
                             option.dataset.isBoth = route.isBoth;
                             rt = route.routeTypeAbbreviation;
-                            ////(rt ? (rt === "IS" ? isGroup : rt === "US" ? usGroup : rt === "WA" ? waGroup : null) : srDocFrag).appendChild(option);
                             if (rt) {
                                 switch (rt) {
                                     case "IS":
@@ -147,30 +139,24 @@
             // Remove options.
             routeSelect.innerHTML = "";
 
-            var rampGroup = document.createElement("optgroup");
-            rampGroup.label = "Ramps";
-
             var docFrag = document.createDocumentFragment();
-            var route, option, srRe = /^\d{3}\s/, label;
+            var route, option, srRe = /^\d{3}\s/, title, label;
             for (var i = 0, l = _routes.length; i < l; i += 1) {
                 route = _routes[i];
                 if (route.routeId.sr === mainline) {
                     option = document.createElement("option");
                     option.value = route.name;
-                    label = route.routeId.description;
-                    label = label.replace(srRe, "");
-                    option.label = route.name;
-                    option.textContent = route.name;
-                    option.title = label;
+
+                    label = route.isMainline ? "Mainline" : route.routeId.rrq ? [route.routeId.rrt, route.routeId.rrq].join(" ") : route.routeId.rrt;
+                    option.label = label;
+                    option.textContent = label;
+
+                    title = route.routeId.description;
+                    title = title.replace(srRe, "");
+                    option.title = title;
+
                     option.dataset.isBoth = route.isBoth;
-                    if (route.isRamp) {
-                        rampGroup.appendChild(option);
-                    } else {
-                        docFrag.appendChild(option);
-                    }
-                    if (rampGroup.children.length > 0) {
-                        docFrag.appendChild(rampGroup);
-                    }
+                    docFrag.appendChild(option);
                 }
             }
 
