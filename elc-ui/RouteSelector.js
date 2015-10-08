@@ -159,9 +159,9 @@
                     option.value = route.name;
                     label = route.routeId.description;
                     label = label.replace(srRe, "");
-                    option.label = label;
-                    option.textContent = label;
-                    option.title = route.name;
+                    option.label = route.name;
+                    option.textContent = route.name;
+                    option.title = label;
                     option.dataset.isBoth = route.isBoth;
                     if (route.isRamp) {
                         rampGroup.appendChild(option);
