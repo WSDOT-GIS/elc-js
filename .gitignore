@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 bower_components
+.vs
 
 # Build results
 
