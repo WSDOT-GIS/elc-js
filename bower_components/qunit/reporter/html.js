@@ -1,5 +1,10 @@
 (function() {
 
+// Don't load the HTML Reporter on non-Browser environments
+if ( typeof window === "undefined" || !window.document ) {
+	return;
+}
+
 // Deprecated QUnit.init - Ref #530
 // Re-initialize the configuration options
 QUnit.init = function() {
@@ -56,11 +61,6 @@ QUnit.init = function() {
 		result.innerHTML = "Running...<br />&#160;";
 	}
 };
-
-// Don't load the HTML Reporter on non-Browser environments
-if ( typeof window === "undefined" ) {
-	return;
-}
 
 var config = QUnit.config,
 	hasOwn = Object.prototype.hasOwnProperty,
@@ -635,9 +635,15 @@ QUnit.testStart(function( details ) {
 
 });
 
+function stripHtml( string ) {
+	// strip tags, html entity and whitespaces
+	return string.replace(/<\/?[^>]+(>|$)/g, "").replace(/\&quot;/g, "").replace(/\s+/g, "");
+}
+
 QUnit.log(function( details ) {
 	var assertList, assertLi,
-		message, expected, actual,
+		message, expected, actual, diff,
+		showDiff = false,
 		testItem = id( "qunit-test-output-" + details.testId );
 
 	if ( !testItem ) {
@@ -652,26 +658,43 @@ QUnit.log(function( details ) {
 	// when it calls, it's implicit to also not show expected and diff stuff
 	// Also, we need to check details.expected existence, as it can exist and be undefined
 	if ( !details.result && hasOwn.call( details, "expected" ) ) {
-		expected = escapeText( QUnit.dump.parse( details.expected ) );
+		if ( details.negative ) {
+			expected = escapeText( "NOT " + QUnit.dump.parse( details.expected ) );
+		} else {
+			expected = escapeText( QUnit.dump.parse( details.expected ) );
+		}
+
 		actual = escapeText( QUnit.dump.parse( details.actual ) );
 		message += "<table><tr class='test-expected'><th>Expected: </th><td><pre>" +
 			expected +
 			"</pre></td></tr>";
 
 		if ( actual !== expected ) {
+
 			message += "<tr class='test-actual'><th>Result: </th><td><pre>" +
-				actual + "</pre></td></tr>" +
-				"<tr class='test-diff'><th>Diff: </th><td><pre>" +
-				QUnit.diff( expected, actual ) + "</pre></td></tr>";
-		} else {
-			if ( expected.indexOf( "[object Array]" ) !== -1 ||
-					expected.indexOf( "[object Object]" ) !== -1 ) {
-				message += "<tr class='test-message'><th>Message: </th><td>" +
-					"Diff suppressed as the depth of object is more than current max depth (" +
-					QUnit.config.maxDepth + ").<p>Hint: Use <code>QUnit.dump.maxDepth</code> to " +
-					" run with a higher max depth or <a href='" + setUrl({ maxDepth: -1 }) + "'>" +
-					"Rerun</a> without max depth.</p></td></tr>";
+				actual + "</pre></td></tr>";
+
+			// Don't show diff if actual or expected are booleans
+			if ( !( /^(true|false)$/.test( actual ) ) &&
+					!( /^(true|false)$/.test( expected ) ) ) {
+				diff = QUnit.diff( expected, actual );
+				showDiff = stripHtml( diff ).length !==
+					stripHtml( expected ).length +
+					stripHtml( actual ).length;
 			}
+
+			// Don't show diff if expected and actual are totally different
+			if ( showDiff ) {
+				message += "<tr class='test-diff'><th>Diff: </th><td><pre>" +
+					diff + "</pre></td></tr>";
+			}
+		} else if ( expected.indexOf( "[object Array]" ) !== -1 ||
+				expected.indexOf( "[object Object]" ) !== -1 ) {
+			message += "<tr class='test-message'><th>Message: </th><td>" +
+				"Diff suppressed as the depth of object is more than current max depth (" +
+				QUnit.config.maxDepth + ").<p>Hint: Use <code>QUnit.dump.maxDepth</code> to " +
+				" run with a higher max depth or <a href='" + setUrl({ maxDepth: -1 }) + "'>" +
+				"Rerun</a> without max depth.</p></td></tr>";
 		}
 
 		if ( details.source ) {
@@ -699,7 +722,7 @@ QUnit.log(function( details ) {
 
 QUnit.testDone(function( details ) {
 	var testTitle, time, testItem, assertList,
-		good, bad, testCounts, skipped,
+		good, bad, testCounts, skipped, sourceName,
 		tests = id( "qunit-tests" );
 
 	if ( !tests ) {
@@ -754,10 +777,31 @@ QUnit.testDone(function( details ) {
 		time.innerHTML = details.runtime + " ms";
 		testItem.insertBefore( time, assertList );
 	}
+
+	// Show the source of the test when showing assertions
+	if ( details.source ) {
+		sourceName = document.createElement( "p" );
+		sourceName.innerHTML = "<strong>Source: </strong>" + details.source;
+		addClass( sourceName, "qunit-source" );
+		if ( bad === 0 ) {
+			addClass( sourceName, "qunit-collapsed" );
+		}
+		addEvent( testTitle, "click", function() {
+			toggleClass( sourceName, "qunit-collapsed" );
+		});
+		testItem.appendChild( sourceName );
+	}
 });
 
 if ( defined.document ) {
-	if ( document.readyState === "complete" ) {
+
+	// Avoid readyState issue with phantomjs
+	// Ref: #818
+	var notPhantom = ( function( p ) {
+		return !( p && p.version && p.version.major > 0 );
+	} )( window.phantom );
+
+	if ( notPhantom && document.readyState === "complete" ) {
 		QUnit.load();
 	} else {
 		addEvent( window, "load", QUnit.load );

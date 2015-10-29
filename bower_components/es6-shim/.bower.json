@@ -27,15 +27,14 @@
     "test"
   ],
   "homepage": "https://github.com/paulmillr/es6-shim",
-  "version": "0.33.3",
-  "_release": "0.33.3",
+  "version": "0.33.9",
+  "_release": "0.33.9",
   "_resolution": {
     "type": "version",
-    "tag": "0.33.3",
-    "commit": "616eee62ceed6f1e988abab4e49d6d682702be1b"
+    "tag": "v0.33.9",
+    "commit": "a4bfdaf7e837f4f0cb8982ffed3a8e887e7b9607"
   },
   "_source": "git://github.com/paulmillr/es6-shim.git",
   "_target": "~0.33.3",
-  "_originalSource": "es6-shim",
-  "_direct": true
+  "_originalSource": "es6-shim"
 }
