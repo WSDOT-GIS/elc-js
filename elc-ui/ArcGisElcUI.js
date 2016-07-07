@@ -200,8 +200,8 @@ define([
             var url = "http://srview3i.wsdot.loc/stateroute/picturelog/v3/client/SRview.Windows.Viewer.application";
             var params = {
                 srnum: routeId.sr,
-                rrt: routeId.rrt ? ["rrt", routeId.rrt] : null,
-                rrq: routeId.rrq ? ["rrq", routeId.rrq] : null,
+                rrt: routeId.rrt ? routeId.rrt : null,
+                rrq: routeId.rrq ? routeId.rrq : null,
                 dir: graphic.attributes.Decrease ? "D" : null,
                 srmp: graphic.attributes.Srmp,
                 back: graphic.attributes.Back
