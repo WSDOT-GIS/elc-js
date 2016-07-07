@@ -1,5 +1,5 @@
-/*global define,module,Promise, require*/
-// if the module has no dependencies, the above pattern can be simplified to
+/*eslint eqeqeq:[2, "smart"]*/
+
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
@@ -20,12 +20,12 @@
 
     /**
      * Converts an object into a query string.
-     * @returns {string}
+     * @param {Object} o - An object
+     * @returns {string} Returns a query string representation of the input object.
      */
-    function toQueryString(/**{Object}*/ o) {
+    function toQueryString(o) {
         var output = [], value;
         for (var name in o) {
-            /*jshint eqnull:true*/
             if (o.hasOwnProperty(name)) {
                 value = o[name];
                 if (value == null) {
@@ -33,15 +33,14 @@
                 }
                 output.push([name, encodeURIComponent(value)].join("="));
             }
-            /*jshint eqnull:false*/
         }
         return output.join('&');
     }
 
     /** Tests if a URL is under a certain length. This is used to determine whether POST should be used instead of GET.
-     * @param {string} url
-     * @param {number} [maxLength=2000]
-     * @returns {Boolean}
+     * @param {string} url - A URL
+     * @param {number} [maxLength=2000] - The threshold URL length used to determine if GET or POST is used.
+     * @returns {Boolean} Returns true if url exceeds maxLength, false otherwise.
      */
     function isUrlTooLong(url, maxLength) {
         if (!maxLength) {
@@ -55,11 +54,10 @@
 
     /**
      * A helper object for querying the ELC REST SOE endpoints.
-     * @author Jeff Jacobson
-     * @class A helper object for querying the ELC REST SOE endpoints.
+     * @constructor
      * @param {String} [url="http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"] The URL for the ELC REST Endpoint.
-     * @param {String} [findRouteLocationsOperationName="Find Route Locations"]
-     * @param {String} [findNearestRouteLocationsOperationName="Find Nearest Route Locations"]
+     * @param {String} [findRouteLocationsOperationName="Find Route Locations"] - The name of the Find Route Locations operation
+     * @param {String} [findNearestRouteLocationsOperationName="Find Nearest Route Locations"] - The name of the Find Nearest Route Locations operation
      * @param {String} [routesResourceName="Route Info"] - Set to "routes" for pre 3.3 versions which do not support the "Route Info" endpoint.
      */
     function RouteLocator(url, findRouteLocationsOperationName, findNearestRouteLocationsOperationName, routesResourceName) {
@@ -72,7 +70,7 @@
 
     /**
      * Returns the map service portion of the ELC REST SOE URL.
-     * @return {String}
+     * @return {String} Returns the URL to the map service.
      */
     RouteLocator.prototype.getMapServiceUrl = function () {
         return this.url.match(/.+\/MapServer/gi)[0];
@@ -92,15 +90,13 @@
         var elc = this, data, request, url;
 
         var promise = new Promise(function (resolve, reject) {
-            /*jshint eqnull:true*/
             if (useCors == null) { // Testing for null or undefined. Use of == instead of === is intentional.
                 useCors = true;
             }
-            /*jshint eqnull:false*/
 
             // If a layer list has already been defined (meaning this method has previously been called), call the resolve immediately.  
             if (elc.layerList) {
-                if (typeof (resolve) === "function") {
+                if (typeof resolve === "function") {
                     resolve(elc.layerList);
                 }
                 return;
@@ -148,7 +144,7 @@
             } catch (err) {
                 // This situation could occur if you try to use CORS when either
                 // the browser or GIS server does not support it.
-                if (typeof (reject === "function")) {
+                if (typeof reject === "function") {
                     reject(err);
                 }
             }
@@ -162,13 +158,13 @@
     /**
      * Converts a Date object into the type of string that the ELC REST SOE methods expect.
      * @author Jeff Jacobson
-     * @param {Date} date
+     * @param {Date} date - A date object.
      * @return {string} A string representation of the input date, if possible, or an empty string.
      * @memberOf RouteLocator
      */
     function dateToRouteLocatorDate(date) {
         var elcdate;
-        if (typeof (date) === "object" && date instanceof Date) {
+        if (typeof date === "object" && date instanceof Date) {
             // Convert date to a string, as that is what the API is expecting.
             elcdate = [
                 String(routeUtils.getActualMonth(date)),
@@ -201,7 +197,7 @@
      * @param {number|string} [params.outSR] The spatial reference for the output geometry, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service.
      * @param {string} [params.lrsYear] Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
      * @param {boolean} [params.useCors=false] If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
-     * @returns {Promise}
+     * @returns {Promise} Returns a promise.
      * @throws {Error} Thrown if invalid parameters are specified.
      */
     RouteLocator.prototype.findRouteLocations = function (params) {
@@ -211,17 +207,15 @@
         referenceDate = params.referenceDate || "";
         outSR = params.outSR || null;
         lrsYear = params.lrsYear || null;
-        /*jshint eqnull:true*/
         useCors = params.useCors != null ? params.useCors : true;
-        /*jshint eqnull:false*/
 
-        if (typeof (locations) !== "object" || !(locations instanceof Array)) {
+        if (typeof locations !== "object" || !(locations instanceof Array)) {
             throw new Error("The locations parameter must be an array of RouteLocations with at least one element.");
         } else if (!locations.length) { // locations has no elements or no length property...
             throw new Error("locations does not have enough elements.");
         }
 
-        if (typeof (referenceDate) === "object" && referenceDate instanceof Date) {
+        if (typeof referenceDate === "object" && referenceDate instanceof Date) {
             // Convert date to a string, as that is what the API is expecting.
             referenceDate = [
                 String(routeUtils.getActualMonth(referenceDate)),
@@ -229,16 +223,16 @@
                 String(referenceDate.getFullYear())
             ].join("/");
         }/*
-         else if (typeof(referenceDate !== "string")) {
-                    console.debug(typeof(referenceDate) !== "string");
+         else if (typeof referenceDate !== "string") {
+                    console.debug(typeof referenceDate !== "string");
                     throw new Error("Unexpected referenceDate type.  Expected a Date or a string.");
         }*/
 
-        if (typeof (outSR) !== "undefined" && outSR !== null && typeof (outSR) !== "number" && typeof (outSR) !== "string") {
+        if (typeof outSR !== "undefined" && outSR !== null && typeof outSR !== "number" && typeof outSR !== "string") {
             throw new Error("Unexpected outSR type.  Must be a WKID (number), WKT (string), or omitted (null or undefined).");
         }
 
-        if (typeof (lrsYear) !== "undefined" && lrsYear !== null && typeof (lrsYear) !== "string") {
+        if (typeof lrsYear !== "undefined" && lrsYear !== null && typeof lrsYear !== "string") {
             throw new Error("Invalid lrsYear.  Must be either a string or omitted altogether.");
         }
 
@@ -297,7 +291,7 @@
             } catch (err) {
                 // This situation could occur if you try to use CORS when either
                 // the browser or GIS server does not support it.
-                if (typeof (reject === "function")) {
+                if (typeof reject === "function") {
                     reject(err);
                 }
             }
@@ -309,7 +303,7 @@
     /**
      * Calls the ELC REST SOE to get the route locations corresponding to the input point coordinates.
      * @author Jeff Jacobson
-     * @param {object} params
+     * @param {object} params - See below for details
      * @param {number[]} params.coordinates An array of numbers with at least two elements.  Even indexed elements represent X coordinates; odd represent Y coordinates.
      * @param {Date} [params.referenceDate] The date that the locations were collected.  This can be omitted if each of the locations in the input array have their ReferenceDate properties set to a Date value.
      * @param {number} params.searchRadius The distance in feet to search around each of the coordinates for a state route.
@@ -319,7 +313,7 @@
      * @param {string} [params.routeFilter] A partial SQL query that can be used to limit which routes are searched.  E.g., "LIKE '005%'" or "'005'".
      * @param {boolean} [params.useCors=true] If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
      * @throws {Error} Throws an error if any of the params properties are provided with invalid values. 
-     * @returns {Promise}
+     * @returns {Promise} A promise
      */
     RouteLocator.prototype.findNearestRouteLocations = function (params) {
         var elcParams = {
@@ -328,13 +322,11 @@
 
 
 
-        /*jshint eqnull:true*/
         if (params.useCors == null) {
             params.useCors = true;
         }
-        /*jshint eqnull:false*/
 
-        if (typeof (params.referenceDate) === "undefined" || params.referenceDate === null) {
+        if (typeof params.referenceDate === "undefined" || params.referenceDate === null) {
             throw new Error("referenceDate not provided.");
         } else {
             // Convert the date into the format that the ELC is expecting.
@@ -343,7 +335,7 @@
 
         // validate coordinates.
         params.coordinates = routeUtils.flattenArray(params.coordinates); // Run the flattenArray function to ensure array elements are not arrays themselves.
-        if (typeof (params.coordinates) !== "object" || !(params.coordinates instanceof Array)) {
+        if (typeof params.coordinates !== "object" || !(params.coordinates instanceof Array)) {
             throw new Error("The coordinates parameter must be an array of numbers.");
         } else if (params.coordinates.length < 2 || params.coordinates.length % 2 !== 0) {
             throw new Error("The coordinates array must contain at least two elements and consist of an even number of elements.");
@@ -352,21 +344,21 @@
         elcParams.coordinates = JSON.stringify(params.coordinates);
 
         // validate search radius
-        if (typeof (params.searchRadius) !== "number" || params.searchRadius <= 0) {
+        if (typeof params.searchRadius !== "number" || params.searchRadius <= 0) {
             throw new Error("searchRadius must be a number that is greater than zero.");
         } else {
             elcParams.searchRadius = params.searchRadius;
         }
 
         // validate inSR.
-        if (typeof (params.inSR) !== "number" && typeof (params.outSR) !== "string") {
+        if (typeof params.inSR !== "number" && typeof params.outSR !== "string") {
             throw new Error("Unexpected inSR type.  The inSR value must be either a WKID (number) or a WKT (string).");
         } else {
             elcParams.inSR = params.inSR;
         }
 
         // validate outSR.
-        if (typeof (params.outSR) !== "undefined" && params.outSR !== null && typeof (params.outSR) !== "number" && typeof (params.outSR) !== "string") {
+        if (typeof params.outSR !== "undefined" && params.outSR !== null && typeof params.outSR !== "number" && typeof params.outSR !== "string") {
             throw new Error("Unexpected outSR type.  Must be a WKID (number), WKT (string), or omitted (null or undefined).");
         } else {
             elcParams.outSR = params.outSR;
@@ -374,7 +366,7 @@
 
         // validate LRS year.
         // Make sure lrsYear is either a string or omitted (null or undefined).  (The previous "if" statement has already converted from number to string, if necessary.)
-        if (typeof (params.lrsYear) !== "undefined" && params.lrsYear !== null && typeof (params.lrsYear) !== "string") {
+        if (typeof params.lrsYear !== "undefined" && params.lrsYear !== null && typeof params.lrsYear !== "string") {
             throw new Error("Invalid lrsYear.  Must be either a string or omitted altogether.");
         } else {
             elcParams.lrsYear = params.lrsYear || undefined;
@@ -382,7 +374,7 @@
 
         // validate routeFilter
         elcParams.routeFilter = params.routeFilter || undefined;
-        if (typeof (params.routeFilter) !== "undefined" && typeof (params.routeFilter) !== "string") {
+        if (typeof params.routeFilter !== "undefined" && typeof params.routeFilter !== "string") {
             throw new Error("Invalid route filter type.  The routeFilter parameter should be either a string or omitted altogether.");
         }
 

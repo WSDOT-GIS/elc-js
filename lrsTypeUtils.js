@@ -1,5 +1,4 @@
-﻿/*global module, define*/
-(function (root, factory) {
+﻿(function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
         define([], factory);
@@ -22,8 +21,8 @@
 
     /**
      * Returns the numerical value.
-     * @param {(number|string)} value
-     * @returns {number}
+     * @param {(number|string)} value - either a number or a string
+     * @returns {number} Returns the number corresponding to the input value. If the input is a valid number, the same value is returned.
      */
     function getLrsTypeValue(value) {
         var output = null;
@@ -41,7 +40,7 @@
             } else if (/t/i.test(value)) {
                 output = LRS_TYPE_TURNBACK;
             }
-        } else if (typeof value === "number" && ((value >= 1 && value <= 4) || (value === 8 || value === 16))) {
+        } else if (typeof value === "number" && (value >= 1 && value <= 4) || (value === 8 || value === 16)) {
             output = value;
         } else {
             throw new Error("Invalid value");
@@ -95,7 +94,7 @@
          * @type{number}
          * @default 16
          */
-        LRS_TYPE_TURNBACK: LRS_TYPE_TURNBACK,
+        LRS_TYPE_TURNBACK: LRS_TYPE_TURNBACK
     };
 
     return output;

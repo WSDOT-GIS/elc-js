@@ -27,15 +27,15 @@
         }
 
         ////function isNullOrEmpty(input, message) {
-        ////	var t = typeof(input);
+        ////	var t = typeof input;
         ////	assert.ok(t === "undefined" || input === null || t === "string" && input.length === 0, message);
         ////}
 
         ////function testResponseForError(data, message) {
-        ////	if (typeof(message) === "undefined" || message === null) {
+        ////	if (typeof message === "undefined" || message === null) {
         ////		message = "Response should not have an \"error\" property.";
         ////	}
-        ////	assert.ok(data !== null && typeof(data.error) === "undefined", message);
+        ////	assert.ok(data !== null && typeof data.error === "undefined", message);
         ////}
 
         /**
@@ -238,7 +238,7 @@
                             progress.remove();
                             // The server supports CORS.
                             writeMessage("<a href='" + routeLocator.url + "'>Map server</a>" + " supports CORS.");
-                            if (typeof (testCompleteHandler) === "function") {
+                            if (typeof testCompleteHandler === "function") {
                                 testCompleteHandler(true);
                             }
                         },
@@ -246,7 +246,7 @@
                             progress.remove();
                             // The server does not support CORS.
                             writeMessage("<a href='" + routeLocator.url + "'>Map Server</a>" + " does not support CORS.");
-                            if (typeof (testCompleteHandler) === "function") {
+                            if (typeof testCompleteHandler === "function") {
                                 testCompleteHandler(false);
                             }
                         }
@@ -256,13 +256,13 @@
                     // The server does not support CORS.
                     console.error(err);
                     writeMessage("<a href='" + routeLocator.url + "'>Map Server</a>" + " does not support CORS.");
-                    if (typeof (testCompleteHandler) === "function") {
+                    if (typeof testCompleteHandler === "function") {
                         testCompleteHandler(false);
                     }
                 }
             } else {
                 // If the browser does not support CORS, then we don't care if the server supports it, since we can't use it anyway.
-                if (typeof (testCompleteHandler) === "function") {
+                if (typeof testCompleteHandler === "function") {
                     testCompleteHandler(false);
                 }
             }
@@ -273,7 +273,7 @@
 
         // Create a dummy console variable if the browser does not support it. (I.e., IE versions < 9).
         // JSLint will complain about the "redefinition of console", but we are only giving it a value if it is not already defined.
-        if (typeof (window.console) === "undefined") {
+        if (typeof window.console === "undefined") {
             window.console = {
                 log: function () { },
                 warn: function () { },

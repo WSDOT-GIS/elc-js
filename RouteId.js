@@ -1,5 +1,3 @@
-/*global define,module */
-
 /**
  * Represents a WSDOT State Route Identifier
  * @module RouteId
@@ -204,6 +202,7 @@
     /**
      * Splits a state route ID into SR, RRT, RRQ components.
      * @constructor
+     * @param {string} routeId - Identifier for a WA state route
      * @alias module:RouteId
      */
     function RouteId(routeId) {
@@ -328,7 +327,7 @@
 
     /**
      * Returns a string representation of the RouteID.
-     * @returns {string}
+     * @returns {string} - Returns the route identifier string.
      */
     RouteId.prototype.toString = function () {
         var output = [this.sr];
@@ -345,9 +344,9 @@
 
     /**
      * A comparison method used for sorting {@link RouteId} objects.
-     * @param {RouteId} a
-     * @param {RouteId} b
-     * @returns {number}
+     * @param {RouteId} a - RouteId object to be compared
+     * @param {RouteId} b - RouteId object to be compared
+     * @returns {number} Returns a value indicating if a should be before b or vice-versa.
      */
     RouteId.sort = function (a, b) {
         var sa, sb;

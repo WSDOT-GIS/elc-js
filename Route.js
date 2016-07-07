@@ -1,5 +1,3 @@
-/*global define,module,require */
-
 /**
  * A module representing a WSDOT route.
  * @module Route
@@ -37,9 +35,10 @@
     function Route(name, lrsTypesValue, routeType) {
         var _name = name;
         var _lrsTypes = lrsTypeUtils.getLrsTypeValue(lrsTypesValue);
-        /*jshint eqnull:true*/
+        /*eslint-disable */
         var _routeType = routeType != null ? routeTypeUtils.getRouteTypeValue(routeType) : null;
-        /*jshint eqnull:false*/
+        /*eslint-enable */
+
         var _routeId = new RouteId(_name);
 
         Object.defineProperties(this, {
@@ -176,7 +175,8 @@
     /**
      * Parses a JSON representation of a Route (or an object containing Route properties)
      * into corresponding Route objects.
-     * @param {string} json
+     * @param {string} json - JSON string
+     * @returns {Object} The input JSON string parsed into an Object
      */
     Route.parseRoutes = function (json) {
         return JSON.parse(json, reviver);

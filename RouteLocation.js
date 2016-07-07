@@ -1,4 +1,3 @@
-/*global define,module,require */
 // if the module has no dependencies, the above pattern can be simplified to
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
@@ -27,9 +26,9 @@
     srmpRe = /^([\d\.]+)(B)?$/i;
 
     // Define the RouteLocation class.
+
     /**
      * A class representing either a point or a segement on a WSDOT State Route. 
-     * @author Jeff Jacobson
      * @class A class representing either a point or a segement on a WSDOT State Route.
      * @param {object} [json] An object containing values used to initialize the RouteLocation's properties.  Properties of this object correspond to those of the {@link RouteLocation} class.
      * @param {number} [json.Id] {@link RouteLocation#Id} 
@@ -56,71 +55,70 @@
      * @param {Object} [json.EventPoint] {@link RouteLocation#EventPoint}  You will normally never need to set this in the constructor.
      * @param {number} [json.Distance] {@link RouteLocation#Distance}   You will normally never need to set this in the constructor.
      * @param {number} [json.Angle] {@link RouteLocation#Angle}  You will normally never need to set this in the constructor.
-     * @property {number} Id Since the Find Nearest Route Location method does not return records for locations where it could not find any routes within the search parameters, this ID parameter can be used to indicate which source location a route location corresponds to.
-     * @property {string} Route An 3 to 11 digit state route identifier.
-     * @property {Boolean} Decrease Indicates of this location is on the Decrease LRS.  This value will be ignored if Route is a ramp.
-     * @property {number} Arm The starting measure value.
-     * @property {number} Srmp The SRMP for the start point of a route segment or the only point of a point.
-     * @property {Boolean} Back Indicates if the SRMP value is back mileage.
-     * @property {Date} ReferenceDate The date that the data was collected.
-     * @property {Date} ResponseDate The ArmCalc output date.
-     * @property {Date} RealignmentDate This is for storing ArmCalc result data of the start point.
-     * @property {number} EndArm The end measure value.  Not used when defining a point.
-     * @property {number} EndSrmp The SRMP for the end point of a route segment.  Not used when defining a point.
-     * @property {Boolean} EndBack Indicates if the EndSrmp value is back mileage.  Not used when defining a point.
-     * @property {Date} EndReferenceDate The date that the data was collected.  Not used when defining a point.
-     * @property {Date} EndResponseDate The ArmCalc output date.  Not used when defining a point.
-     * @property {Date} EndRealignDate This is for storing ArmCalc result data of the end point.  Not used when defining a point.
-     * @property {number} ArmCalcReturnCode ArmCalc return code.  See Appendix A of <a href="http://wwwi.wsdot.wa.gov/gis/roadwaydata/training/roadwaydata/pdf/PC_ArmCalc_Manual_3-19-2009.pdf">the PC ArmCalc Training Program Manual</a>.
-     * @property {number} ArmCalcEndReturnCode ArmCalc return code for end point of a route segment.  See Appendix A of <a href="http://wwwi.wsdot.wa.gov/gis/roadwaydata/training/roadwaydata/pdf/PC_ArmCalc_Manual_3-19-2009.pdf">the PC ArmCalc Training Program Manual</a>.
-     * @property {string} ArmCalcReturnMessage The error message (if any) returned by ArmCalc when converting the begin point.  If no error occurs, this will be set to an empty string by the SOE.
-     * @property {string} ArmCalcEndReturnMessage The error message (if any) returned by ArmCalc when converting the end point.  If no error occurs, this will be set to an empty string by the SOE.
-     * @property {string} LocatingError If a location cannot be found on the LRS, this value will contain a message.
-     * @property {Object} RouteGeometry An object representing either a point or a polygon.
-     * @property {Object} EventPoint When locating the nearest point along a route, this value will be set to the input point.
-     * @property {number} Distance The offset distance from the EventPoint to the RouteGeometry point.
-     * @property {number} Angle The offset angle from the EventPoint to the RouteGeometry point.
-     * @memberOf $.wsdot.elc
+     * @member {number} Id Since the Find Nearest Route Location method does not return records for locations where it could not find any routes within the search parameters, this ID parameter can be used to indicate which source location a route location corresponds to.
+     * @member {string} Route An 3 to 11 digit state route identifier.
+     * @member {Boolean} Decrease Indicates of this location is on the Decrease LRS.  This value will be ignored if Route is a ramp.
+     * @member {number} Arm The starting measure value.
+     * @member {number} Srmp The SRMP for the start point of a route segment or the only point of a point.
+     * @member {Boolean} Back Indicates if the SRMP value is back mileage.
+     * @member {Date} ReferenceDate The date that the data was collected.
+     * @member {Date} ResponseDate The ArmCalc output date.
+     * @member {Date} RealignmentDate This is for storing ArmCalc result data of the start point.
+     * @member {number} EndArm The end measure value.  Not used when defining a point.
+     * @member {number} EndSrmp The SRMP for the end point of a route segment.  Not used when defining a point.
+     * @member {Boolean} EndBack Indicates if the EndSrmp value is back mileage.  Not used when defining a point.
+     * @member {Date} EndReferenceDate The date that the data was collected.  Not used when defining a point.
+     * @member {Date} EndResponseDate The ArmCalc output date.  Not used when defining a point.
+     * @member {Date} EndRealignDate This is for storing ArmCalc result data of the end point.  Not used when defining a point.
+     * @member {number} ArmCalcReturnCode ArmCalc return code.  See Appendix A of <a href="http://wwwi.wsdot.wa.gov/gis/roadwaydata/training/roadwaydata/pdf/PC_ArmCalc_Manual_3-19-2009.pdf">the PC ArmCalc Training Program Manual</a>.
+     * @member {number} ArmCalcEndReturnCode ArmCalc return code for end point of a route segment.  See Appendix A of <a href="http://wwwi.wsdot.wa.gov/gis/roadwaydata/training/roadwaydata/pdf/PC_ArmCalc_Manual_3-19-2009.pdf">the PC ArmCalc Training Program Manual</a>.
+     * @member {string} ArmCalcReturnMessage The error message (if any) returned by ArmCalc when converting the begin point.  If no error occurs, this will be set to an empty string by the SOE.
+     * @member {string} ArmCalcEndReturnMessage The error message (if any) returned by ArmCalc when converting the end point.  If no error occurs, this will be set to an empty string by the SOE.
+     * @member {string} LocatingError If a location cannot be found on the LRS, this value will contain a message.
+     * @member {Object} RouteGeometry An object representing either a point or a polygon.
+     * @member {Object} EventPoint When locating the nearest point along a route, this value will be set to the input point.
+     * @member {number} Distance The offset distance from the EventPoint to the RouteGeometry point.
+     * @member {number} Angle The offset angle from the EventPoint to the RouteGeometry point.
      * @see Appendix A of <a href="http://wwwi.wsdot.wa.gov/gis/roadwaydata/training/roadwaydata/pdf/PC_ArmCalc_Manual_3-19-2009.pdf">PC ArmCalc Training Program Manual</a> for the meanings of ArmCalc return codes.
      */
     function RouteLocation(json) {
-        if (!(json && typeof (json) === "object")) {
+        if (!(json && typeof  json === "object")) {
             throw new TypeError("No data provided");
         }
-        this.Id = typeof (json.Id) !== "undefined" ? json.Id : null;
-        this.Route = typeof (json.Route) !== "undefined" ? json.Route : null;
-        this.Decrease = typeof (json.Decrease) !== "undefined" ? json.Decrease : null;
+        this.Id = typeof  json.Id !== "undefined" ? json.Id : null;
+        this.Route = typeof  json.Route !== "undefined" ? json.Route : null;
+        this.Decrease = typeof  json.Decrease !== "undefined" ? json.Decrease : null;
 
-        this.Arm = typeof (json.Arm) !== "undefined" ? json.Arm : null;
-        this.Srmp = typeof (json.Srmp) !== "undefined" ? json.Srmp : null;
-        this.Back = typeof (json.Back) !== "undefined" ? json.Back : null;
-        this.ReferenceDate = typeof (json.ReferenceDate) !== "undefined" ? json.ReferenceDate : null;
-        this.ResponseDate = typeof (json.ResponseDate) !== "undefined" ? json.ResponseDate : null;
-        this.RealignmentDate = typeof (json.RealignmentDate) !== "undefined" ? json.RealignmentDate : null;
+        this.Arm = typeof  json.Arm !== "undefined" ? json.Arm : null;
+        this.Srmp = typeof  json.Srmp !== "undefined" ? json.Srmp : null;
+        this.Back = typeof  json.Back !== "undefined" ? json.Back : null;
+        this.ReferenceDate = typeof  json.ReferenceDate !== "undefined" ? json.ReferenceDate : null;
+        this.ResponseDate = typeof  json.ResponseDate !== "undefined" ? json.ResponseDate : null;
+        this.RealignmentDate = typeof  json.RealignmentDate !== "undefined" ? json.RealignmentDate : null;
 
-        this.EndArm = typeof (json.EndArm) !== "undefined" ? json.EndArm : null;
-        this.EndSrmp = typeof (json.EndSrmp) !== "undefined" ? json.EndSrmp : null;
-        this.EndBack = typeof (json.EndBack) !== "undefined" ? json.EndBack : null;
-        this.EndReferenceDate = typeof (json.EndReferenceDate) !== "undefined" ? json.EndReferenceDate : null;
-        this.EndResponseDate = typeof (json.EndResponseDate) !== "undefined" ? json.EndResponseDate : null;
-        this.EndRealignDate = typeof (json.EndRealignDate) !== "undefined" ? json.EndRealignDate : null;
+        this.EndArm = typeof  json.EndArm !== "undefined" ? json.EndArm : null;
+        this.EndSrmp = typeof  json.EndSrmp !== "undefined" ? json.EndSrmp : null;
+        this.EndBack = typeof  json.EndBack !== "undefined" ? json.EndBack : null;
+        this.EndReferenceDate = typeof  json.EndReferenceDate !== "undefined" ? json.EndReferenceDate : null;
+        this.EndResponseDate = typeof  json.EndResponseDate !== "undefined" ? json.EndResponseDate : null;
+        this.EndRealignDate = typeof  json.EndRealignDate !== "undefined" ? json.EndRealignDate : null;
 
-        this.ArmCalcReturnCode = typeof (json.ArmCalcReturnCode) !== "undefined" ? json.ArmCalcReturnCode : null;
-        this.ArmCalcEndReturnCode = typeof (json.ArmCalcEndReturnCode) !== "undefined" ? json.ArmCalcEndReturnCode : null;
-        this.ArmCalcReturnMessage = typeof (json.ArmCalcReturnMessage) !== "undefined" ? json.ArmCalcReturnMessage : null;
-        this.ArmCalcEndReturnMessage = typeof (json.ArmCalcEndReturnMessage) !== "undefined" ? json.ArmCalcEndReturnMessage : null;
+        this.ArmCalcReturnCode = typeof  json.ArmCalcReturnCode !== "undefined" ? json.ArmCalcReturnCode : null;
+        this.ArmCalcEndReturnCode = typeof  json.ArmCalcEndReturnCode !== "undefined" ? json.ArmCalcEndReturnCode : null;
+        this.ArmCalcReturnMessage = typeof  json.ArmCalcReturnMessage !== "undefined" ? json.ArmCalcReturnMessage : null;
+        this.ArmCalcEndReturnMessage = typeof  json.ArmCalcEndReturnMessage !== "undefined" ? json.ArmCalcEndReturnMessage : null;
 
-        this.LocatingError = typeof (json.LocatingError) !== "undefined" ? json.LocatingError : null;
-        this.RouteGeometry = typeof (json.RouteGeometry) !== "undefined" ? json.RouteGeometry : null;
-        this.EventPoint = typeof (json.EventPoint) !== "undefined" ? json.EventPoint : null;
-        this.Distance = typeof (json.Distance) !== "undefined" ? json.Distance : null;
-        this.Angle = typeof (json.Angle) !== "undefined" ? json.Angle : null;
+        this.LocatingError = typeof  json.LocatingError !== "undefined" ? json.LocatingError : null;
+        this.RouteGeometry = typeof  json.RouteGeometry !== "undefined" ? json.RouteGeometry : null;
+        this.EventPoint = typeof  json.EventPoint !== "undefined" ? json.EventPoint : null;
+        this.Distance = typeof  json.Distance !== "undefined" ? json.Distance : null;
+        this.Angle = typeof  json.Angle !== "undefined" ? json.Angle : null;
 
         // Set the date properties to Date objects, if appropriate.
         for (var propName in this) {
             if (this.hasOwnProperty(propName)) {
 
-                if (/Date$/gi.test(propName) && (typeof (this[propName]) === "string" || typeof (this[propName]) === "number")) {
+                if (/Date$/gi.test(propName) && (typeof  this[propName] === "string" || typeof  this[propName] === "number")) {
                     this[propName] = new Date(this[propName]);
                 }
             }
@@ -130,7 +128,7 @@
     /**
      * Returns true if the RouteLocation represents a line, false otherwise.
      * @author Jeff Jacobson
-     * @return {Boolean}
+     * @returns {Boolean} Returns true for a linear route location, false for a point.
      */
     RouteLocation.prototype.isLine = function () {
         return this.EndArm !== null || this.EndSrmp !== null;
@@ -143,7 +141,7 @@
      * Note: Properties of the {@link RouteLocation} that have values of null will be omitted from the output of this method. 
      * @author Jeff Jacobson
      * @this {@link RouteLocation}
-     * @return {object} 
+     * @returns {object} 
      */
     RouteLocation.prototype.toJSON = function () {
         var prop, value, match, output, numFieldRe, srmpFieldRe, dateFieldRe, boolFieldRe;
@@ -167,9 +165,9 @@
                     }
                 } else if (srmpFieldRe.test(prop)) {
                     // If the value is already a number or null, just pass it in.
-                    if (typeof (value) === "number" /*|| value === null*/) {
+                    if (typeof  value === "number" /*|| value === null*/) {
                         output[prop] = value;
-                    } else if (typeof (value) === "string") {
+                    } else if (typeof  value === "string") {
                         match = srmpRe.exec(value);
                         // If a matching string, match[1] will be the number portion and match[2] will be the back indicator (or undefined if there was no back indicator)
                         if (match) {
@@ -188,7 +186,7 @@
                         }
                     }
                 } else if (prop === "Route") {
-                    if (typeof (value) === "string") {
+                    if (typeof  value === "string") {
                         match = RouteId.routeRe.exec(this[prop]);
                         if (match) {
                             output.Route = match[0];
