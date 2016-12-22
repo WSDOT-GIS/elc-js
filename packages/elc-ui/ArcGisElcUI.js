@@ -38,18 +38,19 @@ define([
 ) {
     var elcUI, routeLocator, pointResultsLayer, lineResultsLayer;
 
-    var isWsdotInternal;
+    var isWsdotInternal = false;
 
-    esriConfig.defaults.io.corsEnabledServers.push("wwwi.wsdot.wa.gov");
-
-    // Test to see if the client is within the WSDOT internal network.
-    esriRequest({
-        url: "http://wwwi.wsdot.wa.gov/geosvcs/ArcGIS/rest/services?f=json"
-    }).then(function () {
-        isWsdotInternal = true;
-    }, function () {
-        isWsdotInternal = false;
-    });
+    if (location.protocol.match(/^http\:/i)) {
+        esriConfig.defaults.io.corsEnabledServers.push("wwwi.wsdot.wa.gov");
+        // Test to see if the client is within the WSDOT internal network.
+        esriRequest({
+            url: "http://wwwi.wsdot.wa.gov/geosvcs/ArcGIS/rest/services?f=json"
+        }).then(function () {
+            isWsdotInternal = true;
+        }, function () {
+            isWsdotInternal = false;
+        });
+    }
 
 
     var wsdotLogoGreen = new Color([0, 123, 95]); // This is the same color as the WSDOT logo.
@@ -215,7 +216,7 @@ define([
             }
             query = query.join("&");
             url = [url, query].join("?");
-            
+
             a.href = url;
             a.target = "_blank";
             a.textContent = "SRView";
