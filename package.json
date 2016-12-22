@@ -1,6 +1,6 @@
 {
   "name": "elc",
-  "version": "2.6.3",
+  "version": "2.6.4",
   "description": "JavaScript library for WSDOT ELC with UI",
   "main": "RouteLocator.js",
   "directories": {

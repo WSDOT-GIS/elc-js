@@ -9,7 +9,7 @@
     "use strict";
 
     var routeLocator;
-    var elcUrl = window.location.search.replace(/\??url=(.+)/i, "$1") || "http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
+    var elcUrl = window.location.search.replace(/\??url=(.+)/i, "$1") || undefined; //"//data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
     routeLocator = new RouteLocator(elcUrl);
 
     function onDocumentReady() {
@@ -184,7 +184,7 @@
 
         function allYearsContainAtLeastOneMainline(/**{Object.<string, Route[]>}*/ routeList) {
             var output = true;
-            
+
             if (routeList) {
                 for (var year in routeList) {
                     if (routeList.hasOwnProperty(year)) {
@@ -214,7 +214,7 @@
         }
 
         /**
-         * Attempts to query mapServerUrl using CORS. 
+         * Attempts to query mapServerUrl using CORS.
          * @param {Function} testCompleteHandler A function that takes a single boolean argument.  True will be passed to this method if the server supports CORS, false will be passed in otherwise.
          */
         function testServerForCorsSupport(testCompleteHandler) {

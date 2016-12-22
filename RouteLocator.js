@@ -55,13 +55,13 @@
     /**
      * A helper object for querying the ELC REST SOE endpoints.
      * @constructor
-     * @param {String} [url="http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"] The URL for the ELC REST Endpoint.
+     * @param {String} [url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"] The URL for the ELC REST Endpoint.
      * @param {String} [findRouteLocationsOperationName="Find Route Locations"] - The name of the Find Route Locations operation
      * @param {String} [findNearestRouteLocationsOperationName="Find Nearest Route Locations"] - The name of the Find Nearest Route Locations operation
      * @param {String} [routesResourceName="Route Info"] - Set to "routes" for pre 3.3 versions which do not support the "Route Info" endpoint.
      */
     function RouteLocator(url, findRouteLocationsOperationName, findNearestRouteLocationsOperationName, routesResourceName) {
-        this.url = url || "http://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
+        this.url = url || (typeof window !== "undefined" ? "" : "https:") + "//data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
         this.findRouteLocationsOperationName = findRouteLocationsOperationName || "Find Route Locations";
         this.findNearestRouteLocationsOperationName = findNearestRouteLocationsOperationName || "Find Nearest Route Locations";
         this.routesResourceName = routesResourceName || "Route Info";
@@ -83,7 +83,7 @@
 
     /**
      * Returns a {@link RouteList}
-     * @param {boolean} [useCors=true] Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)  
+     * @param {boolean} [useCors=true] Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)
      * @returns {Promise} - Success: This function takes a single {@link RouteList}, Error: This function takes a single error parameter.
      */
     RouteLocator.prototype.getRouteList = function (useCors) {
@@ -94,7 +94,7 @@
                 useCors = true;
             }
 
-            // If a layer list has already been defined (meaning this method has previously been called), call the resolve immediately.  
+            // If a layer list has already been defined (meaning this method has previously been called), call the resolve immediately.
             if (elc.layerList) {
                 if (typeof resolve === "function") {
                     resolve(elc.layerList);
@@ -269,7 +269,7 @@
                 }
 
                 // When the response has been returned from the request,
-                // convert it to RouteLocation objects and resolve the 
+                // convert it to RouteLocation objects and resolve the
                 // Promise. If an error has occured, reject instead.
                 request.addEventListener("loadend", function (e) {
                     var json, output;
@@ -312,7 +312,7 @@
      * @param {string} [params.lrsYear] Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
      * @param {string} [params.routeFilter] A partial SQL query that can be used to limit which routes are searched.  E.g., "LIKE '005%'" or "'005'".
      * @param {boolean} [params.useCors=true] If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
-     * @throws {Error} Throws an error if any of the params properties are provided with invalid values. 
+     * @throws {Error} Throws an error if any of the params properties are provided with invalid values.
      * @returns {Promise} A promise
      */
     RouteLocator.prototype.findNearestRouteLocations = function (params) {
