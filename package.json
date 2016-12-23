@@ -1,8 +1,25 @@
 {
   "name": "elc",
-  "version": "2.6.4",
+  "version": "2.7.0",
   "description": "JavaScript library for WSDOT ELC with UI",
   "main": "RouteLocator.js",
+  "files": [
+    "lrsTypeUtils.js",
+    "Route.js",
+    "RouteId.js",
+    "RouteLocation.js",
+    "RouteLocator.js",
+    "routeTypeUtils.js",
+    "routeUtils.js",
+    "lrsTypeUtils.d.ts",
+    "Route.d.ts",
+    "RouteId.d.ts",
+    "RouteLocation.d.ts",
+    "RouteLocator.d.ts",
+    "routeTypeUtils.d.ts",
+    "routeUtils.d.ts",
+    "elc-ui"
+  ],
   "directories": {
     "test": "tests"
   },
