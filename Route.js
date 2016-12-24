@@ -11,7 +11,7 @@
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory(require("RouteId", "lrsTypeUtils", "routeTypeUtils"));
+        module.exports = factory(require("./RouteId", "./lrsTypeUtils", "./routeTypeUtils"));
     } else {
         // Browser globals (root is window)
         root.Route = factory(root.RouteId, root.lrsTypeUtils, root.routeTypeUtils);
@@ -106,7 +106,7 @@
             },
             /**
              * Returns a boolean value indicating whether the route is increase.
-             * @return {boolean} Returns true if {@link Route#lrsTypes} equals 
+             * @return {boolean} Returns true if {@link Route#lrsTypes} equals
              * {@link lrsTypeUtils.LRS_TYPE_INCREASE} or {@link lrsTypeUtils.LRS_TYPE_BOTH}.
              */
             isIncrease: {
@@ -116,7 +116,7 @@
             },
             /**
              * Returns a boolean value indicating whether the route is decrease.
-             * @return {boolean} Returns true if {@link Route#lrsTypes} equals 
+             * @return {boolean} Returns true if {@link Route#lrsTypes} equals
              * {@link lrsTypeUtils.LRS_TYPE_DECREASE} or {@link lrsTypeUtils.LRS_TYPE_BOTH}.
              */
             isDecrease: {

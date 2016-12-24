@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 bower_components
+node_modules
 .vs
 iisexpress.json
 

@@ -7,7 +7,7 @@
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory(require("Route", "RouteId", "routeUtils"));
+        module.exports = factory(require("./Route", "./RouteId", "./routeUtils"));
     } else {
         // Browser globals (root is window)
         root.RouteLocation = factory(root.Route, root.RouteId, root.routeUtils);
@@ -21,26 +21,26 @@
     /**
      * Matches an SRMP value.  Either just a number or a number with a B at the end (indicating back mileage).
      * @author Jeff Jacobson
-     * @memberOf $.wsdot.elc 
+     * @memberOf $.wsdot.elc
      */
     srmpRe = /^([\d\.]+)(B)?$/i;
 
     // Define the RouteLocation class.
 
     /**
-     * A class representing either a point or a segement on a WSDOT State Route. 
+     * A class representing either a point or a segement on a WSDOT State Route.
      * @class A class representing either a point or a segement on a WSDOT State Route.
      * @param {object} [json] An object containing values used to initialize the RouteLocation's properties.  Properties of this object correspond to those of the {@link RouteLocation} class.
-     * @param {number} [json.Id] {@link RouteLocation#Id} 
-     * @param {string} [json.Route] {@link RouteLocation#Route}  
-     * @param {Decrease} [json.Decrease] {@link RouteLocation#Decrease} 
-     * @param {number} [json.Arm] {@link RouteLocation#Arm} 
-     * @param {number} [json.Srmp] {@link RouteLocation#Srmp} 
-     * @param {Boolean} [json.Back] {@link RouteLocation#Back} 
-     * @param {Date} [json.ReferenceDate] {@link RouteLocation#ReferenceDate} 
-     * @param {Date} [json.ResponseDate] {@link RouteLocation#ResponseDate} 
-     * @param {number} [json.EndArm] {@link RouteLocation#EndArm} Only used for line segements, not points. 
-     * @param {number} [json.EndSrmp] {@link RouteLocation#EndSrmp} Only used for line segements, not points. 
+     * @param {number} [json.Id] {@link RouteLocation#Id}
+     * @param {string} [json.Route] {@link RouteLocation#Route}
+     * @param {Decrease} [json.Decrease] {@link RouteLocation#Decrease}
+     * @param {number} [json.Arm] {@link RouteLocation#Arm}
+     * @param {number} [json.Srmp] {@link RouteLocation#Srmp}
+     * @param {Boolean} [json.Back] {@link RouteLocation#Back}
+     * @param {Date} [json.ReferenceDate] {@link RouteLocation#ReferenceDate}
+     * @param {Date} [json.ResponseDate] {@link RouteLocation#ResponseDate}
+     * @param {number} [json.EndArm] {@link RouteLocation#EndArm} Only used for line segements, not points.
+     * @param {number} [json.EndSrmp] {@link RouteLocation#EndSrmp} Only used for line segements, not points.
      * @param {Boolean} [json.EndBack] {@link RouteLocation#EndBack} Only used for line segements, not points.
      * @param {Date} [json.EndReferenceDate] {@link RouteLocation#EndReferenceDate} Only used for line segements, not points.
      * @param {Date} [json.EndResponseDate] {@link RouteLocation#EndResponseDate} Only used for line segements, not points.
@@ -135,13 +135,13 @@
     };
 
     /**
-     * Converts the RouteLocation into an object that can be passed to the ELC REST SOE.  
+     * Converts the RouteLocation into an object that can be passed to the ELC REST SOE.
      * This is used internally by {@link RouteLocator#findRouteLocations} and {@link RouteLocator#findNearestRouteLocations}
      * This method is also used when the <a href="http://www.javascriptkit.com/jsref/json.shtml">JSON.stringify</a> method is called.
-     * Note: Properties of the {@link RouteLocation} that have values of null will be omitted from the output of this method. 
+     * Note: Properties of the {@link RouteLocation} that have values of null will be omitted from the output of this method.
      * @author Jeff Jacobson
      * @this {@link RouteLocation}
-     * @returns {object} 
+     * @returns {object}
      */
     RouteLocation.prototype.toJSON = function () {
         var prop, value, match, output, numFieldRe, srmpFieldRe, dateFieldRe, boolFieldRe;

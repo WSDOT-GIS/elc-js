@@ -8,7 +8,7 @@
         // Node. Does not work with strict CommonJS, but
         // only CommonJS-like environments that support module.exports,
         // like Node.
-        module.exports = factory(require("Route", "RouteLocation", "routeUtils"));
+        module.exports = factory(require("./Route", "./RouteLocation", "./routeUtils"));
     } else {
         // Browser globals (root is window)
         root.RouteLocator = factory(root.Route, root.RouteLocation, root.routeUtils);
