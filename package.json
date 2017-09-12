@@ -49,7 +49,7 @@
   },
   "homepage": "https://github.com/WSDOT-GIS/elc-js#readme",
   "devDependencies": {
-    "@types/jasmine": "^2.5.38",
-    "jasmine": "^2.5.2"
+    "@types/jasmine": "^2.5.54",
+    "jasmine": "^2.8.0"
   }
 }
