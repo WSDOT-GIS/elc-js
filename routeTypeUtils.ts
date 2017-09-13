@@ -1,5 +1,4 @@
-﻿
-export enum routeTypeAbbrevs {
+﻿export enum RouteTypes {
     SR = 0,
     IS = 1,
     US = 2,
@@ -11,7 +10,9 @@ export enum routeTypeAbbrevs {
     TB = 8
 }
 
-const routeTypeAbbrevKeys = [
+export type RouteTypeAbbreviation = "SR" | "IS" | "US" | "RA" | "LC" | "FT" | "PR" | "CN" | "TB";
+
+const routeTypeAbbrevKeys: RouteTypeAbbreviation[] = [
     "SR",
     "IS",
     "US",
@@ -25,29 +26,29 @@ const routeTypeAbbrevKeys = [
 
 const routeClassRe = /^(?:(SR)|(IS)|(US)|(RA)|(LC)|(FT)|(PR)|(CN)|(TB))$/i;
 
-export function getRouteTypeValue(value: string | number): number | null {
+export function getRouteTypeValue(value: RouteTypes | RouteTypeAbbreviation): RouteTypes | null {
     let output: number | null = null;
     if (typeof value === "string") {
         const match = value.match(routeClassRe);
         if (match) {
             if (match[1]) {
-                output = routeTypeAbbrevs.SR;
+                output = RouteTypes.SR;
             } else if (match[2]) {
-                output = routeTypeAbbrevs.IS;
+                output = RouteTypes.IS;
             } else if (match[3]) {
-                output = routeTypeAbbrevs.US;
+                output = RouteTypes.US;
             } else if (match[4]) {
-                output = routeTypeAbbrevs.RA;
+                output = RouteTypes.RA;
             } else if (match[5]) {
-                output = routeTypeAbbrevs.LC;
+                output = RouteTypes.LC;
             } else if (match[6]) {
-                output = routeTypeAbbrevs.FT;
+                output = RouteTypes.FT;
             } else if (match[7]) {
-                output = routeTypeAbbrevs.PR;
+                output = RouteTypes.PR;
             } else if (match[8]) {
-                output = routeTypeAbbrevs.CN;
+                output = RouteTypes.CN;
             } else if (match[9]) {
-                output = routeTypeAbbrevs.TB;
+                output = RouteTypes.TB;
             }
         }
     } else if (typeof value === "number" && Math.trunc(value) === value && (value >= 0 && value <= 8)) {
@@ -56,13 +57,13 @@ export function getRouteTypeValue(value: string | number): number | null {
     return output;
 }
 
-export function getRouteTypeAbbreviation(value: routeTypeAbbrevs) {
-    let output: string;
+export function getRouteTypeAbbreviation(value: RouteTypes) {
+    let output: RouteTypeAbbreviation;
 
     if (typeof value === "number" && value >= 0 && value < routeTypeAbbrevKeys.length) {
-        output = routeTypeAbbrevs[value];
+        output = RouteTypes[value] as RouteTypeAbbreviation;
     } else if (typeof value === "string" && routeClassRe.test(value)) {
-        output = (value as string).toUpperCase();
+        output = (value as string).toUpperCase() as RouteTypeAbbreviation;
     } else {
         throw new Error("Invalid value");
     }
