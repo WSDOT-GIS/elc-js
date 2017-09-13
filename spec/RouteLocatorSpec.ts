@@ -1,31 +1,32 @@
-import * as RouteLocator from "../RouteLocator";
-import * as RouteLocation from "../RouteLocation";
+import RouteLocation from "../RouteLocation";
+import { IRouteLocation } from "../RouteLocationInterfaces";
+import RouteLocator, { IFindRouteLocationsParameters} from "../RouteLocator";
 
 describe("RouteLocator", () => {
-  let routeLocator = new RouteLocator();
+  const routeLocator = new RouteLocator();
 
-  it("should be able to find route locations with minimum parameters supplied.", done => {
+  it("should be able to find route locations with minimum parameters supplied.", (done) => {
 
-    let dateString = "12/31/2011";
+    const dateString = "12/31/2011";
 
-    let rl = new RouteLocation({
+    const rl = new RouteLocation({
       Route: "005",
       Arm: 0,
       ReferenceDate: new Date(dateString)
     });
 
-    let params = {
+    const params: IFindRouteLocationsParameters = {
       useCors: true,
       locations: [rl]
     };
 
-    let promise = routeLocator.findRouteLocations(params);
-    promise.then(locations => {
+    const promise = routeLocator.findRouteLocations(params);
+    promise.then((locations) => {
       expect(locations.length).toEqual(params.locations.length);
       done();
     });
-    promise.catch(error => {
+    promise.catch((error) => {
       done.fail(error);
     });
   });
-});
+})

@@ -1,7 +1,7 @@
 import { default as Route, parseRoutes } from "./Route";
 import RouteLocation from "./RouteLocation";
 import { IRouteLocation } from "./RouteLocationInterfaces";
-import { flattenArray, toActualMonth } from "./routeUtils";
+import { flattenArray, getActualMonth } from "./routeUtils";
 
 /**
  * Converts an object into a query string.
@@ -58,7 +58,7 @@ function dateToRouteLocatorDate(date: Date): string {
     if (typeof date === "object" && date instanceof Date) {
         // Convert date to a string, as that is what the API is expecting.
         elcDate = [
-            String(toActualMonth(date)),
+            String(getActualMonth(date)),
             String(date.getDate()),
             String(date.getFullYear())
         ].join("/");
@@ -79,9 +79,9 @@ export interface IFindRouteLocationsParameters {
     /** The spatial reference for the output geometry, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service. */
     outSR?: number | string;
     /** The spatial reference for the output geometry, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service. */
-    lrsYear: string;
+    lrsYear?: string;
     /** If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false. */
-    useCors: boolean;
+    useCors?: boolean;
 }
 
 /**
@@ -194,7 +194,7 @@ export default class RouteLocator {
      * @returns {Promise} Returns a promise.
      * @throws {Error} Thrown if invalid parameters are specified.
      */
-    public async findRouteLocations(params: IFindRouteLocationsParameters) {
+    public async findRouteLocations(params: IFindRouteLocationsParameters): Promise<RouteLocation[]> {
         const locations = params.locations;
         // Set the reference date to an empty string if a value is not provided.  This is what the ELC REST SOE expects when omitting this value. (Hopefully this can be changed in the future.)
         let referenceDate = params.referenceDate || "";
@@ -211,7 +211,7 @@ export default class RouteLocator {
         if (typeof referenceDate === "object" && referenceDate instanceof Date) {
             // Convert date to a string, as that is what the API is expecting.
             referenceDate = [
-                String(toActualMonth(referenceDate)),
+                String(getActualMonth(referenceDate)),
                 String(referenceDate.getDate()),
                 String(referenceDate.getFullYear())
             ].join("/");
@@ -268,12 +268,11 @@ export default class RouteLocator {
         }
 
         const response = await fetch(url, init);
-        if (response.ok) {
-            const json = JSON.parse(await response.text(), routeLocationReviver);
-            if (json.error) {
-                throw Error(json);
-            }
+        const json = JSON.parse(await response.text(), routeLocationReviver);
+        if (json.error) {
+            throw Error(json);
         }
+        return json;
 
     }
 

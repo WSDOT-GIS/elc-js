@@ -1,6 +1,6 @@
 import { routeRe } from "./RouteId";
 import { IRouteLocation } from "./RouteLocationInterfaces";
-import { toActualMonth, toNumber } from "./routeUtils";
+import { getActualMonth, toNumber } from "./routeUtils";
 
 /**
  * Matches an SRMP value.  Either just a number or a number with a B at the end (indicating back mileage).
@@ -169,7 +169,7 @@ export default class RouteLocation implements IRouteLocation {
                 const value: any = this[prop];
 
                 if (value && value instanceof Date && dateFieldRe.test(prop)) {
-                    output[prop] = [String(toActualMonth(value)), String(value.getDate()), String(value.getFullYear())].join("/");
+                    output[prop] = [String(getActualMonth(value)), String(value.getDate()), String(value.getFullYear())].join("/");
                 } else if (numFieldRe.test(prop)) { // Id, Arm, EndArm, or ...ReturnCode
                     if (value !== null) {
                         output[prop] = toNumber(value, prop);
