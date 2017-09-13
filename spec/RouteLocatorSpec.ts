@@ -29,4 +29,4 @@ describe("RouteLocator", () => {
       done.fail(error);
     });
   });
-})
+});

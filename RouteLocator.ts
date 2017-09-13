@@ -106,7 +106,6 @@ export interface IFindNearestRouteLocationParameters {
 }
 
 export default class RouteLocator {
-    public static dateToRouteLocatorDate = dateToRouteLocatorDate;
     private layerList: { [key: string]: Route[] } | null = null;
 
     /**
