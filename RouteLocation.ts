@@ -1,5 +1,5 @@
 import { routeRe } from "./RouteId";
-import { RouteLocationInterface } from "./RouteLocationInterfaces";
+import { IRouteLocation } from "./RouteLocationInterfaces";
 import { toActualMonth, toNumber } from "./routeUtils";
 
 /**
@@ -38,7 +38,7 @@ const srmpRe = /^([\d\.]+)(B)?$/i;
  * @member {number} Angle The offset angle from the EventPoint to the RouteGeometry point.
  * @see Appendix A of <a href="http://wwwi.wsdot.wa.gov/planning/data/training/pdf/PC_ArmCalc_Manual_3-19-2009.pdf">PC ArmCalc Training Program Manual</a> for the meanings of ArmCalc return codes.
  */
-export default class RouteLocation implements RouteLocationInterface {
+export default class RouteLocation implements IRouteLocation {
 
     public Id: number | null;
     public Route: string | null;
@@ -93,7 +93,7 @@ export default class RouteLocation implements RouteLocationInterface {
      * @param {number} [json.Distance] {@link RouteLocation#Distance}   You will normally never need to set this in the constructor.
      * @param {number} [json.Angle] {@link RouteLocation#Angle}  You will normally never need to set this in the constructor.
      */
-    constructor(json: RouteLocationInterface) {
+    constructor(json: IRouteLocation) {
         if (!(json && typeof json === "object")) {
             throw new TypeError("No data provided");
         }

@@ -2,7 +2,7 @@
  * An object containing values used to initialize the RouteLocation's properties.
  * Properties of this object correspond to those of the {@link RouteLocation} class.
  */
-export interface RouteLocationInterface {
+export interface IRouteLocation {
   Id?: number | null
   Route?: string | null
   Decrease?: boolean | null
