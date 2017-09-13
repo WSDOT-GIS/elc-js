@@ -3,6 +3,12 @@ import RouteLocation from "./RouteLocation";
 import { IRouteLocation } from "./RouteLocationInterfaces";
 import { flattenArray, getActualMonth } from "./routeUtils";
 
+// Only browsers have build in support for fetch API.
+// Must be added for node.
+if (typeof fetch === "undefined") {
+    var fetch = require("node-fetch");
+}
+
 /**
  * Converts an object into a query string.
  * @param {Object} o - An object
@@ -100,7 +106,7 @@ export interface IFindNearestRouteLocationParameters {
     searchRadius: number;
     inSR: number | string;
     outSR?: number | string;
-    lrsYear: string;
+    lrsYear?: string;
     routeFilter?: string;
     useCors?: boolean;
 }
@@ -162,7 +168,7 @@ export default class RouteLocator {
 
         const response = await fetch(url);
         if (response.status === 200) {
-            const data = parseRoutes(await response.json());
+            const data = parseRoutes(await response.text());
             if (data.error) {
                 if (this.routesResourceName === "Route Info" && data.error.code === 400) {
                     // If the newer Route Info is not supported, try the older version.

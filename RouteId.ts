@@ -3,6 +3,8 @@
  * @module RouteId
  */
 
+import FormatError from "./FormatError";
+
 /**
  * Matches a state route ID.  Regex.exec will return an array with four elements: the entire route name, SR, RRT, and RRQ
  * @author Jeff Jacobson
@@ -301,6 +303,7 @@ export default class RouteId {
      * @alias module:RouteId
      */
     constructor(routeId: string) {
+        routeId = routeId.trim();
         let match;
 
         if (!routeId) {
@@ -309,7 +312,7 @@ export default class RouteId {
         match = routeId.match(routeRe);
 
         if (!match) {
-            throw new Error(['Invalid route ID: "', routeId, '".'].join(""));
+            throw new FormatError(routeId, routeRe);
         }
 
         this._sr = match[1];

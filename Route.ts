@@ -1,3 +1,4 @@
+import FormatError from "./FormatError";
 import { getLrsTypeValue, LrsType } from "./lrsTypeUtils";
 import RouteId from "./RouteId";
 import { getRouteTypeAbbreviation, getRouteTypeValue, RouteTypeAbbreviation, RouteTypes } from "./routeTypeUtils";
@@ -12,13 +13,19 @@ function reviver(k: string, v: any) {
     if (/^(?:(?:Current)|(?:\d{4,8}))$/.test(k)) {
         output = [];
         for (const routeId in v) {
-            if (v.hasOwnProperty(routeId)) {
+            if (v.hasOwnProperty(routeId) && routeId.trim()) {
                 const currentValue = v[routeId];
                 let route: Route | null = null;
-                if (typeof currentValue === "number") {
-                    route = new Route(routeId, currentValue);
-                } else if (currentValue.hasOwnProperty("routeType")) {
-                    route = new Route(routeId, currentValue.direction, currentValue.routeType);
+                try {
+                    if (typeof currentValue === "number") {
+                        route = new Route(routeId, currentValue);
+                    } else if (currentValue.hasOwnProperty("routeType")) {
+                        route = new Route(routeId, currentValue.direction, currentValue.routeType);
+                    }
+                } catch (error) {
+                    if (!(error instanceof FormatError)) {
+                        throw error;
+                    }
                 }
                 if (route) {
                     output.push(route);
