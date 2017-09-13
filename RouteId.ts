@@ -8,7 +8,7 @@
  * @author Jeff Jacobson
  */
 // routeRe = /^(\d{3})(?:((?:AR)|(?:[CH][DI])|(?:C[O])|(?:F[DI])|(?:LX)|(?:[PQRS][\dU])|(?:RL)|(?:SP)|(?:TB)|(?:TR)|(?:PR)|(?:F[UST])|(?:ML)|(?:UC))([A-Z0-9]{0,6}))?$/i;
-const routeRe = /^(\d{3})(?:([A-Z0-9]{2})([A-Z0-9]{0,6}))?/i;
+export const routeRe = /^(\d{3})(?:([A-Z0-9]{2})([A-Z0-9]{0,6}))?/i;
 /*
 ==RRTs (Related Roadway Type)==
 AR Alternate Route

@@ -143,11 +143,4 @@ export default class Route {
     public get isRamp() {
         return this.lrsTypes === LrsType.RAMP;
     }
-
-
-
-
-
-
-
-};
+}
