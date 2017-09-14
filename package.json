@@ -51,6 +51,7 @@
   "homepage": "https://github.com/WSDOT-GIS/elc-js#readme",
   "devDependencies": {
     "@types/jasmine": "^2.5.54",
+    "@types/node": "^8.0.28",
     "jasmine": "^2.8.0",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2"
