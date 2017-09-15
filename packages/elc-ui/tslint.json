@@ -1,9 +1,24 @@
 {
-    "defaultSeverity": "error",
+    "defaultSeverity": "warn",
     "extends": [
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
+    "rules": {
+        "max-line-length": {
+            "severity": "warn"
+        },
+        "object-literal-sort-keys": false,
+
+        "prefer-const": {
+            "severity": "warn"
+        },
+        "trailing-comma": {
+            "options": {
+                "multiline": "never",
+                "singleline": "never"
+            }
+        }
+    },
     "rulesDirectory": []
 }
