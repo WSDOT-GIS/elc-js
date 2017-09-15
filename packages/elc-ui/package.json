@@ -1,33 +1,35 @@
 {
-  "name": "elc-ui",
+  "name": "@wsdot/elc-ui",
   "version": "1.0.0",
   "description": "User interface for ELC map service SOE",
   "main": "ElcUI.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "node scripts/templates-to-ts.js && tsc"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/WSDOT-GIS/elc-ui.git"
-  },
+  "repository": "git+https://github.com/WSDOT-GIS/elc-ui.git",
   "keywords": [
     "wsdot",
     "lrs",
     "elc"
   ],
   "author": "WSDOT",
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/WSDOT-GIS/elc-ui/issues"
   },
   "homepage": "https://github.com/WSDOT-GIS/elc-ui#readme",
   "dependencies": {
-    "@types/arcgis-js-api": "^4.4.0",
-    "@types/dojo": "^1.9.38",
-    "wsdot-elc": "^3.0.2"
+    "tslib": "^1.9.1",
+    "wsdot-elc": "^3.0.3"
   },
   "devDependencies": {
-    "tslint": "^5.7.0",
-    "typescript": "^2.5.2"
+    "@types/arcgis-js-api": "^3.24.0",
+    "@types/dojo": "1.9.40",
+    "html-minifier": "^3.5.16",
+    "tslint": "^5.10.0",
+    "typescript": "^2.8.3"
   }
 }
