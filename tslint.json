@@ -1,0 +1,22 @@
+{
+    "defaultSeverity": "warning",
+    "extends": [
+        "tslint:recommended"
+    ],
+    "jsRules": {},
+    "rules": {
+        "max-line-length": false,
+        "object-literal-sort-keys": false,
+        "only-arrow-functions": false,
+        "trailing-comma": {
+            "options": {
+                "multiline": "never",
+                "singleline": "never"
+            }
+        },
+        "variable-name": {
+            "options": ["allow-leading-underscore", "allow-pascal-case"]
+        }
+    },
+    "rulesDirectory": []
+}

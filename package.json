@@ -1,13 +1,31 @@
 {
   "name": "elc",
-  "version": "2.6.4",
+  "version": "3.0.0",
   "description": "JavaScript library for WSDOT ELC with UI",
   "main": "RouteLocator.js",
+  "files": [
+    "lrsTypeUtils.js",
+    "Route.js",
+    "RouteId.js",
+    "RouteLocation.js",
+    "RouteLocator.js",
+    "routeTypeUtils.js",
+    "routeUtils.js",
+    "lrsTypeUtils.d.ts",
+    "Route.d.ts",
+    "RouteId.d.ts",
+    "RouteLocation.d.ts",
+    "RouteLocator.d.ts",
+    "routeTypeUtils.d.ts",
+    "routeUtils.d.ts",
+    "elc-ui"
+  ],
   "directories": {
-    "test": "tests"
+    "test": "spec"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepare": "tsc",
+    "test": "jasmine && karma start"
   },
   "repository": {
     "type": "git",
@@ -30,5 +48,20 @@
   "bugs": {
     "url": "https://github.com/WSDOT-GIS/elc-js/issues"
   },
-  "homepage": "https://github.com/WSDOT-GIS/elc-js#readme"
+  "homepage": "https://github.com/WSDOT-GIS/elc-js#readme",
+  "devDependencies": {
+    "@types/jasmine": "^2.5.54",
+    "@types/node": "^8.0.28",
+    "jasmine": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-requirejs": "^1.1.0",
+    "requirejs": "^2.3.5",
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2"
+  },
+  "dependencies": {
+    "node-fetch": "^1.7.3"
+  }
 }
