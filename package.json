@@ -1,6 +1,6 @@
 {
-  "name": "elc",
-  "version": "3.0.0",
+  "name": "wsdot-elc",
+  "version": "3.0.1",
   "description": "JavaScript client for WSDOT ELC map service SOE",
   "main": "RouteLocator.js",
   "types": "RouteLocator.d.ts",

@@ -8,11 +8,18 @@ JavaScript client library for accessing WSDOT's [Enterprise Location Class ArcGI
 
 ## Installation ##
 
+```console
+npm install wsdot-elc
+```
+
+<!--
 This package is registered with [Bower] with the name `wsdot-route-locator`.
 
 Once you have [Bower] installed on your system, you can run the following command at the command line to download the package and all dependencies to your project.
 
     $ bower install wsdot-route-locator --save
+
+-->
 
 ## Modules ##
 
