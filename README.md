@@ -23,7 +23,7 @@ Once you have [Bower] installed on your system, you can run the following comman
 
 ## Modules ##
 
-Most modules are [UMD] modules that will work with browser globals (i.e., loaded via HTML script tags), [AMD] (e.g., Dojo or RequireJS), and [NodeJS].
+Most modules are [UMD] modules that will work with  [AMD] (e.g., Dojo or RequireJS) and [NodeJS].
 
 ### RouteLocator ###
 
