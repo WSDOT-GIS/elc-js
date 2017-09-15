@@ -1,0 +1,31 @@
+{
+  "name": "elc-ui",
+  "version": "1.0.0",
+  "description": "User interface for ELC map service SOE",
+  "main": "ElcUI.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WSDOT-GIS/elc-ui.git"
+  },
+  "keywords": [
+    "wsdot",
+    "lrs",
+    "elc"
+  ],
+  "author": "WSDOT",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/WSDOT-GIS/elc-ui/issues"
+  },
+  "homepage": "https://github.com/WSDOT-GIS/elc-ui#readme",
+  "dependencies": {
+    "wsdot-elc": "^3.0.2"
+  },
+  "devDependencies": {
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.2"
+  }
+}
