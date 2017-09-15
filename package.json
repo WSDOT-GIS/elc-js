@@ -25,7 +25,7 @@
   },
   "scripts": {
     "prepare": "tsc",
-    "test": "jasmine"
+    "test": "jasmine && karma start"
   },
   "repository": {
     "type": "git",

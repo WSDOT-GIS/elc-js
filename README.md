@@ -15,7 +15,7 @@ Once you have [Bower] installed on your system, you can run the following comman
 
 ### For Visual Studio users ###
 
-Visual Studio users can use the [Package Installer] extension to install the `wsdot-route-locator` bower package as an alternative to using the command line. 
+Visual Studio users can use the [Package Installer] extension to install the `wsdot-route-locator` bower package as an alternative to using the command line.
 
 Whichever installation method you choose, once you have installed the `wsdot-route-locator` package, you'll also need to add the dependencies in the `bower_components` directory (`customevent-polyfill.*` and `es6-shim.*`) to your Visual Studio project.
 
@@ -29,11 +29,11 @@ A class that aids in calling the ELC SOE.
 
 ### Route ###
 
-A class that represents a route in WSDOT's Linear Refrencing System.
+A class that represents a route in WSDOT's Linear Referencing System.
 
 ### RouteId ###
 
-A class that represent's a route's ID.
+A class that represents a route's ID.
 
 ### RouteList ###
 
@@ -42,25 +42,6 @@ A class that represents the list of routes returned from the ELC SOE's `routes` 
 ### RouteLocation ###
 
 Represents a route location result returned from ELC SOE operations.
-
-### UI ###
-
-These [AMD] modules are used to create user interface components in a web browser.
-
-#### ElcUI ####
-
-Provides user interface that allows user to specify ELC parameters.
-
-#### RouteSelector ####
-
-Control that allows the user to select from a list of *Route* objects. This is a [UMD] modu
-
-#### ArcGisElcUI ####
-
-Extension of *ElcUI* for use with the [ArcGIS API for JavaScript].
-
-See `demo/ArcGisElcUI` folder contents for example usage.
-
 
 [AMD]:https://github.com/amdjs/amdjs-api/wiki/AMD
 [ArcGIS API for JavaScript]:http://js.arcgis.com
