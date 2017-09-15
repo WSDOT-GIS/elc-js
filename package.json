@@ -53,6 +53,11 @@
     "@types/jasmine": "^2.5.54",
     "@types/node": "^8.0.28",
     "jasmine": "^2.8.0",
+    "karma": "^1.7.1",
+    "karma-jasmine": "^1.1.0",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-requirejs": "^1.1.0",
+    "requirejs": "^2.3.5",
     "tslint": "^5.7.0",
     "typescript": "^2.5.2"
   },

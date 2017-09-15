@@ -5,7 +5,7 @@ import { flattenArray, getActualMonth } from "./routeUtils";
 
 // Only browsers have build in support for fetch API.
 // Must be added for node.
-if (typeof fetch === "undefined") {
+if (typeof window === "undefined") {
     var fetch = require("node-fetch");
 }
 

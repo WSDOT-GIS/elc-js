@@ -3,8 +3,8 @@
     "files.exclude": {
         "**/*.js": { "when": "$(basename).ts" },
         "spec/*.d.ts": true,
-        "{lrsTypeUtils,Route,RouteId,RouteLocation,routeTypeUtils,routeUtils,FormatError}.d.ts": true,
-        "{lrsTypeUtils,Route,RouteId,RouteLocation,routeTypeUtils,routeUtils,FormatError}.js.map": true,
+        "{lrsTypeUtils,Route,RouteId,RouteLocation,RouteLocator,routeTypeUtils,routeUtils,FormatError}.d.ts": true,
+        "{lrsTypeUtils,Route,RouteId,RouteLocation,RouteLocator,routeTypeUtils,routeUtils,FormatError}.js.map": true,
         "**/.git": true,
         "**/.svn": true,
         "**/.hg": true,
