@@ -1,0 +1,6 @@
+*.js
+!karma.config.js
+!test-main.js
+*.d.ts
+!*Interfaces.d.ts
+*.js.map

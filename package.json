@@ -1,71 +1,7 @@
 {
-  "name": "wsdot-elc",
-  "version": "3.1.0",
-  "description": "JavaScript client for WSDOT ELC map service SOE",
-  "main": "index.js",
-  "types": "index.d.ts",
-  "files": [
-    "index.d.ts",
-    "FormatError.d.ts",
-    "FormatError.js",
-    "lrsTypeUtils.d.ts",
-    "lrsTypeUtils.js",
-    "Route.d.ts",
-    "Route.js",
-    "RouteId.d.ts",
-    "RouteId.js",
-    "RouteLocation.d.ts",
-    "RouteLocation.js",
-    "RouteLocationInterfaces.d.ts",
-    "RouteLocator.d.ts",
-    "routeTypeUtils.d.ts",
-    "routeTypeUtils.js",
-    "routeUtils.d.ts",
-    "routeUtils.js"
-  ],
-  "directories": {
-    "test": "spec"
-  },
-  "scripts": {
-    "prepare": "tsc",
-    "test": "jasmine && karma start"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/WSDOT-GIS/elc-js.git"
-  },
-  "keywords": [
-    "ELC",
-    "state",
-    "WA",
-    "WSDOT",
-    "Washington",
-    "route",
-    "location",
-    "enterprise",
-    "class",
-    "lrs"
-  ],
-  "author": "WSDOT",
-  "license": "Unlicense",
-  "bugs": {
-    "url": "https://github.com/WSDOT-GIS/elc-js/issues"
-  },
-  "homepage": "https://github.com/WSDOT-GIS/elc-js#readme",
-  "devDependencies": {
-    "@types/jasmine": "^2.8.7",
-    "@types/node": "^10.1.3",
-    "isomorphic-fetch": "^2.2.1",
-    "jasmine": "^3.1.0",
-    "karma": "^2.0.2",
-    "karma-jasmine": "^1.1.2",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-requirejs": "^1.1.0",
-    "requirejs": "^2.3.5",
-    "tslint": "^5.10.0",
-    "typescript": "^2.8.3",
-    "prettier": "^1.13.2",
-    "tslint-config-prettier": "^1.13.0",
-    "tslint-plugin-prettier": "^1.3.0"
-  }
+	"devDependencies": {
+		"lerna": "^2.11.0"
+	},
+	"private": true,
+	"workspaces": ["packages/*"]
 }
