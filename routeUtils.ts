@@ -6,25 +6,30 @@
  * @returns {(number|null|undefined)} If null or undefined are passed in, the same value will be returned.  Otherwise the number equivalent of "value" is returned.
  * @throws {Error} Thrown if "value" cannot be converted into a number (and is not null or undefined).
  */
-export function toNumber(value: number | string, propName: string | null | undefined) {
-    let output;
-    // If a property name is not provided, set the name to "this" for the error message (if necessary).
-    if (propName === null || typeof propName === "undefined") {
-        propName = "this";
+export function toNumber(
+  value: number | string,
+  propName: string | null | undefined
+) {
+  let output;
+  // If a property name is not provided, set the name to "this" for the error message (if necessary).
+  if (propName === null || typeof propName === "undefined") {
+    propName = "this";
+  }
+  // Make sure that if ID is provided it is a number or convertible to a number.
+  if (typeof value !== "undefined" && value !== null) {
+    // Convert value to a number.  Something like "abc" can't be converted and will result in NaN, in which case an error is thrown.
+    value = Number(value);
+    if (isNaN(value)) {
+      throw new Error(
+        `If ${propName} property is provided, it must be a number.`
+      );
     }
-    // Make sure that if ID is provided it is a number or convertible to a number.
-    if (typeof value !== "undefined" && value !== null) {
-        // Convert value to a number.  Something like "abc" can't be converted and will result in NaN, in which case an error is thrown.
-        value = Number(value);
-        if (isNaN(value)) {
-            throw new Error(`If ${propName} property is provided, it must be a number.`);
-        }
-        output = value;
-    } else if (value === null) {
-        return null;
-    }
+    output = value;
+  } else if (value === null) {
+    return null;
+  }
 
-    return output;
+  return output;
 }
 
 /**
@@ -36,7 +41,7 @@ export function toNumber(value: number | string, propName: string | null | undef
  * @return {number} Returns the number that humans use to represent the Date's month (Date.getMonth() + 1).
  */
 export function getActualMonth(date: Date): number {
-    return date.getMonth() + 1;
+  return date.getMonth() + 1;
 }
 
 /**
@@ -48,26 +53,26 @@ export function getActualMonth(date: Date): number {
  * @memberOf $.wsdot.elc
  */
 export function flattenArray(array: any[]): any[] {
-    if (typeof array === "undefined" || array === null) {
-        return array;
-    }
-    if (typeof array !== "object" || !(array instanceof Array)) {
-        throw new Error("array must be an Array object.");
-    }
+  if (typeof array === "undefined" || array === null) {
+    return array;
+  }
+  if (typeof array !== "object" || !(array instanceof Array)) {
+    throw new Error("array must be an Array object.");
+  }
 
-    const outArray = [];
+  const outArray = [];
 
-    for (let i = 0, l = array.length; i < l; i += 1) {
-        const element = array[i];
-        if (typeof element === "object" && element instanceof Array) {
-            const array2 = flattenArray(element);
-            for (let j = 0, jl = array2.length; j < jl; j += 1) {
-                outArray.push(array2[j]);
-            }
-        } else {
-            outArray.push(element);
-        }
+  for (let i = 0, l = array.length; i < l; i += 1) {
+    const element = array[i];
+    if (typeof element === "object" && element instanceof Array) {
+      const array2 = flattenArray(element);
+      for (let j = 0, jl = array2.length; j < jl; j += 1) {
+        outArray.push(array2[j]);
+      }
+    } else {
+      outArray.push(element);
     }
+  }
 
-    return outArray;
+  return outArray;
 }

@@ -1,19 +1,16 @@
 {
     "defaultSeverity": "warning",
     "extends": [
-        "tslint:recommended"
+        "tslint:recommended",
+        "tslint-plugin-prettier",
+        "tslint-config-prettier"
     ],
     "jsRules": {},
     "rules": {
+        "prettier": true,
         "max-line-length": false,
         "object-literal-sort-keys": false,
         "only-arrow-functions": false,
-        "trailing-comma": {
-            "options": {
-                "multiline": "never",
-                "singleline": "never"
-            }
-        },
         "variable-name": {
             "options": ["allow-leading-underscore", "allow-pascal-case"]
         }
