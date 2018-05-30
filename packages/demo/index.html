@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title></title>
-    <link href="//js.arcgis.com/3.21/esri/css/esri.css" rel="stylesheet" />
-    <link href="../../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link href="../../bower_components/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet" />
-    <link href="../../elc-ui/elc-ui-behavior.css" rel="stylesheet" />
+    <title>ELC UI w/ ArcMap &amp; Bootstrap</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.24/esri/css/esri.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="Style/elc-ui-behavior.css">
     <link href="Style/index.css" rel="stylesheet" />
-    <script src="../../bower_components/customevent-polyfill/customevent-polyfill.min.js"></script>
-    <script src="../../bower_components/es6-shim/es6-shim.js"></script>
-    <script src="../../bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="../../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 </head>
 <body>
     <div id="flexcontainer">
@@ -21,8 +19,8 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Modal title</h4>
                 </div>
                 <div class="modal-body">
                 </div>
@@ -38,16 +36,15 @@
                 async: true,
                 packages: [
                     {
-                        name: "RouteLocator",
-                        location: root + "../../..",
-                        main: "RouteLocator"
+                        name: "app",
+                        location: root + "/dist"
                     },
                 ]
             };
             window.dojoConfig = dojoConfig;
         }(location.href.replace(/\?.+$/i, "").replace(/\/[^\/]*$/, "")));
     </script>
-    <script src="//js.arcgis.com/3.21/init.js" integrity="sha384-y9l0OAZ2wUBSau+YStQwIsOkyJTpTyzuqulXd/g0xThdE8RfIkrVhNIyKRVxgv2+" crossorigin="anonymous"></script>
-    <script src="Script/index.js"></script>
+    <script src="https://js.arcgis.com/3.24/init.js" integrity="sha384-d3/yJY8yRh6+P0mDJiw+AUk3XMgvO4Q735PrL8HCBQ4DK6ab4/xwyzlkIWiIw2rS" crossorigin="anonymous"></script>
+    <script>require(["app"])</script>
 </body>
 </html>

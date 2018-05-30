@@ -14,7 +14,7 @@ import esriRequest = require("esri/request");
 import SimpleLineSymbol = require("esri/symbols/SimpleLineSymbol");
 import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
 import RouteLocator, { RouteId, RouteLocation } from "wsdot-elc";
-import ElcUI from "./ElcUI";
+import ElcUI, { IElcUIOptions } from "./ElcUI";
 
 const defaultInternalTestUrl =
   "https://www.wsdot.wa.gov/data/tools/geoportal/config/internal-rmec.json";
@@ -257,8 +257,12 @@ function graphicToHtml(graphic: Graphic) {
   return frag;
 }
 
+export interface IArcGisElcUIOptions extends IElcUIOptions {
+  url?: string;
+}
+
 const ArcGisElcUI = declare(Evented as any, {
-  constructor(domNode: HTMLElement, options: any) {
+  constructor(domNode: HTMLElement, options?: IArcGisElcUIOptions) {
     const self = this;
 
     /**
@@ -313,7 +317,9 @@ const ArcGisElcUI = declare(Evented as any, {
       }
     }
 
-    const routeLocator = new RouteLocator(options ? options.url || null : null);
+    const routeLocator = new RouteLocator(
+      options ? options.url || undefined : undefined
+    );
 
     const elcUI = new ElcUI(domNode, options);
 

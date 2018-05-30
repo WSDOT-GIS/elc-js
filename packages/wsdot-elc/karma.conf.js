@@ -16,10 +16,10 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'http://cdn.polyfill.io/v2/polyfill.js?features=fetch,Promise',
-      'node_modules/requirejs/require.js',
-      'node_modules/karma-requirejs/lib/adapter.js',
+      '../../node_modules/requirejs/require.js',
+      '../../node_modules/karma-requirejs/lib/adapter.js',
       'test-main.js',
-      {pattern: '*.js', included: false},
+      {pattern: 'dist/**/*.js', included: false},
       {pattern: 'spec/**/*Spec.js', included: false}
     ],
 

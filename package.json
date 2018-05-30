@@ -2,6 +2,12 @@
 	"devDependencies": {
 		"lerna": "^2.11.0"
 	},
+	"scripts": {
+		"prepare": "lerna run prepare",
+		"start:dev": "lerna run start:dev"
+	},
 	"private": true,
-	"workspaces": ["packages/*"]
+	"workspaces": [
+		"packages/*"
+	]
 }

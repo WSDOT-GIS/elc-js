@@ -2,9 +2,14 @@
   "name": "@wsdot/elc-ui",
   "version": "1.0.0",
   "description": "User interface for ELC map service SOE",
-  "main": "ElcUI.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*",
+    "*.css"
+  ],
   "scripts": {
-    "prepare": "node scripts/templates-to-ts.js && tsc"
+    "prepare": "node scripts/templates-to-ts.js && node scripts/css-to-ts.js && tsc"
   },
   "repository": "git+https://github.com/WSDOT-GIS/elc-ui.git",
   "keywords": [

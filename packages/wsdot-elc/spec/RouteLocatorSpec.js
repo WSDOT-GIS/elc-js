@@ -1,9 +1,5 @@
-import RouteLocator, {
-  flattenArray,
-  IFindRouteLocationsParameters,
-  IRouteLocation,
-  RouteLocation
-} from "../index";
+const elc = require("../dist/index");
+const { RouteLocator, flattenArray, RouteLocation } = elc;
 
 if (typeof fetch === "undefined") {
   // tslint:disable-next-line:no-var-requires
@@ -44,7 +40,7 @@ describe("RouteLocator", () => {
       Arm: 0
     });
 
-    const params: IFindRouteLocationsParameters = {
+    const params = {
       useCors: true,
       locations: [rl],
       referenceDate: new Date(dateString)

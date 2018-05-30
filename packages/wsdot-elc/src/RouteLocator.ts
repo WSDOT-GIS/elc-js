@@ -104,6 +104,9 @@ export interface IFindNearestRouteLocationParameters {
   useCors?: boolean;
 }
 
+const defaultUrl =
+  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
+
 export default class RouteLocator {
   private layerList: { [key: string]: Route[] } | null = null;
 

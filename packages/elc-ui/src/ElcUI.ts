@@ -2,8 +2,14 @@ import { IRouteLocation, Route } from "wsdot-elc";
 import RouteSelector from "./RouteSelector";
 import templates from "./Templates";
 
+/**
+ * Options for the ElcUI constructor.
+ */
 export interface IElcUIOptions {
-  bootstrap: boolean;
+  /**
+   * Use the Bootstrap template instead of default.
+   */
+  bootstrap?: boolean;
 }
 
 export default class ElcUI {
@@ -16,7 +22,7 @@ export default class ElcUI {
    * @param {Object} [options]
    * @param {Boolean} [options.bootstrap=false] - Use the Bootstrap template instead of default.
    */
-  constructor(rootNode: HTMLElement, options: IElcUIOptions) {
+  constructor(rootNode: HTMLElement, options?: IElcUIOptions) {
     const self = this;
     const parser = new DOMParser();
     const doc = parser.parseFromString(
