@@ -4,7 +4,8 @@
 	},
 	"scripts": {
 		"prepare": "lerna run prepare",
-		"start:dev": "lerna run start:dev"
+		"start:dev": "lerna run start:dev",
+		"test": "lerna run test"
 	},
 	"private": true,
 	"workspaces": [
