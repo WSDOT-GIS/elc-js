@@ -8,27 +8,14 @@ const elcUrl = (function(urlMatch) {
 })(location.search.match(/url=([^=&]+)/i));
 
 const elcUI = new ArcGisElcUI(document.getElementById("elcUI"), {
-  bootstrap: true,
+  bootstrap: false,
   url: elcUrl
 });
 
-/**
- * Shows a Bootstrap modal
- * @param {string} body - The body content.
- * @param {string} title - The title of the modal.
- */
-function showModal(body: string, title: string = "Alert") {
-  const modal = document.getElementById("modal")!;
-  const modalBody = modal.querySelector(".modal-body")!;
-  const modalTitle = modal.querySelector(".modal-title")!;
-  modalBody.textContent = body;
-  modalTitle.textContent = title;
-  $(modal).modal();
-}
-
 // Show a modal when no results are found.
 elcUI.on("elc-results-not-found", function() {
-  showModal("No results found.", "Alert");
+  // showModal("No results found.", "Alert");
+  alert("No results found.");
 });
 
 // Show an error message when a location cannot be located.
@@ -46,7 +33,8 @@ elcUI.on("non-geometry-results-returned", function(e: any) {
       output.push(`${name}: ${elcResult[name]}`);
     }
   });
-  showModal(output.join("\n"));
+  const message = output.join("\n");
+  alert(message);
 });
 
 // Add a point to the map when results are found.
