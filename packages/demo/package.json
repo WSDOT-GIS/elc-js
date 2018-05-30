@@ -13,6 +13,7 @@
     "@types/bootstrap": "^4.1.0",
     "@types/jquery": "^3.3.2",
     "@wsdot/elc-ui": "^1.0.0",
+    "@wsdot/elc-ui-arcgis-v3": "^1.0.0",
     "source-map": "^0.7.3",
     "ts-loader": "^4.3.0",
     "tslib": "^1.9.1",

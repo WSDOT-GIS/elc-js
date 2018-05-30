@@ -1,3 +1,4 @@
+import { ElcUI, IElcUIOptions } from "@wsdot/elc-ui";
 import declare = require("dojo/_base/declare");
 import Evented = require("dojo/Evented");
 import on = require("dojo/on");
@@ -14,7 +15,6 @@ import esriRequest = require("esri/request");
 import SimpleLineSymbol = require("esri/symbols/SimpleLineSymbol");
 import SimpleMarkerSymbol = require("esri/symbols/SimpleMarkerSymbol");
 import RouteLocator, { RouteId, RouteLocation } from "wsdot-elc";
-import ElcUI, { IElcUIOptions } from "./ElcUI";
 
 const defaultInternalTestUrl =
   "https://www.wsdot.wa.gov/data/tools/geoportal/config/internal-rmec.json";

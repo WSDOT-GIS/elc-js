@@ -1,4 +1,4 @@
-import { ArcGisElcUI } from "@wsdot/elc-ui";
+import ArcGisElcUI from "@wsdot/elc-ui-arcgis-v3";
 import Popup = require("esri/dijit/Popup");
 import esriMap = require("esri/map");
 import RouteLocator from "wsdot-elc";
