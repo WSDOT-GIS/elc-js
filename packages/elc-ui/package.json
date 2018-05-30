@@ -9,6 +9,7 @@
     "*.css"
   ],
   "scripts": {
+    "lint": "tslint -p . --fix",
     "prepare": "node scripts/templates-to-ts.js && node scripts/css-to-ts.js && tsc"
   },
   "repository": "git+https://github.com/WSDOT-GIS/elc-ui.git",

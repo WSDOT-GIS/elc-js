@@ -7,31 +7,42 @@ import templates from "./Templates";
  */
 export interface IElcUIOptions {
   /**
-   * Use the Bootstrap template instead of default.
+   * Use the Bootstrap DOM template instead of default one.
+   * Only set this to true if you plan on using this control
+   * and want to have it styled via Bootstrap.
    */
   bootstrap?: boolean;
 }
 
+/**
+ * ELC user interface.
+ */
 export default class ElcUI {
+  /**
+   * The DOM element that contains the ELC UI forms.
+   */
   public root: HTMLElement;
+  /**
+   * The controls that are used for selecting a route.
+   */
   public routeSelector: RouteSelector;
 
   /**
-   *
-   * @param {HTMLElement} rootNode
-   * @param {Object} [options]
-   * @param {Boolean} [options.bootstrap=false] - Use the Bootstrap template instead of default.
+   * Creates a new instance of the ElcUI object and creates DOM elements.
+   * @param rootNode - The node that will contain the UI DOM elements.
+   * @param options - Additional constructor options.
    */
   constructor(rootNode: HTMLElement, options?: IElcUIOptions) {
     const self = this;
+    // Parse the template HTML with the DOMParser.
     const parser = new DOMParser();
     const doc = parser.parseFromString(
       options && options.bootstrap ? templates.bootstrap : templates.default,
       "text/html"
     );
-    const uiDom = (doc.body.querySelector(".elc-ui-root") as Element).cloneNode(
-      true
-    ) as HTMLElement;
+    const uiDom = doc.body
+      .querySelector(".elc-ui-root")!
+      .cloneNode(true) as HTMLElement;
     this.root = rootNode;
     this.root.innerHTML = uiDom.outerHTML;
 
@@ -135,27 +146,33 @@ export default class ElcUI {
     // Programmatically click input elements that are checked by default so that
     // appropriate controls are shown / hidden when form is reset.
     findRouteLocationForm.addEventListener("reset", () => {
-      const checkedRB = findRouteLocationForm.querySelectorAll(
-        "input[checked]"
-      );
+      const checkedRB = findRouteLocationForm.querySelectorAll<
+        HTMLInputElement
+      >("input[checked]");
       for (const radioButton of Array.from(checkedRB)) {
-        (radioButton as HTMLInputElement).click();
+        radioButton.click();
       }
     });
 
     // Attach the "changeMPMode" function to radio buttons.
-    const radioButtons = findRouteLocationForm.querySelectorAll(
-      "input[type=radio]"
-    );
+    const radioButtons = findRouteLocationForm.querySelectorAll<
+      HTMLInputElement
+    >("input[type=radio]");
 
     for (const rb of Array.from(radioButtons)) {
       rb.addEventListener("click", changeMPMode);
     }
   }
 
+  /**
+   * Gets the list of routes displayed in the Route Selector.
+   */
   public get routes(): Route[] {
     return this.routeSelector.routes;
   }
+  /**
+   * Sets the routes in the route selector.
+   */
   public set routes(routesArray: Route[]) {
     this.routeSelector.routes = routesArray;
   }

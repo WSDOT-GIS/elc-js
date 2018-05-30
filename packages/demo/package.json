@@ -6,6 +6,7 @@
   "license": "Unlicense",
   "scripts": {
     "prepare": "webpack --mode production",
+    "lint": "tslint -p . --fix",
     "start:dev": "webpack-dev-server --open"
   },
   "devDependencies": {

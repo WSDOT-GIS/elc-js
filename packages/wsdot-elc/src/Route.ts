@@ -102,11 +102,11 @@ export default class Route {
     const routeNum = parseInt(this.routeId.sr, 10);
     if (abbrev) {
       if (abbrev === "SR") {
-        output = ["WA", routeNum].join("-");
+        output = `WA-${routeNum}`;
       } else if (abbrev === "US") {
-        output = [abbrev, routeNum].join("-");
+        output = `${abbrev}-${routeNum}`;
       } else if (abbrev === "IS") {
-        output = ["I", routeNum].join("-");
+        output = `I-${routeNum}`;
       }
     }
 

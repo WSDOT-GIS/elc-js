@@ -12,6 +12,7 @@
     "test": "spec"
   },
   "scripts": {
+    "lint": "tslint -p . --fix",
     "prepare": "tsc",
     "test": "jasmine"
   },

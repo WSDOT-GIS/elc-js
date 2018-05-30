@@ -32,8 +32,7 @@ export default class RouteSelector {
     waGroup.label = "WA State Routes";
 
     // Populate the SR Select.
-    for (let i = 0, l = routesArray.length; i < l; i += 1) {
-      const route = routesArray[i];
+    for (const route of routesArray) {
       if (route.name && route.isMainline) {
         const option = document.createElement("option");
         option.label = route.label;

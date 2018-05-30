@@ -9,6 +9,7 @@
   "license": "Unlicense",
   "author": "WSDOT",
   "scripts": {
+    "lint": "tslint -p . --fix",
     "prepare": "tsc"
   },
   "dependencies": {
