@@ -3,11 +3,8 @@
 		"lerna": "^2.11.0"
 	},
 	"scripts": {
-		"pretest": "lerna run prepare",
+		"prepare": "lerna run prepare",
 		"test": "lerna run test"
 	},
-	"private": true,
-	"workspaces": [
-		"packages/*"
-	]
+	"private": true
 }
