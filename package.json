@@ -3,7 +3,7 @@
 		"lerna": "^2.11.0"
 	},
 	"scripts": {
-		"postinstall": "lerna bootstrap && lerna run prepare --scope !demo",
+		"pretest": "lerna run prepare",
 		"test": "lerna run test"
 	},
 	"private": true,
