@@ -14,7 +14,9 @@
   "scripts": {
     "lint": "tslint -p . --fix",
     "prepare": "tsc",
-    "test": "jasmine"
+    "pretest": "tsc -p spec",
+    "test": "jasmine",
+    "posttest": "git clean src -fx"
   },
   "repository": {
     "type": "git",

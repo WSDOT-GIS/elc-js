@@ -172,7 +172,6 @@ export default class RouteLocator {
     const response = await fetch(url);
     if (response.status === 200) {
       const data = parseRoutes(await response.text());
-      console.log("routes");
       if (data.error) {
         if (
           this.routesResourceName === "Route Info" &&

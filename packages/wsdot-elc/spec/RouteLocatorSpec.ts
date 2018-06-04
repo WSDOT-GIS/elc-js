@@ -1,5 +1,12 @@
-const elc = require("../dist/index");
-const { RouteLocator, flattenArray, RouteLocation } = elc;
+/// <reference types="jasmine" />
+/// <reference types="node" />
+
+import {
+  flattenArray,
+  LrsType,
+  RouteLocation,
+  RouteLocator
+} from "../src/index";
 
 if (typeof fetch === "undefined") {
   // tslint:disable-next-line:no-var-requires
@@ -85,7 +92,10 @@ describe("RouteLocator", () => {
         expect(routes).toBeTruthy();
         // tslint:disable-next-line:forin
         for (const year in routes) {
-          expect(year).toMatch(/^(\d|(Current))/i);
+          expect(year).toMatch(
+            /^(\d|(Current))/i,
+            'Year should be either a number or "Current".'
+          );
         }
       }
       done();
