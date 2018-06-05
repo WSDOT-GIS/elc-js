@@ -16,6 +16,7 @@ export default class RouteSelector {
     return this._routes;
   }
   public set routes(routesArray: Route[]) {
+    console.debug("set routes", routesArray);
     this._routes = routesArray;
     // Sort the routes by route IDs' SR then RRQ (non numeric comes before numeric).
     this._routes.sort((a, b) => RouteId.sort(a.routeId, b.routeId));
@@ -136,7 +137,6 @@ export default class RouteSelector {
         const option = document.createElement("option");
         option.value = route.name;
 
-        // tslint:disable-next-line:max-line-length
         const label = route.isMainline
           ? "Mainline"
           : route.routeId.rrq

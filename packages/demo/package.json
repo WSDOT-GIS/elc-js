@@ -5,7 +5,7 @@
   "private": true,
   "license": "Unlicense",
   "scripts": {
-    "prepare": "webpack --mode production",
+    "prepare": "webpack --mode production && node build/create-stylesheets",
     "lint": "tslint -p . --fix",
     "start:dev": "webpack-dev-server --open"
   },

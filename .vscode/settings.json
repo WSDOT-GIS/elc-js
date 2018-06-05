@@ -1,15 +1,11 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-    "files.exclude": {
-        "**/*.js": { "when": "$(basename).ts" },
-        "spec/*.d.ts": true,
-        "{lrsTypeUtils,Route,RouteId,RouteLocation,RouteLocator,routeTypeUtils,routeUtils,FormatError}.d.ts": true,
-        "{lrsTypeUtils,Route,RouteId,RouteLocation,RouteLocator,routeTypeUtils,routeUtils,FormatError}.js.map": true,
-        "**/.git": true,
-        "**/.svn": true,
-        "**/.hg": true,
-        "**/CVS": true,
-        "**/.DS_Store": true
-    },
-    "tslint.autoFixOnSave": true
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true
+  },
+  "tslint.autoFixOnSave": true
 }

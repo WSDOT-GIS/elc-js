@@ -90,8 +90,8 @@ export default class Route {
   public get name() {
     return this._name;
   }
-  public isMainline(): boolean {
-    return this.name.length === 3;
+  public get isMainline(): boolean {
+    return !this.routeId.rrt;
   }
   /**
    * Text label including route type, if available.
@@ -116,11 +116,11 @@ export default class Route {
     return output;
   }
   /* @property {number} lrsTypes An integer from 1 to 4, corresponding to one of the following constants:
-     *      {@link LrsType.INCREASE},
-     *      {@link LrsType.DECREASE},
-     *      {@link LrsType.BOTH},
-     *      {@link LrsType.RAMP}
-     */
+   *      {@link LrsType.INCREASE},
+   *      {@link LrsType.DECREASE},
+   *      {@link LrsType.BOTH},
+   *      {@link LrsType.RAMP}
+   */
   public get lrsTypes(): LrsType {
     return this._lrsTypes;
   }

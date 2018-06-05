@@ -3,9 +3,12 @@
 
 import {
   flattenArray,
+  IRouteList,
   LrsType,
+  Route,
   RouteLocation,
-  RouteLocator
+  RouteLocator,
+  RouteTypes
 } from "../src/index";
 
 if (typeof fetch === "undefined") {
@@ -15,6 +18,30 @@ if (typeof fetch === "undefined") {
 
 describe("RouteLocator", () => {
   const routeLocator = new RouteLocator();
+
+  it("should be able to get routes parse them correctly", async done => {
+    let routeList: IRouteList;
+    try {
+      routeList = (await routeLocator.getRouteList(true))!;
+      if (!routeList) {
+        throw new TypeError("route list should not be falsy");
+      }
+      const routeYearRe = /((Current)|(\d{4}))/i;
+      for (const year in routeList) {
+        if (routeList.hasOwnProperty(year)) {
+          expect(year).toMatch(routeYearRe);
+          const routeArray = routeList[year];
+          for (const route of routeArray) {
+            expect(!route.routeId.rrt).toBe(route.isMainline);
+          }
+        }
+      }
+    } catch (err) {
+      done.fail(err);
+    }
+
+    done();
+  });
 
   it("should be able to find route locations with minimum parameters supplied.", done => {
     const dateString = "12/31/2011";
