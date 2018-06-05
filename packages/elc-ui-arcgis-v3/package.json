@@ -12,6 +12,9 @@
     "lint": "tslint -p . --fix",
     "prepare": "tsc"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "dependencies": {
     "@wsdot/elc-ui": "^1.0.0",
     "tslib": "^1.9.2",

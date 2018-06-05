@@ -1,23 +1,35 @@
+const css = require("@wsdot/elc-ui").css;
 const fs = require("fs");
 const path = require("path");
 
 const outCssDir = path.resolve(__dirname, "..", "Style");
-const sourceDir = path.resolve(__dirname, "..", "..", "elc-ui");
 
-fs.readdir(sourceDir, (err, files) => {
-  // Get a list of the CSS files.
-  const cssFiles = files.filter(file => file.match(/.css$/i));
+// Create the output directory.
+fs.mkdir(outCssDir, (err) => {
+  if (err) {
+    if (err.code == 'EEXIST') {
+      console.log(`Directory already exists: ${outCssDir}. Skipping creation.`);
+    } else {
+      console.error(err);
+    }
+  }
 
-  for (const file of cssFiles) {
-    const sourcePath = path.resolve(sourceDir, file);
-    const destPath = path.resolve(outCssDir, file);
-    console.log(`copying ${sourcePath} to ${destPath}...`);
-    fs.copyFile(sourcePath, destPath, err => {
-      if (err) {
-        console.error(err);
-      } else {
-        console.log(`copied ${sourcePath} to ${destPath}...`);
+  // For each property of the css object, write a new CSS file.
+  for (const cssName in css) {
+    if (css.hasOwnProperty(cssName)) {
+      const cssData = css[cssName];
+      let file = `${cssName}.css`;
+      if (!file.match(/^elc-ui/)) {
+        file = `elc-ui-${file}`
       }
-    });
+      const destPath = path.resolve(outCssDir, file);
+      fs.writeFile(destPath, cssData, (err) => {
+        if (err) {
+          console.error(err);
+        } else {
+          console.log(`file ${destPath} has been written.`);
+        }
+      });
+    }
   }
 });
