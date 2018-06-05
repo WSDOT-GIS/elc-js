@@ -6,5 +6,6 @@
 		"pretest": "lerna bootstrap",
 		"test": "lerna exec npm test"
 	},
-	"private": true
+	"private": true,
+	"workspaces": ["packages/*"]
 }
