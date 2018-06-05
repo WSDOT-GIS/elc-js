@@ -2,7 +2,6 @@
  * Main entry point for wsdot-elc module.
  */
 
-export * from "./FormatError";
 export * from "./lrsTypeUtils";
 export * from "./Route";
 export * from "./RouteId";

@@ -1,9 +1,15 @@
-import RouteLocator, {
+/// <reference types="jasmine" />
+/// <reference types="node" />
+
+import {
   flattenArray,
-  IFindRouteLocationsParameters,
-  IRouteLocation,
-  RouteLocation
-} from "../index";
+  IRouteList,
+  LrsType,
+  Route,
+  RouteLocation,
+  RouteLocator,
+  RouteTypes
+} from "../src/index";
 
 if (typeof fetch === "undefined") {
   // tslint:disable-next-line:no-var-requires
@@ -12,6 +18,30 @@ if (typeof fetch === "undefined") {
 
 describe("RouteLocator", () => {
   const routeLocator = new RouteLocator();
+
+  it("should be able to get routes parse them correctly", async done => {
+    let routeList: IRouteList;
+    try {
+      routeList = (await routeLocator.getRouteList(true))!;
+      if (!routeList) {
+        throw new TypeError("route list should not be falsy");
+      }
+      const routeYearRe = /((Current)|(\d{4}))/i;
+      for (const year in routeList) {
+        if (routeList.hasOwnProperty(year)) {
+          expect(year).toMatch(routeYearRe);
+          const routeArray = routeList[year];
+          for (const route of routeArray) {
+            expect(!route.routeId.rrt).toBe(route.isMainline);
+          }
+        }
+      }
+    } catch (err) {
+      done.fail(err);
+    }
+
+    done();
+  });
 
   it("should be able to find route locations with minimum parameters supplied.", done => {
     const dateString = "12/31/2011";
@@ -44,7 +74,7 @@ describe("RouteLocator", () => {
       Arm: 0
     });
 
-    const params: IFindRouteLocationsParameters = {
+    const params = {
       useCors: true,
       locations: [rl],
       referenceDate: new Date(dateString)
@@ -89,7 +119,10 @@ describe("RouteLocator", () => {
         expect(routes).toBeTruthy();
         // tslint:disable-next-line:forin
         for (const year in routes) {
-          expect(year).toMatch(/^(\d|(Current))/i);
+          expect(year).toMatch(
+            /^(\d|(Current))/i,
+            'Year should be either a number or "Current".'
+          );
         }
       }
       done();

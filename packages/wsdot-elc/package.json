@@ -1,0 +1,62 @@
+{
+  "name": "wsdot-elc",
+  "version": "3.1.0",
+  "description": "JavaScript client for WSDOT ELC map service SOE",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/*"
+  ],
+  "directories": {
+    "lib": "dist",
+    "test": "spec"
+  },
+  "scripts": {
+    "lint": "tslint -p . --fix",
+    "prepare": "tsc",
+    "pretest": "tsc -p spec",
+    "test": "jasmine",
+    "posttest": "git clean src -fx"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WSDOT-GIS/elc-js.git"
+  },
+  "keywords": [
+    "ELC",
+    "state",
+    "WA",
+    "WSDOT",
+    "Washington",
+    "route",
+    "location",
+    "enterprise",
+    "class",
+    "lrs"
+  ],
+  "author": "WSDOT",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/WSDOT-GIS/elc-js/issues"
+  },
+  "homepage": "https://github.com/WSDOT-GIS/elc-js#readme",
+  "devDependencies": {
+    "@types/jasmine": "^2.8.7",
+    "@types/node": "^10.1.3",
+    "isomorphic-fetch": "^2.2.1",
+    "jasmine": "^3.1.0",
+    "karma": "^2.0.2",
+    "karma-jasmine": "^1.1.2",
+    "karma-phantomjs-launcher": "^1.0.4",
+    "karma-requirejs": "^1.1.0",
+    "prettier": "^1.13.2",
+    "requirejs": "^2.3.5",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "tslint-plugin-prettier": "^1.3.0",
+    "typescript": "^2.8.3"
+  },
+  "dependencies": {
+    "tslib": "^1.9.1"
+  }
+}

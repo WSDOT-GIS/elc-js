@@ -104,8 +104,21 @@ export interface IFindNearestRouteLocationParameters {
   useCors?: boolean;
 }
 
+const defaultUrl =
+  "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe";
+
+/**
+ * A dictionary of route arrays, keyed by year.
+ */
+export interface IRouteList {
+  [key: string]: Route[];
+}
+
+/**
+ * Client for ELC REST SOE.
+ */
 export default class RouteLocator {
-  private layerList: { [key: string]: Route[] } | null = null;
+  private layerList: IRouteList | null = null;
 
   /**
    * A helper object for querying the ELC REST SOE endpoints.
@@ -134,18 +147,13 @@ export default class RouteLocator {
   }
 
   /**
-   * A dictionary of route arrays, keyed by year.
-   * @typedef {Object.<string, Route[]>} RouteList
-   */
-
-  /**
    * Returns a {@link RouteList}
    * @param {boolean} [useCors=true] Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)
    * @returns {Promise} - Success: This function takes a single {@link RouteList}, Error: This function takes a single error parameter.
    */
   public async getRouteList(
     useCors: boolean = true
-  ): Promise<{ [key: string]: Route[] } | null> {
+  ): Promise<IRouteList | null> {
     // var this = this, data, request, url;
 
     if (this.layerList) {
@@ -172,7 +180,7 @@ export default class RouteLocator {
           // If the newer Route Info is not supported, try the older version.
           // console.warn('The "Route Info" endpoint is not supported. Trying the older "route"..."', url);
           this.routesResourceName = "routes";
-          return this.getRouteList(useCors);
+          return await this.getRouteList(useCors);
         } else {
           throw Error(data.error);
         }

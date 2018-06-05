@@ -1,0 +1,26 @@
+{
+  "name": "@wsdot/elc-ui-arcgis-v3",
+  "version": "1.0.0",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
+  "files": [
+    "dist/*"
+  ],
+  "license": "Unlicense",
+  "author": "WSDOT",
+  "scripts": {
+    "lint": "tslint -p . --fix",
+    "prepare": "tsc"
+  },
+  "dependencies": {
+    "@wsdot/elc-ui": "^1.0.0",
+    "tslib": "^1.9.2",
+    "wsdot-elc": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/arcgis-js-api": "^3.24.0",
+    "@types/dojo": "^1.9.40",
+    "typescript": "^2.8.4",
+    "tslint": "^5.10.0"
+  }
+}

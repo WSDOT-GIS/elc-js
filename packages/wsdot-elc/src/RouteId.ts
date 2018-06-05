@@ -76,11 +76,11 @@ for (const key in rampTypes) {
     const desc = rampTypes[key];
     let newKey: string;
     for (let i = 1, l = 10; i < l; i += 1) {
-      newKey = [key, i].join("");
-      rrtDefinitions[newKey] = [desc, i].join(" ");
+      newKey = `${key}${i}`;
+      rrtDefinitions[newKey] = `${desc} ${i}`;
     }
-    newKey = key + "U";
-    rrtDefinitions[newKey] = ["Extension of", key, "ramp"].join(" ");
+    newKey = `${key}U`;
+    rrtDefinitions[newKey] = `Extension of ${key} ramp`;
   }
 }
 

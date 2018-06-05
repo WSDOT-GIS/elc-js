@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>ELC UI w/ ArcMap &amp; Bootstrap</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/3.24/esri/css/esri.css">
+    <link rel="stylesheet" href="Style/elc-ui-behavior.css" />
+    <link rel="stylesheet" href="Style/elc-ui.css" />
+    <link href="Style/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="flexcontainer">
+        <div id="map"></div>
+        <div id="elcUI"></div>
+    </div>
+    <script>
+        (function (root) {
+            var dojoConfig = {
+                async: true,
+                packages: [
+                    {
+                        name: "app",
+                        location: root + "/dist"
+                    },
+                ]
+            };
+            window.dojoConfig = dojoConfig;
+        }(location.href.replace(/\?.+$/i, "").replace(/\/[^\/]*$/, "")));
+    </script>
+    <script src="https://js.arcgis.com/3.24/init.js" integrity="sha384-d3/yJY8yRh6+P0mDJiw+AUk3XMgvO4Q735PrL8HCBQ4DK6ab4/xwyzlkIWiIw2rS" crossorigin="anonymous"></script>
+    <script>require(["app"])</script>
+</body>
+</html>
