@@ -4,6 +4,7 @@
 	},
 	"scripts": {
 		"pretest": "lerna bootstrap",
+		"prepublish": "lerna run prepare",
 		"test": "lerna exec npm test"
 	},
 	"private": true,

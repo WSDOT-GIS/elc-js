@@ -1,6 +1,6 @@
 {
   "name": "demo",
-  "version": "1.0.0",
+  "version": "4.0.0-0",
   "main": "index.js",
   "private": true,
   "license": "Unlicense",
@@ -11,8 +11,8 @@
   },
   "devDependencies": {
     "@types/arcgis-js-api": "^3.24.0",
-    "@wsdot/elc-ui": "^1.0.0",
-    "@wsdot/elc-ui-arcgis-v3": "^1.0.0",
+    "@wsdot/elc-ui": "^4.0.0-0",
+    "@wsdot/elc-ui-arcgis-v3": "^4.0.0-0",
     "source-map": "^0.7.3",
     "ts-loader": "^4.3.1",
     "tslib": "^1.9.2",
@@ -21,6 +21,6 @@
     "webpack": "^4.11.0",
     "webpack-cli": "^3.0.2",
     "webpack-dev-server": "^3.1.4",
-    "wsdot-elc": "^3.0.3"
+    "wsdot-elc": "^4.0.0-0"
   }
 }
