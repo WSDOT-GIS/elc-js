@@ -115,7 +115,7 @@ export default class RouteSelector {
 
     this.mainlineSelect.addEventListener(
       "change",
-      this.addOptionsForCurrentlySelectedMainline,
+      e => this.addOptionsForCurrentlySelectedMainline(),
       true
     );
 
