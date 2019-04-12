@@ -47,7 +47,7 @@ const routeLocator = new RouteLocator();
   // do something with the locations.
 })();
 
-// use a single reference date insteat of per-location date
+// use a single reference date instead of per-location date
 (async () => {
   const dateString = "12/31/2011";
   const rl = new RouteLocation({
