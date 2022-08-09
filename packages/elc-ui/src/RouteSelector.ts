@@ -78,7 +78,7 @@ export default class RouteSelector {
 
   /**
    * Creates a Route Selector UI control.
-   * @param {HTMLElement} root
+   * @param root
    */
   constructor(root: HTMLElement) {
     if (!(root && root instanceof HTMLElement)) {

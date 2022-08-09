@@ -37,7 +37,7 @@ export function toNumber(
  * For some reason JavaScript's Date.getMonth() method returns a zero-based month integer (i.e., Jan = 0, Feb = 1, etc.) instead of the way
  * almost every culture on Earth would expect (i.e., Jan = 1, Feb = 2, etc.).  This method returns it the correct way.
  * @author Jeff Jacobson
- * @param {Date} date - A Date object
+ * @param date - A Date object
  * @return {number} Returns the number that humans use to represent the Date's month (Date.getMonth() + 1).
  */
 export function getActualMonth(date: Date): number {
@@ -47,7 +47,7 @@ export function getActualMonth(date: Date): number {
 /**
  * If an array is a jagged-array, this function will "flatten" the array into a regular array.
  * @author Jeff Jacobson
- * @param {Array} array An array.
+ * @param array An array.
  * @return {Array} A flattened version of the input array.
  * @exception {Error} Thrown if array is not an object of type Array.
  * @memberOf $.wsdot.elc

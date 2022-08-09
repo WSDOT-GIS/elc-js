@@ -96,31 +96,31 @@ export default class RouteLocation implements IRouteLocation {
   /**
    * A class representing either a point or a segment on a WSDOT State Route.
    * @class A class representing either a point or a segment on a WSDOT State Route.
-   * @param {object} [json] An object containing values used to initialize the RouteLocation's properties.  Properties of this object correspond to those of the {@link RouteLocation} class.
-   * @param {number} [json.Id] {@link RouteLocation#Id}
-   * @param {string} [json.Route] {@link RouteLocation#Route}
-   * @param {Decrease} [json.Decrease] {@link RouteLocation#Decrease}
-   * @param {number} [json.Arm] {@link RouteLocation#Arm}
-   * @param {number} [json.Srmp] {@link RouteLocation#Srmp}
-   * @param {Boolean} [json.Back] {@link RouteLocation#Back}
-   * @param {Date} [json.ReferenceDate] {@link RouteLocation#ReferenceDate}
-   * @param {Date} [json.ResponseDate] {@link RouteLocation#ResponseDate}
-   * @param {number} [json.EndArm] {@link RouteLocation#EndArm} Only used for line segments, not points.
-   * @param {number} [json.EndSrmp] {@link RouteLocation#EndSrmp} Only used for line segments, not points.
-   * @param {Boolean} [json.EndBack] {@link RouteLocation#EndBack} Only used for line segments, not points.
-   * @param {Date} [json.EndReferenceDate] {@link RouteLocation#EndReferenceDate} Only used for line segments, not points.
-   * @param {Date} [json.EndResponseDate] {@link RouteLocation#EndResponseDate} Only used for line segments, not points.
-   * @param {Date} [json.RealignmentDate] {@link RouteLocation#RealignmentDate} Only used for line segments, not points. You will normally never need to set this in the constructor.
-   * @param {Date} [json.EndRealignDate] {@link RouteLocation#EndRealignDate}  Only used for line segments, not points. You will normally never need to set this in the constructor.
-   * @param {number} [json.ArmCalcReturnCode] {@link RouteLocation#ArmCalcReturnCode}  You will normally never need to set this in the constructor.
-   * @param {number} [json.ArmCalcEndReturnCode] {@link RouteLocation#ArmCalcEndReturnCode}  Only used for line segments, not points. You will normally never need to set this in the constructor.
-   * @param {string} [json.ArmCalcReturnMessage] {@link RouteLocation#ArmCalcReturnMessage}  You will normally never need to set this in the constructor.
-   * @param {string} [json.ArmCalcEndReturnMessage] {@link RouteLocation#ArmCalcEndReturnMessage}  Only used for line segments, not points. You will normally never need to set this in the constructor.
-   * @param {string} [json.LocatingError] {@link RouteLocation#LocatingError}  You will normally never need to set this in the constructor.
-   * @param {Object} [json.RouteGeometry] {@link RouteLocation#RouteGeometry}  You will normally never need to set this in the constructor.
-   * @param {Object} [json.EventPoint] {@link RouteLocation#EventPoint}  You will normally never need to set this in the constructor.
-   * @param {number} [json.Distance] {@link RouteLocation#Distance}   You will normally never need to set this in the constructor.
-   * @param {number} [json.Angle] {@link RouteLocation#Angle}  You will normally never need to set this in the constructor.
+   * @param json An object containing values used to initialize the RouteLocation's properties.  Properties of this object correspond to those of the {@link RouteLocation} class.
+   * @param json.Id {@link RouteLocation#Id}
+   * @param json.Route {@link RouteLocation#Route}
+   * @param json.Decrease {@link RouteLocation#Decrease}
+   * @param json.Arm {@link RouteLocation#Arm}
+   * @param json.Srmp {@link RouteLocation#Srmp}
+   * @param json.Back {@link RouteLocation#Back}
+   * @param json.ReferenceDate {@link RouteLocation#ReferenceDate}
+   * @param json.ResponseDate {@link RouteLocation#ResponseDate}
+   * @param json.EndArm {@link RouteLocation#EndArm} Only used for line segments, not points.
+   * @param json.EndSrmp {@link RouteLocation#EndSrmp} Only used for line segments, not points.
+   * @param json.EndBack {@link RouteLocation#EndBack} Only used for line segments, not points.
+   * @param json.EndReferenceDate {@link RouteLocation#EndReferenceDate} Only used for line segments, not points.
+   * @param json.EndResponseDate {@link RouteLocation#EndResponseDate} Only used for line segments, not points.
+   * @param json.RealignmentDate {@link RouteLocation#RealignmentDate} Only used for line segments, not points. You will normally never need to set this in the constructor.
+   * @param json.EndRealignDate {@link RouteLocation#EndRealignDate}  Only used for line segments, not points. You will normally never need to set this in the constructor.
+   * @param json.ArmCalcReturnCode {@link RouteLocation#ArmCalcReturnCode}  You will normally never need to set this in the constructor.
+   * @param json.ArmCalcEndReturnCode {@link RouteLocation#ArmCalcEndReturnCode}  Only used for line segments, not points. You will normally never need to set this in the constructor.
+   * @param json.ArmCalcReturnMessage {@link RouteLocation#ArmCalcReturnMessage}  You will normally never need to set this in the constructor.
+   * @param json.ArmCalcEndReturnMessage {@link RouteLocation#ArmCalcEndReturnMessage}  Only used for line segments, not points. You will normally never need to set this in the constructor.
+   * @param json.LocatingError {@link RouteLocation#LocatingError}  You will normally never need to set this in the constructor.
+   * @param json.RouteGeometry {@link RouteLocation#RouteGeometry}  You will normally never need to set this in the constructor.
+   * @param json.EventPoint {@link RouteLocation#EventPoint}  You will normally never need to set this in the constructor.
+   * @param json.Distance {@link RouteLocation#Distance}   You will normally never need to set this in the constructor.
+   * @param json.Angle {@link RouteLocation#Angle}  You will normally never need to set this in the constructor.
    */
   constructor(json: IRouteLocation) {
     if (!(json && typeof json === "object")) {

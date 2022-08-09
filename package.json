@@ -1,12 +1,23 @@
 {
-	"devDependencies": {
-		"lerna": "^2.11.0"
-	},
-	"scripts": {
-		"pretest": "lerna bootstrap",
-		"prepublish": "lerna run prepare",
-		"test": "lerna exec npm test"
-	},
-	"private": true,
-	"workspaces": ["packages/*"]
+  "private": true,
+  "workspaces": [
+    "packages/wsdot-elc",
+    "packages/elc-ui",
+    "packages/elc-ui-arcgis-v3",
+    "packages/demo"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WSDOT-GIS/elc-js.git"
+  },
+  "keywords": [
+    "wsdot",
+    "elc"
+  ],
+  "author": "Jeff Jacobson",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/WSDOT-GIS/elc-js/issues"
+  },
+  "homepage": "https://github.com/WSDOT-GIS/elc-js#readme"
 }

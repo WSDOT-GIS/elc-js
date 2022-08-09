@@ -50,7 +50,7 @@ function reviver(k: string, v: any) {
 /**
  * Parses a JSON representation of a Route (or an object containing Route properties)
  * into corresponding Route objects.
- * @param {string} json - JSON string
+ * @param json - JSON string
  * @returns {Object} The input JSON string parsed into an Object
  */
 export function parseRoutes(json: string) {

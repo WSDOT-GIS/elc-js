@@ -1,6 +1,6 @@
 {
   "name": "@wsdot/elc-ui",
-  "version": "4.0.0-0",
+  "version": "4.0.0",
   "description": "User interface for ELC map service SOE",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -28,12 +28,11 @@
   },
   "homepage": "https://github.com/WSDOT-GIS/elc-ui#readme",
   "dependencies": {
-    "tslib": "^1.9.2",
-    "wsdot-elc": "^4.0.0-0"
+    "wsdot-elc": "^4.0.0"
   },
   "devDependencies": {
-    "html-minifier": "^3.5.16",
-    "tslint": "^5.10.0",
-    "typescript": "^2.9.1"
+    "html-minifier": "^4.0.0",
+    "tslint": "^5.20.1",
+    "typescript": "^4.7.4"
   }
 }

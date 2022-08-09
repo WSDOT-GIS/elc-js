@@ -1,7 +1,6 @@
 import ArcGisElcUI from "@wsdot/elc-ui-arcgis-v3";
-import Popup = require("esri/dijit/Popup");
-import esriMap = require("esri/map");
-import RouteLocator from "wsdot-elc";
+import Popup from "esri/dijit/Popup";
+import esriMap from "esri/map";
 
 const elcUrl = (function(urlMatch) {
   return urlMatch ? urlMatch[1] : null;

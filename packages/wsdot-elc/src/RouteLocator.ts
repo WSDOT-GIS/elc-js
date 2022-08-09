@@ -4,7 +4,7 @@ import { flattenArray, getActualMonth } from "./routeUtils";
 
 /**
  * Converts an object into a query string.
- * @param {Object} o - An object
+ * @param o - An object
  * @returns {string} Returns a query string representation of the input object.
  */
 function toQueryString(o: any): string {
@@ -22,8 +22,8 @@ function toQueryString(o: any): string {
 }
 
 /** Tests if a URL is under a certain length. This is used to determine whether POST should be used instead of GET.
- * @param {string} url - A URL
- * @param {number} [maxLength=2000] - The threshold URL length used to determine if GET or POST is used.
+ * @param url - A URL
+ * @param maxLength - The threshold URL length used to determine if GET or POST is used.
  * @returns {Boolean} Returns true if url exceeds maxLength, false otherwise.
  */
 function isUrlTooLong(url: string, maxLength: number = 2000): boolean {
@@ -48,7 +48,7 @@ function routeLocationReviver(k: string, v: any) {
 /**
  * Converts a Date object into the type of string that the ELC REST SOE methods expect.
  * @author Jeff Jacobson
- * @param {Date} date - A date object.
+ * @param date - A date object.
  * @return {string} A string representation of the input date, if possible, or an empty string.
  * @memberOf RouteLocator
  */
@@ -123,16 +123,16 @@ export default class RouteLocator {
   /**
    * A helper object for querying the ELC REST SOE endpoints.
    * @constructor
-   * @param {String} [url="https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe"] The URL for the ELC REST Endpoint.
-   * @param {String} [findRouteLocationsOperationName="Find Route Locations"] - The name of the Find Route Locations operation
-   * @param {String} [findNearestRouteLocationsOperationName="Find Nearest Route Locations"] - The name of the Find Nearest Route Locations operation
-   * @param {String} [routesResourceName="Route Info"] - Set to "routes" for pre 3.3 versions which do not support the "Route Info" endpoint.
+   * @param url The URL for the ELC REST Endpoint.
+   * @param findRouteLocationsOperationName - The name of the Find Route Locations operation
+   * @param findNearestRouteLocationsOperationName - The name of the Find Nearest Route Locations operation
+   * @param routesResourceName - Set to "routes" for pre 3.3 versions which do not support the "Route Info" endpoint.
    */
   constructor(
     public url: string = "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe",
     public findRouteLocationsOperationName: string = "Find Route Locations",
     public findNearestRouteLocationsOperationName: string = "Find Nearest Route Locations",
-    public routesResourceName: string = "Route Info"
+    public routesResourceName: string = "routes"
   ) {}
 
   /**
@@ -148,7 +148,7 @@ export default class RouteLocator {
 
   /**
    * Returns a {@link RouteList}
-   * @param {boolean} [useCors=true] Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)
+   * @param useCors Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)
    * @returns {Promise} - Success: This function takes a single {@link RouteList}, Error: This function takes a single error parameter.
    */
   public async getRouteList(
@@ -196,12 +196,12 @@ export default class RouteLocator {
   /**
    * Calls the ELC REST SOE to get geometry corresponding to the input locations.
    * @author Jeff Jacobson
-   * @param {object} params The parameters for the Find Route Locations query.
+   * @param params The parameters for the Find Route Locations query.
    * @param {RouteLocation[]} params.locations An array of RouteLocaiton objects.
-   * @param {Date} [params.referenceDate] The date that the locations were collected.  This can be omitted if each of the locations in the input array have their ReferenceDate properties set to a Date value.
+   * @param params.referenceDate The date that the locations were collected.  This can be omitted if each of the locations in the input array have their ReferenceDate properties set to a Date value.
    * @param {number|string} [params.outSR] The spatial reference for the output geometry, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service.
-   * @param {string} [params.lrsYear] Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
-   * @param {boolean} [params.useCors=false] If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
+   * @param params.lrsYear Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
+   * @param params.useCors If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
    * @returns {Promise} Returns a promise.
    * @throws {Error} Thrown if invalid parameters are specified.
    */
@@ -307,15 +307,15 @@ export default class RouteLocator {
   /**
    * Calls the ELC REST SOE to get the route locations corresponding to the input point coordinates.
    * @author Jeff Jacobson
-   * @param {object} params - See below for details
+   * @param params - See below for details
    * @param {number[]} params.coordinates An array of numbers with at least two elements.  Even indexed elements represent X coordinates; odd represent Y coordinates.
-   * @param {Date} [params.referenceDate] The date that the locations were collected.  This can be omitted if each of the locations in the input array have their ReferenceDate properties set to a Date value.
-   * @param {number} params.searchRadius The distance in feet to search around each of the coordinates for a state route.
+   * @param params.referenceDate The date that the locations were collected.  This can be omitted if each of the locations in the input array have their ReferenceDate properties set to a Date value.
+   * @param params.searchRadius The distance in feet to search around each of the coordinates for a state route.
    * @param {number|string} params.inSR The spatial reference of the coordinates, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service.
    * @param {number|string} [params.outSR] The spatial reference for the output geometry, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service.
-   * @param {string} [params.lrsYear] Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
-   * @param {string} [params.routeFilter] A partial SQL query that can be used to limit which routes are searched.  E.g., "LIKE '005%'" or "'005'".
-   * @param {boolean} [params.useCors=true] If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
+   * @param params.lrsYear Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
+   * @param params.routeFilter A partial SQL query that can be used to limit which routes are searched.  E.g., "LIKE '005%'" or "'005'".
+   * @param params.useCors If you are sure both your client (browser) and ELC server support CORS, you can set this to true.  Otherwise leave it set to false.
    * @throws {Error} Throws an error if any of the params properties are provided with invalid values.
    * @returns {Promise} A promise
    */

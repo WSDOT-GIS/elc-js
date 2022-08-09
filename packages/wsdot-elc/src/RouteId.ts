@@ -183,8 +183,8 @@ const rrqAbbreviations: { [key: string]: string } = {
 export default class RouteId {
   /**
    * A comparison method used for sorting {@link RouteId} objects.
-   * @param {RouteId} a - RouteId object to be compared
-   * @param {RouteId} b - RouteId object to be compared
+   * @param a - RouteId object to be compared
+   * @param b - RouteId object to be compared
    * @returns {number} Returns a value indicating if a should be before b or vice-versa.
    */
   public static sort(a: RouteId, b: RouteId) {
@@ -308,7 +308,7 @@ export default class RouteId {
   /**
    * Splits a state route ID into SR, RRT, RRQ components.
    * @constructor
-   * @param {string} routeId - Identifier for a WA state route
+   * @param routeId - Identifier for a WA state route
    * @alias module:RouteId
    */
   constructor(routeId: string) {
