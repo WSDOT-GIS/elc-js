@@ -33,7 +33,6 @@ export default class ElcUI {
    * @param options - Additional constructor options.
    */
   constructor(rootNode: HTMLElement, options?: IElcUIOptions) {
-    const self = this;
     // Parse the template HTML with the DOMParser.
     const parser = new DOMParser();
     const doc = parser.parseFromString(
@@ -41,8 +40,8 @@ export default class ElcUI {
       "text/html"
     );
     const uiDom = doc.body
-      .querySelector(".elc-ui-root")!
-      .cloneNode(true) as HTMLElement;
+      .querySelector<HTMLElement>(".elc-ui-root")
+      ?.cloneNode(true) as HTMLElement;
     this.root = rootNode;
     this.root.innerHTML = uiDom.outerHTML;
 
@@ -53,7 +52,7 @@ export default class ElcUI {
     );
 
     // Setup nearest route location form
-    const form = self.root.querySelector(
+    const form = this.root.querySelector(
       ".find-nearest-route-location-form"
     ) as HTMLFormElement;
     form.onsubmit = () => {
@@ -63,13 +62,13 @@ export default class ElcUI {
           radius,
         },
       });
-      self.root.dispatchEvent(evt);
+      this.root.dispatchEvent(evt);
 
       return false;
     };
 
     // Setup route location form.
-    const findRouteLocationForm = self.root.querySelector(
+    const findRouteLocationForm = this.root.querySelector(
       ".find-route-location-form"
     ) as HTMLFormElement;
     // Default the reference date to today.
@@ -107,7 +106,6 @@ export default class ElcUI {
     }
 
     findRouteLocationForm.onsubmit = (submitEvent) => {
-      let evt;
       const inputForm = submitEvent.target as HTMLFormElement;
       const detail: IRouteLocation = {
         Route: inputForm.route.value,
@@ -136,10 +134,10 @@ export default class ElcUI {
         }
       }
 
-      evt = new CustomEvent("find-route-location-submit", {
+      const evt = new CustomEvent("find-route-location-submit", {
         detail,
       });
-      self.root.dispatchEvent(evt);
+      this.root.dispatchEvent(evt);
       return false;
     };
 

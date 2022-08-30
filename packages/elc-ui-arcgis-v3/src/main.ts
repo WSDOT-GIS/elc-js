@@ -31,7 +31,7 @@ export async function isInsideWsdot(url: string = defaultInternalTestUrl) {
   } else {
     try {
       const response = await fetch(url, {
-        method: "head"
+        method: "head",
       });
       insideWsdot = response.ok;
     } catch (err) {
@@ -79,28 +79,28 @@ pointRenderer.addValue({
   description: "Where the user clicked",
   label: "Event",
   symbol: eventPointSymbol,
-  value: 1
+  value: 1,
 });
 
 pointRenderer.addValue({
   description: "Route location",
   label: "Route Location",
   symbol: routePointSymbol,
-  value: 0
+  value: 0,
 });
 
 lineRenderer.addValue({
   description: "Where the user clicked",
   label: "Event",
   symbol: eventLineSymbol,
-  value: 1
+  value: 1,
 });
 
 lineRenderer.addValue({
   description: "Route location",
   label: "Route Location",
   symbol: routeLineSymbol,
-  value: 0
+  value: 0,
 });
 
 export class RouteLocationGraphicSet {
@@ -113,12 +113,12 @@ export class RouteLocationGraphicSet {
   private _insideWsdot: boolean | undefined;
   public get insideWsdot() {
     if (this._insideWsdot !== undefined) {
-      return new Promise<boolean>(resolve => {
+      return new Promise<boolean>((resolve) => {
         resolve(this._insideWsdot as boolean);
       });
     } else {
       const promise = isInsideWsdot();
-      promise.then(bool => {
+      promise.then((bool) => {
         this._insideWsdot = bool;
       });
       return promise;
@@ -161,8 +161,13 @@ export class RouteLocationGraphicSet {
         const routePoint = this.routeFeature.geometry as Point;
         const eventPoint = this.eventPointFeature.geometry as Point;
         const geometry = geometryJsonUtils.fromJson({
-          paths: [[[routePoint.x, routePoint.y], [eventPoint.x, eventPoint.y]]],
-          spatialReference
+          paths: [
+            [
+              [routePoint.x, routePoint.y],
+              [eventPoint.x, eventPoint.y],
+            ],
+          ],
+          spatialReference,
         });
         const attributes = routeLocation.toJSON();
         attributes.IsEvent = 1;
@@ -197,7 +202,7 @@ function graphicToHtml(graphic: Graphic) {
 
   for (const field of layer.fields) {
     if (
-      graphic.attributes.hasOwnProperty(field.name) &&
+      Object.prototype.hasOwnProperty.call(graphic.attributes, field.name) &&
       !ignoredFields.test(field.name)
     ) {
       const v = graphic.attributes[field.name];
@@ -216,7 +221,7 @@ function graphicToHtml(graphic: Graphic) {
     }
   }
 
-  isInsideWsdot().then(isInside => {
+  isInsideWsdot().then((isInside) => {
     // Add SRView URL if user is inside WSDOT Intranet.
     const p = document.createElement("p");
     const a = document.createElement("a");
@@ -229,7 +234,7 @@ function graphicToHtml(graphic: Graphic) {
       rrq: routeId.rrq ? routeId.rrq : null,
       dir: graphic.attributes.Decrease ? "D" : null,
       srmp: graphic.attributes.Srmp,
-      back: graphic.attributes.Back
+      back: graphic.attributes.Back,
     };
 
     const queryParts = [];
@@ -263,16 +268,14 @@ export interface IArcGisElcUIOptions extends IElcUIOptions {
 
 const ArcGisElcUI = declare(Evented as any, {
   constructor(domNode: HTMLElement, options?: IArcGisElcUIOptions) {
-    const self = this;
-
     /**
      * Adds ELC results to feature layers.
      */
-    function addResultsToMap(elcResults: RouteLocation[]) {
+    const addResultsToMap = (elcResults: RouteLocation[]) => {
       let nonGraphics: any[] | undefined;
       if (elcResults && Array.isArray(elcResults)) {
         if (elcResults.length === 0) {
-          self.emit("elc-results-not-found", { elcResults });
+          this.emit("elc-results-not-found", { elcResults });
         } else {
           pointResultsLayer.suspend();
           lineResultsLayer.suspend();
@@ -303,19 +306,19 @@ const ArcGisElcUI = declare(Evented as any, {
           }
           pointResultsLayer.resume();
           lineResultsLayer.resume();
-          self.emit("elc-results-found", {
+          this.emit("elc-results-found", {
             elcResults,
-            graphics
+            graphics,
           });
         }
       }
       if (nonGraphics && nonGraphics.length > 0) {
-        self.emit("non-geometry-results-returned", {
+        this.emit("non-geometry-results-returned", {
           elcResults,
-          nonGeometryResults: nonGraphics
+          nonGeometryResults: nonGraphics,
         });
       }
-    }
+    };
 
     const routeLocator = new RouteLocator(
       options ? options.url || undefined : undefined
@@ -324,12 +327,12 @@ const ArcGisElcUI = declare(Evented as any, {
     const elcUI = new ElcUI(domNode, options);
 
     routeLocator.getRouteList().then(
-      routeList => {
+      (routeList) => {
         if (routeList) {
           elcUI.routes = routeList.Current;
         }
       },
-      error => {
+      (error) => {
         throw error;
       }
     );
@@ -340,7 +343,7 @@ const ArcGisElcUI = declare(Evented as any, {
         const locations = [new RouteLocation(e.detail)];
         const outputLocations = await routeLocator.findRouteLocations({
           locations,
-          outSR: 3857
+          outSR: 3857,
         });
         addResultsToMap(outputLocations);
       }
@@ -350,14 +353,14 @@ const ArcGisElcUI = declare(Evented as any, {
       "find-nearest-route-location-submit",
       (e: any) => {
         // Setup map click event. This should only occur ONCE.
-        on.once(self.map, "click", async (mapEvt: any) => {
+        on.once(this.map, "click", async (mapEvt: any) => {
           const mapPoint = mapEvt.mapPoint;
           let elcResults = await routeLocator.findNearestRouteLocations({
             coordinates: [mapPoint.x, mapPoint.y],
             searchRadius: e.detail.radius,
             inSR: mapPoint.spatialReference.wkid,
             outSR: mapPoint.spatialReference.wkid,
-            referenceDate: new Date()
+            referenceDate: new Date(),
           });
           if (elcResults.length) {
             elcResults = elcResults.map((r: any) => {
@@ -373,7 +376,7 @@ const ArcGisElcUI = declare(Evented as any, {
             });
             const routeLocations = await routeLocator.findRouteLocations({
               locations: elcResults,
-              outSR: 3857
+              outSR: 3857,
             });
             addResultsToMap(routeLocations);
           } else {
@@ -395,17 +398,17 @@ const ArcGisElcUI = declare(Evented as any, {
       {
         name: "ReferenceDate",
         type: "esriFieldTypeDate",
-        alias: "Reference Date"
+        alias: "Reference Date",
       },
       {
         name: "ResponseDate",
         type: "esriFieldTypeDate",
-        alias: "Response Date"
+        alias: "Response Date",
       },
       {
         name: "RealignmentDate",
         type: "esriFieldTypeDate",
-        alias: "Realignment Date"
+        alias: "Realignment Date",
       },
       { name: "EndArm", type: "esriFieldTypeDouble", alias: "End ARM" },
       { name: "EndSrmp", type: "esriFieldTypeDouble", alias: "End SRMP" },
@@ -413,48 +416,48 @@ const ArcGisElcUI = declare(Evented as any, {
       {
         name: "EndReferenceDate",
         type: "esriFieldTypeDate",
-        alias: "End Reference Date"
+        alias: "End Reference Date",
       },
       {
         name: "EndResponseDate",
         type: "esriFieldTypeDate",
-        alias: "End Response Date"
+        alias: "End Response Date",
       },
       {
         name: "EndRealignDate",
         type: "esriFieldTypeDate",
-        alias: "End Realignment Date"
+        alias: "End Realignment Date",
       },
       {
         name: "ArmCalcReturnCode",
         type: "esriFieldTypeInteger",
-        alias: "ArmCalc Return Code"
+        alias: "ArmCalc Return Code",
       },
       {
         name: "ArmCalcEndReturnCode",
         type: "esriFieldTypeInteger",
-        alias: "ArmCalc End Return Code"
+        alias: "ArmCalc End Return Code",
       },
       {
         name: "ArmCalcReturnMessage",
         type: "esriFieldTypeString",
-        alias: "ArmCalc Return Message"
+        alias: "ArmCalc Return Message",
       },
       {
         name: "ArmCalcEndReturnMessage",
         type: "esriFieldTypeString",
-        alias: "ArmCalc End Return Message"
+        alias: "ArmCalc End Return Message",
       },
       {
         name: "LocatingError",
         type: "esriFieldTypeString",
-        alias: "Locating Error"
+        alias: "Locating Error",
       },
       // { name: "RouteGeometry", type: "esriFieldTypeGeometry" },
       // { name: "EventPoint", type: "esriFieldTypeGeometry" },
       { name: "Distance", alias: "Offset", type: "esriFieldTypeDouble" },
       { name: "Angle", type: "esriFieldTypeDouble" },
-      { name: "IsEvent", type: "esriFieldTypeSmallInteger", alias: "Is Event" }
+      { name: "IsEvent", type: "esriFieldTypeSmallInteger", alias: "Is Event" },
     ];
 
     const lineResultsLayer = new FeatureLayer(
@@ -462,12 +465,12 @@ const ArcGisElcUI = declare(Evented as any, {
         featureSet: null,
         layerDefinition: {
           geometryType: "esriGeometryPolyline",
-          fields: elcFields
-        }
+          fields: elcFields,
+        },
       },
       {
         id: "Located Segment",
-        infoTemplate
+        infoTemplate,
       }
     );
     lineResultsLayer.setRenderer(lineRenderer);
@@ -477,12 +480,12 @@ const ArcGisElcUI = declare(Evented as any, {
         featureSet: null,
         layerDefinition: {
           geometryType: "esriGeometryPoint",
-          fields: elcFields
-        }
+          fields: elcFields,
+        },
       },
       {
         id: "Located Milepost",
-        infoTemplate
+        infoTemplate,
       }
     );
 
@@ -490,7 +493,7 @@ const ArcGisElcUI = declare(Evented as any, {
 
     this._layers = {
       pointResults: pointResultsLayer,
-      lineResults: lineResultsLayer
+      lineResults: lineResultsLayer,
     };
 
     const clearBtn = document.querySelector(
@@ -505,7 +508,7 @@ const ArcGisElcUI = declare(Evented as any, {
     map.addLayer(this._layers.lineResults);
     map.addLayer(this._layers.pointResults);
     this.map = map;
-  }
+  },
 });
 
 export default ArcGisElcUI;
