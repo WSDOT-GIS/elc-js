@@ -5,7 +5,8 @@
         "es2021": true
     },
     "ignorePatterns": [
-        "**/*.js"
+        "**/*.js",
+        "**/dist"
     ],
     "extends": [
         "eslint:recommended",
