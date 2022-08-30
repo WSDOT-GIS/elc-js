@@ -1,0 +1,6 @@
+# Custom Dictionary Words
+dijit
+SRMP
+srnum
+srview
+wkid

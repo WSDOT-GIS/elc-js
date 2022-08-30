@@ -12,7 +12,7 @@
     "test": "spec"
   },
   "scripts": {
-    "lint": "tslint -p . --fix",
+    "lint": "eslint . --fix",
     "prepare": "tsc",
     "pretest": "tsc -p spec",
     "test": "jasmine",
@@ -46,9 +46,6 @@
     "isomorphic-fetch": "^3.0.0",
     "jasmine": "^4.3.0",
     "prettier": "^2.7.1",
-    "tslint": "^5.20.1",
-    "tslint-config-prettier": "^1.18.0",
-    "tslint-plugin-prettier": "^2.3.0",
     "typescript": "^4.7.4"
   }
 }

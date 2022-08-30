@@ -234,7 +234,7 @@ function graphicToHtml(graphic: Graphic) {
 
     const queryParts = [];
     for (const k in params) {
-      if (params.hasOwnProperty(k)) {
+      if (Object.prototype.hasOwnProperty.call(params, k)) {
         const value = (params as any)[k];
         if (value !== null) {
           queryParts.push([k, value].join("="));

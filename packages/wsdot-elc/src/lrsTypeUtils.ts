@@ -4,7 +4,7 @@ export enum LrsType {
   BOTH = 3,
   RAMP = 4,
   FT = 8,
-  TURNBACK = 0x10
+  TURNBACK = 0x10,
 }
 
 /**
@@ -32,8 +32,9 @@ export function getLrsTypeValue(value: number | string): number {
       throw new Error(`Invalid value: ${value}`);
     }
   } else if (
-    (typeof value === "number" && (value >= 1 && value <= 4)) ||
-    (value === 8 || value === 16)
+    (typeof value === "number" && value >= 1 && value <= 4) ||
+    value === 8 ||
+    value === 16
   ) {
     output = value;
   } else {

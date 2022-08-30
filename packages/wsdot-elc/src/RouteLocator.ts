@@ -7,15 +7,15 @@ import { flattenArray, getActualMonth } from "./routeUtils";
  * @param o - An object
  * @returns {string} Returns a query string representation of the input object.
  */
-function toQueryString(o: any): string {
+function toQueryString(o: Record<string, unknown>): string {
   const output = [];
   for (const name in o) {
-    if (o.hasOwnProperty(name)) {
+    if (Object.prototype.hasOwnProperty.call(o, name)) {
       let value = o[name];
       if (value == null) {
         value = "";
       }
-      output.push([name, encodeURIComponent(value)].join("="));
+      output.push([name, encodeURIComponent(`${value}`)].join("="));
     }
   }
   return output.join("&");
@@ -26,7 +26,7 @@ function toQueryString(o: any): string {
  * @param maxLength - The threshold URL length used to determine if GET or POST is used.
  * @returns {Boolean} Returns true if url exceeds maxLength, false otherwise.
  */
-function isUrlTooLong(url: string, maxLength: number = 2000): boolean {
+function isUrlTooLong(url: string, maxLength = 2000): boolean {
   if (!maxLength) {
     maxLength = 2000;
   }
@@ -37,9 +37,12 @@ function isUrlTooLong(url: string, maxLength: number = 2000): boolean {
 }
 
 // Used for JSON deserialization to RouteLocation objects.
-function routeLocationReviver(k: string, v: any) {
-  if (typeof v === "object" && v.hasOwnProperty("Route")) {
-    return new RouteLocation(v);
+function routeLocationReviver(k: string, v: unknown) {
+  if (
+    typeof v === "object" &&
+    Object.prototype.hasOwnProperty.call(v, "Route")
+  ) {
+    return new RouteLocation(v as IRouteLocation);
   } else {
     return v;
   }
@@ -59,7 +62,7 @@ function dateToRouteLocatorDate(date: Date): string {
     elcDate = [
       String(getActualMonth(date)),
       String(date.getDate()),
-      String(date.getFullYear())
+      String(date.getFullYear()),
     ].join("/");
   } else {
     elcDate = date || "";
@@ -151,9 +154,7 @@ export default class RouteLocator {
    * @param useCors Set to true if you want to use CORS, false otherwise. (This function does not check client or server for CORS support.)
    * @returns {Promise} - Success: This function takes a single {@link RouteList}, Error: This function takes a single error parameter.
    */
-  public async getRouteList(
-    useCors: boolean = true
-  ): Promise<IRouteList | null> {
+  public async getRouteList(useCors = true): Promise<IRouteList | null> {
     // var this = this, data, request, url;
 
     if (this.layerList) {
@@ -161,7 +162,7 @@ export default class RouteLocator {
     }
 
     let url = [this.url, this.routesResourceName].join("/");
-    const queryData: { [key: string]: any } = {
+    const queryData: { [key: string]: unknown } = {
       f: "json",
     };
     if (!useCors) {

@@ -7,7 +7,7 @@ export enum RouteTypes {
   FT = 5,
   PR = 6,
   CN = 7,
-  TB = 8
+  TB = 8,
 }
 
 export type RouteTypeAbbreviation =
@@ -30,7 +30,7 @@ const routeTypeAbbrevKeys: RouteTypeAbbreviation[] = [
   "FT",
   "PR",
   "CN",
-  "TB"
+  "TB",
 ];
 
 const routeClassRe = /^(?:(SR)|(IS)|(US)|(RA)|(LC)|(FT)|(PR)|(CN)|(TB))$/i;
@@ -65,7 +65,8 @@ export function getRouteTypeValue(
   } else if (
     typeof value === "number" &&
     Math.trunc(value) === value &&
-    (value >= 0 && value <= 8)
+    value >= 0 &&
+    value <= 8
   ) {
     output = value;
   }

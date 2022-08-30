@@ -1,9 +1,7 @@
 import { Route, RouteId } from "wsdot-elc";
 
 export default class RouteSelector {
-  // tslint:disable-next-line:variable-name
   private _root: HTMLElement;
-  // tslint:disable-next-line:variable-name
   private _routes: Route[] = new Array<Route>();
   private mainlineSelect: HTMLSelectElement;
   private routeSelect: HTMLSelectElement;
@@ -115,7 +113,7 @@ export default class RouteSelector {
 
     this.mainlineSelect.addEventListener(
       "change",
-      e => this.addOptionsForCurrentlySelectedMainline(),
+      (e) => this.addOptionsForCurrentlySelectedMainline(),
       true
     );
 
@@ -140,8 +138,8 @@ export default class RouteSelector {
         const label = route.isMainline
           ? "Mainline"
           : route.routeId.rrq
-            ? [route.routeId.rrt, route.routeId.rrq].join(" ")
-            : route.routeId.rrt;
+          ? [route.routeId.rrt, route.routeId.rrq].join(" ")
+          : route.routeId.rrt;
         if (label) {
           option.label = label;
         }

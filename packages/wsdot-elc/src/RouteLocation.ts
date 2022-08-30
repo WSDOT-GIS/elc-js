@@ -6,7 +6,7 @@ import { getActualMonth, toNumber } from "./routeUtils";
  * @author Jeff Jacobson
  * @memberOf $.wsdot.elc
  */
-const srmpRe = /^([\d\.]+)(B)?$/i;
+const srmpRe = /^([\d.]+)(B)?$/i;
 
 /**
  * An object containing values used to initialize the RouteLocation's properties.
@@ -135,7 +135,7 @@ export default class RouteLocation implements IRouteLocation {
     this.Back = typeof json.Back !== "undefined" ? json.Back : null;
     this.ReferenceDate =
       typeof json.ReferenceDate !== "undefined"
-        ? ((json.ReferenceDate as Date) as Date)
+        ? (json.ReferenceDate as Date as Date)
         : null;
     this.ResponseDate =
       typeof json.ResponseDate !== "undefined"
@@ -190,7 +190,7 @@ export default class RouteLocation implements IRouteLocation {
 
     // Set the date properties to Date objects, if appropriate.
     for (const propName in this) {
-      if (this.hasOwnProperty(propName)) {
+      if (Object.prototype.hasOwnProperty.call(this, propName)) {
         if (
           /Date$/gi.test(propName) &&
           (typeof this[propName] === "string" ||
@@ -223,21 +223,22 @@ export default class RouteLocation implements IRouteLocation {
   public toJSON() {
     const output: { [key: string]: any } = {};
 
-    const numFieldRe = /^(?:(?:Id)|(?:(?:End)?Arm)|(ReturnCode)|(Distance)|(Angle))$/gi;
+    const numFieldRe =
+      /^(?:(?:Id)|(?:(?:End)?Arm)|(ReturnCode)|(Distance)|(Angle))$/gi;
     const srmpFieldRe = /Srmp$/gi;
     const boolFieldRe = /(?:Decrease)|(Back)$/gi;
     const dateFieldRe = /Date$/i;
 
     // Loop through all of the properties in the RouteLocation and copy to the output object.
     for (const prop in this) {
-      if (this.hasOwnProperty(prop)) {
+      if (Object.prototype.hasOwnProperty.call(this, prop)) {
         const value: any = this[prop];
 
         if (value && value instanceof Date && dateFieldRe.test(prop)) {
           output[prop] = [
             String(getActualMonth(value)),
             String(value.getDate()),
-            String(value.getFullYear())
+            String(value.getFullYear()),
           ].join("/");
         } else if (numFieldRe.test(prop)) {
           // Id, Arm, EndArm, or ...ReturnCode

@@ -61,18 +61,18 @@ const rrtDefinitions: { [rrt: string]: string } = {
   FT: "Ferry Terminal",
   UC: "Under Construction",
   HI: "Grade-Separated HOV (Inc)",
-  HD: "Grade-Separated HOV (Dec)"
+  HD: "Grade-Separated HOV (Dec)",
 };
 
 const rampTypes: { [rampType: string]: string } = {
   P: "Off Ramp (Inc)",
   Q: "On Ramp (Inc)",
   R: "Off Ramp (Dec)",
-  S: "On Ramp (Dec)"
+  S: "On Ramp (Dec)",
 };
 
 for (const key in rampTypes) {
-  if (rampTypes.hasOwnProperty(key)) {
+  if (Object.prototype.hasOwnProperty.call(rampTypes, key)) {
     const desc = rampTypes[key];
     let newKey: string;
     for (let i = 1, l = 10; i < l; i += 1) {
@@ -85,6 +85,7 @@ for (const key in rampTypes) {
 }
 
 const rrqAbbreviations: { [key: string]: string } = {
+  // spell:disable
   "2NDST": "2nd St.",
   "3RDAVE": "3rd Ave.",
   "6THST": "6th St.",
@@ -177,7 +178,8 @@ const rrqAbbreviations: { [key: string]: string } = {
   // "WINFT2": "WINFT2",
   WINSLO: "Winslow",
   XBASE: "XBASE",
-  YELMLP: "Yelm Loop"
+  YELMLP: "Yelm Loop",
+  // spell:enable
 };
 
 export default class RouteId {
@@ -185,7 +187,7 @@ export default class RouteId {
    * A comparison method used for sorting {@link RouteId} objects.
    * @param a - RouteId object to be compared
    * @param b - RouteId object to be compared
-   * @returns {number} Returns a value indicating if a should be before b or vice-versa.
+   * @returns Returns a value indicating if a should be before b or vice-versa.
    */
   public static sort(a: RouteId, b: RouteId) {
     if (a.sr > b.sr) {
@@ -222,19 +224,16 @@ export default class RouteId {
       }
     }
   }
-  // tslint:disable-next-line:variable-name
   private _sr: string;
   public get sr(): string {
     return this._sr;
   }
 
-  // tslint:disable-next-line:variable-name
   private _rrt: string | null;
   public get rrt(): string | null {
     return this._rrt;
   }
 
-  // tslint:disable-next-line:variable-name
   private _rrq: string | null;
   public get rrq(): string | null {
     return this._rrq;
@@ -278,7 +277,7 @@ export default class RouteId {
         this._sr,
         this.rrtDescription,
         "@ MP",
-        this.mainlineIntersectionMP
+        this.mainlineIntersectionMP,
       ].join(" ");
     } else {
       label = [this._sr, this.rrtDescription, this.rrqDescription].join(" ");
@@ -313,12 +312,11 @@ export default class RouteId {
    */
   constructor(routeId: string) {
     routeId = routeId.trim();
-    let match;
 
     if (!routeId) {
       throw new TypeError("No route ID was provided.");
     }
-    match = routeId.match(routeRe);
+    const match = routeId.match(routeRe);
 
     if (!match) {
       throw new FormatError(routeId, routeRe);
@@ -331,9 +329,9 @@ export default class RouteId {
 
   /**
    * Returns a string representation of the RouteID.
-   * @returns {string} - Returns the route identifier string.
+   * @returns - Returns the route identifier string.
    */
-  public toString() {
+  public toString(): string {
     const output = [this.sr];
     if (this.rrt) {
       output.push(this.rrt);

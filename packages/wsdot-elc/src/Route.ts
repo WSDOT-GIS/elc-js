@@ -5,7 +5,7 @@ import {
   getRouteTypeAbbreviation,
   getRouteTypeValue,
   RouteTypeAbbreviation,
-  RouteTypes
+  RouteTypes,
 } from "./routeTypeUtils";
 
 /**
@@ -13,18 +13,22 @@ import {
  * @module Route
  */
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function reviver(k: string, v: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let output: any;
   if (/^(?:(?:Current)|(?:\d{4,8}))$/.test(k)) {
     output = [];
     for (const routeId in v) {
-      if (v.hasOwnProperty(routeId) && routeId.trim()) {
+      if (Object.prototype.hasOwnProperty.call(v, routeId) && routeId.trim()) {
         const currentValue = v[routeId];
         let route: Route | null = null;
         try {
           if (typeof currentValue === "number") {
             route = new Route(routeId, currentValue);
-          } else if (currentValue.hasOwnProperty("routeType")) {
+          } else if (
+            Object.prototype.hasOwnProperty.call(currentValue, "routeType")
+          ) {
             route = new Route(
               routeId,
               currentValue.direction,

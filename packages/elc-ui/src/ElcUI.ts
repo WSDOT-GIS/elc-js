@@ -48,9 +48,9 @@ export default class ElcUI {
 
     // Setup route selector
 
-    this.routeSelector = new RouteSelector(this.root.querySelector(
-      ".route-selector"
-    ) as HTMLElement);
+    this.routeSelector = new RouteSelector(
+      this.root.querySelector(".route-selector") as HTMLElement
+    );
 
     // Setup nearest route location form
     const form = self.root.querySelector(
@@ -60,8 +60,8 @@ export default class ElcUI {
       const radius = parseFloat(form.radius.value);
       const evt = new CustomEvent("find-nearest-route-location-submit", {
         detail: {
-          radius
-        }
+          radius,
+        },
       });
       self.root.dispatchEvent(evt);
 
@@ -106,13 +106,13 @@ export default class ElcUI {
       }
     }
 
-    findRouteLocationForm.onsubmit = submitEvent => {
+    findRouteLocationForm.onsubmit = (submitEvent) => {
       let evt;
       const inputForm = submitEvent.target as HTMLFormElement;
       const detail: IRouteLocation = {
         Route: inputForm.route.value,
         Decrease: inputForm.decrease.checked,
-        ReferenceDate: new Date(inputForm.referenceDate.value)
+        ReferenceDate: new Date(inputForm.referenceDate.value),
       };
 
       const isSrmp = Boolean(
@@ -137,7 +137,7 @@ export default class ElcUI {
       }
 
       evt = new CustomEvent("find-route-location-submit", {
-        detail
+        detail,
       });
       self.root.dispatchEvent(evt);
       return false;
@@ -146,18 +146,20 @@ export default class ElcUI {
     // Programmatically click input elements that are checked by default so that
     // appropriate controls are shown / hidden when form is reset.
     findRouteLocationForm.addEventListener("reset", () => {
-      const checkedRB = findRouteLocationForm.querySelectorAll<
-        HTMLInputElement
-      >("input[checked]");
+      const checkedRB =
+        findRouteLocationForm.querySelectorAll<HTMLInputElement>(
+          "input[checked]"
+        );
       for (const radioButton of Array.from(checkedRB)) {
         radioButton.click();
       }
     });
 
     // Attach the "changeMPMode" function to radio buttons.
-    const radioButtons = findRouteLocationForm.querySelectorAll<
-      HTMLInputElement
-    >("input[type=radio]");
+    const radioButtons =
+      findRouteLocationForm.querySelectorAll<HTMLInputElement>(
+        "input[type=radio]"
+      );
 
     for (const rb of Array.from(radioButtons)) {
       rb.addEventListener("click", changeMPMode);

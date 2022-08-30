@@ -35,7 +35,7 @@ npm install @wsdot/elc-ui
 
       // For each property of the css object, write a new CSS file.
       for (const cssName in css) {
-        if (css.hasOwnProperty(cssName)) {
+        if (Object.prototype.hasOwnProperty.call(css, cssName)) {
           const cssData = css[cssName];
           let file = `${cssName}.css`;
           if (!file.match(/^elc-ui/)) {
