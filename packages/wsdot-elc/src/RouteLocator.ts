@@ -162,7 +162,7 @@ export default class RouteLocator {
 
     let url = [this.url, this.routesResourceName].join("/");
     const queryData: { [key: string]: any } = {
-      f: "json"
+      f: "json",
     };
     if (!useCors) {
       queryData.callback = "jsonp";
@@ -197,7 +197,7 @@ export default class RouteLocator {
    * Calls the ELC REST SOE to get geometry corresponding to the input locations.
    * @author Jeff Jacobson
    * @param params The parameters for the Find Route Locations query.
-   * @param {RouteLocation[]} params.locations An array of RouteLocaiton objects.
+   * @param {RouteLocation[]} params.locations An array of RouteLocation objects.
    * @param params.referenceDate The date that the locations were collected.  This can be omitted if each of the locations in the input array have their ReferenceDate properties set to a Date value.
    * @param {number|string} [params.outSR] The spatial reference for the output geometry, either a WKID or WKT.  If omitted the output geometry will be the same as that of the ELC map service.
    * @param params.lrsYear Indicates which LRS layers will be used for linear referencing.  If omitted, the current LRS will be used. (E.g., "Current", "2008", "2005", "2005B".)
@@ -229,7 +229,7 @@ export default class RouteLocator {
       referenceDate = [
         String(getActualMonth(referenceDate)),
         String(referenceDate.getDate()),
-        String(referenceDate.getFullYear())
+        String(referenceDate.getFullYear()),
       ].join("/");
     } /*
          else if (typeof referenceDate !== "string") {
@@ -264,7 +264,7 @@ export default class RouteLocator {
       locations: JSON.stringify(locations),
       outSR: outSR || null,
       referenceDate: referenceDate || null,
-      lrsYear: lrsYear || null
+      lrsYear: lrsYear || null,
     };
 
     let url = [this.url, this.findRouteLocationsOperationName].join("/");
@@ -288,7 +288,7 @@ export default class RouteLocator {
       init = {
         method,
         headers,
-        body: formData
+        body: formData,
       };
 
       if (useCors) {
@@ -323,7 +323,7 @@ export default class RouteLocator {
     params: IFindNearestRouteLocationParameters
   ): Promise<RouteLocation[]> {
     const elcParams: any = {
-      f: "json"
+      f: "json",
     };
 
     if (params.useCors == null) {
@@ -435,7 +435,7 @@ export default class RouteLocator {
       init = {
         body,
         method,
-        headers
+        headers,
       };
       if (params.useCors) {
         init.mode = "cors";
