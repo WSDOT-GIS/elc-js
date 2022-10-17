@@ -341,6 +341,7 @@ const ArcGisElcUI = declare(Evented as any, {
         const locations = [new RouteLocation(e.detail)];
         const outputLocations = await routeLocator.findRouteLocations({
           locations,
+          referenceDate: locations[0].ReferenceDate || undefined,
           outSR: 3857,
         });
         addResultsToMap(outputLocations);
