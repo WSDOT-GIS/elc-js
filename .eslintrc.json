@@ -4,14 +4,10 @@
         "browser": true,
         "es2021": true
     },
-    "ignorePatterns": [
-        "**/*.js",
-        "**/dist"
-    ],
     "extends": [
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:prettier/recommended"
+        "prettier"
     ],
     "overrides": [
     ],
@@ -23,8 +19,5 @@
     "plugins": [
         "@typescript-eslint",
         "prettier"
-    ],
-    "rules": {
-        "prettier/prettier": "warn"
-    }
+    ]
 }

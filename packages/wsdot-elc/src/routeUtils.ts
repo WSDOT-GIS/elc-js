@@ -52,7 +52,7 @@ export function getActualMonth(date: Date): number {
  * @exception {Error} Thrown if array is not an object of type Array.
  * @memberOf $.wsdot.elc
  */
-export function flattenArray(array: any[]): any[] {
+export function flattenArray<T>(array: T[]): T[] {
   if (typeof array === "undefined" || array === null) {
     return array;
   }

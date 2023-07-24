@@ -2,14 +2,45 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "Lint",
+			"detail": "Runs ESLint on all workspaces",
+			"icon": {
+				"id": "checklist",
+				"color": "terminal.ansiYellow"
+			},
 			"type": "shell",
-			"command": "npx eslint . --fix",
+			"command": "npm run lint --ws --if-present",
 			"problemMatcher": [
 				"$eslint-compact",
 				"$eslint-stylish"
-			],
-			"label": "Lint",
-			"detail": "eslint . --fix"
+			]
+		},
+		{
+			"label": "build",
+			"detail": "Builds all workspaces",
+			"icon": {
+				"id": "tools",
+				"color": "terminal.ansiGreen"
+			},
+			"type": "shell",
+			"command": "npm run build -ws --if-present",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [
+				"$tsc"
+			]
+		},
+		{
+			"type": "shell",
+			"command": "npm run test --ws --if-present",
+			"label": "Test",
+			"detail": "Runs test scripts",
+			"group": {
+				"kind": "test",
+				"isDefault": true
+			}
 		}
 	]
 }

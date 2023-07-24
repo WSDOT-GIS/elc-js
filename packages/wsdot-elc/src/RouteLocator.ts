@@ -132,7 +132,7 @@ export default class RouteLocator {
    * @param routesResourceName - Set to "routes" for pre 3.3 versions which do not support the "Route Info" endpoint.
    */
   constructor(
-    public url: string = "https://data.wsdot.wa.gov/arcgis/rest/services/Shared/ElcRestSOE/MapServer/exts/ElcRestSoe",
+    public url: string = defaultUrl,
     public findRouteLocationsOperationName: string = "Find Route Locations",
     public findNearestRouteLocationsOperationName: string = "Find Nearest Route Locations",
     public routesResourceName: string = "routes"
@@ -260,7 +260,7 @@ export default class RouteLocator {
     }
 
     // Construct the HTTP request.
-    const data: any = {
+    const data: Record<string, unknown> = {
       f: "json",
       locations: JSON.stringify(locations),
       outSR: outSR || null,
@@ -323,7 +323,7 @@ export default class RouteLocator {
   public async findNearestRouteLocations(
     params: IFindNearestRouteLocationParameters
   ): Promise<RouteLocation[]> {
-    const elcParams: any = {
+    const elcParams: Record<string, unknown> = {
       f: "json",
     };
 

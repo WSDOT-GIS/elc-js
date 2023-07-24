@@ -1,17 +1,9 @@
-/// <reference types="jasmine" />
-/// <reference types="node" />
-
 import { flattenArray, RouteLocation, RouteLocator } from "../src/index";
 
-if (typeof fetch === "undefined") {
-  require("isomorphic-fetch");
-}
-
-describe("RouteLocator", () => {
+describe("RouteLocator", async () => {
   const routeLocator = new RouteLocator();
 
-  it("should be able to get routes parse them correctly", async (done) => {
-    try {
+  it("should be able to get routes parse them correctly", async () => {
       const routeList = await routeLocator.getRouteList(true);
       if (!routeList) {
         throw new TypeError("route list should not be falsy");
@@ -26,22 +18,9 @@ describe("RouteLocator", () => {
           }
         }
       }
-    } catch (err) {
-      if (
-        err instanceof Error ||
-        typeof err === "string" ||
-        typeof err === "undefined"
-      ) {
-        done.fail(err);
-      } else {
-        throw err;
-      }
-    }
-
-    done();
   });
 
-  it("should be able to find route locations with minimum parameters supplied.", (done) => {
+  it("should be able to find route locations with minimum parameters supplied.", async () => {
     const dateString = "12/31/2011";
 
     const rl = new RouteLocation({
@@ -55,14 +34,8 @@ describe("RouteLocator", () => {
       locations: [rl],
     };
 
-    const promise = routeLocator.findRouteLocations(params);
-    promise.then((locations) => {
-      expect(locations.length).toEqual(params.locations.length);
-      done();
-    });
-    promise.catch((error) => {
-      done.fail(error);
-    });
+    const locations = await routeLocator.findRouteLocations(params);
+    expect(locations.length).toEqual(params.locations.length);
   });
 
   it("should be able to find route locations with global reference date specified.", (done) => {
@@ -109,8 +82,7 @@ describe("RouteLocator", () => {
     );
   });
 
-  it("should be able to retrieve route data", async (done) => {
-    try {
+  it("should be able to retrieve route data", async () => {
       const routes = await routeLocator.getRouteList(true);
       expect(routes).not.toBeNull();
       if (routes) {
@@ -119,10 +91,6 @@ describe("RouteLocator", () => {
           expect(year).toMatch(/^(\d|(Current))/i);
         }
       }
-      done();
-    } catch (error) {
-      done.fail(error as Error);
-    }
   });
 });
 
@@ -136,7 +104,6 @@ describe("utils", () => {
 
     expect(flattened.length).toEqual(
       4,
-      "flattened array should have four elements."
     );
 
     const input = [1, 2, 3, 4];
@@ -144,7 +111,6 @@ describe("utils", () => {
 
     expect(input.length).toEqual(
       output.length,
-      "input and output arrays should have the same number of elements."
     );
 
     output.forEach((value, i) => {
@@ -166,13 +132,11 @@ describe("Serialization", () => {
 
     const json = rl.toJSON();
     expect(json.ReferenceDate).toEqual(
-      dateString,
-      'The reference date in the output object should be "' + dateString + '".'
+      dateString
     );
     expect(json.Route).toEqual(
-      rl.Route,
-      'The "Route" properties should be equal.'
+      rl.Route
     );
-    expect(json.Arm).toEqual(rl.Arm, 'The "Arm" properties should be equal.');
+    expect(json.Arm).toEqual(rl.Arm);
   });
 });

@@ -2,9 +2,7 @@
   "private": true,
   "workspaces": [
     "packages/wsdot-elc",
-    "packages/elc-ui",
-    "packages/elc-ui-arcgis-v3",
-    "packages/demo"
+    "packages/elc-ui"
   ],
   "repository": {
     "type": "git",
@@ -21,12 +19,11 @@
   },
   "homepage": "https://github.com/WSDOT-GIS/elc-js#readme",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.36.1",
-    "@typescript-eslint/parser": "^5.36.1",
-    "cspell": "^6.8.1",
-    "eslint": "^8.23.0",
-    "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-prettier": "^4.2.1",
-    "prettier": "2.7.1"
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "cspell": "^6.31.2",
+    "eslint": "^8.45.0",
+    "prettier": "3.0.0",
+    "typescript": "^5.1.6"
   }
 }
