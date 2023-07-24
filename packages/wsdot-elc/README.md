@@ -10,15 +10,6 @@ JavaScript client library for accessing WSDOT's [Enterprise Location Class ArcGI
 npm install wsdot-elc
 ```
 
-This package uses the [Fetch API]. If using this package in Node, you will also need to install a polyfill such as [isomorphic-fetch].
-
-```javascript
-// import the fetch polyfill module if fetch is not defined in current environment.
-if (typeof fetch === "undefined") {
-  require("isomorphic-fetch");
-}
-```
-
 ## Example
 
 ```typescript
@@ -35,12 +26,12 @@ const routeLocator = new RouteLocator();
   const rl = new RouteLocation({
     Route: "005",
     Arm: 0,
-    ReferenceDate: new Date(dateString)
+    ReferenceDate: new Date(dateString),
   });
 
   const params = {
     useCors: true,
-    locations: [rl]
+    locations: [rl],
   };
 
   const locations = await routeLocator.findRouteLocations(params);
@@ -52,13 +43,13 @@ const routeLocator = new RouteLocator();
   const dateString = "12/31/2011";
   const rl = new RouteLocation({
     Route: "005",
-    Arm: 0
+    Arm: 0,
   });
 
   const params = {
     useCors: true,
     locations: [rl],
-    referenceDate: new Date(dateString)
+    referenceDate: new Date(dateString),
   };
 
   const locations = await routeLocator.findRouteLocations(params);
@@ -72,7 +63,7 @@ const routeLocator = new RouteLocator();
     coordinates: [1083893.182, 111526.885],
     referenceDate: new Date("12/31/2011"),
     searchRadius: 1,
-    inSR: 2927
+    inSR: 2927,
   };
 
   const locations = await routeLocator.findNearestRouteLocations(params);
