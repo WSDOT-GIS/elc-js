@@ -13,10 +13,8 @@ import {
  * @module Route
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function reviver(k: string, v: any) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let output: any;
+const reviver: Parameters<typeof JSON.parse>[1] = function (this, k, v) {
+  let output;
   if (/^(?:(?:Current)|(?:\d{4,8}))$/.test(k)) {
     output = [];
     for (const routeId in v) {
@@ -49,7 +47,7 @@ function reviver(k: string, v: any) {
     output = v;
   }
   return output;
-}
+};
 
 /**
  * Parses a JSON representation of a Route (or an object containing Route properties)

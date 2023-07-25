@@ -4,6 +4,9 @@
     "packages/wsdot-elc",
     "packages/elc-ui"
   ],
+  "scripts": {
+    "lint": "eslint . --fix"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/WSDOT-GIS/elc-js.git"

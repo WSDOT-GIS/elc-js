@@ -3,17 +3,24 @@
 	"tasks": [
 		{
 			"label": "Lint",
-			"detail": "Runs ESLint on all workspaces",
+			"detail": "Runs ESLint and fixes all fixable problems",
 			"icon": {
 				"id": "checklist",
 				"color": "terminal.ansiYellow"
 			},
-			"type": "shell",
-			"command": "npm run lint --ws --if-present",
+			"type": "npm",
+			"script": "lint",
 			"problemMatcher": [
-				"$eslint-compact",
 				"$eslint-stylish"
-			]
+			],
+			"presentation": {
+				"echo": true,
+				"reveal": "always",
+				"focus": false,
+				"panel": "shared",
+				"showReuseMessage": true,
+				"clear": true
+			}
 		},
 		{
 			"label": "build",
@@ -42,5 +49,6 @@
 				"isDefault": true
 			}
 		}
+		
 	]
 }

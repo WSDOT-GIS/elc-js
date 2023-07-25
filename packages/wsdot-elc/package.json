@@ -1,7 +1,7 @@
 {
   "name": "wsdot-elc",
   "version": "4.0.0",
-  "description": "JavaScript client for WSDOT ELC map service SOE",
+  "description": "Client for WSDOT ELC map service ArcGIS Server Object Extension (SOE)",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -12,7 +12,6 @@
     "test": "spec"
   },
   "scripts": {
-    "lint": "eslint . --fix",
     "build": "tsc",
     "postinstall": "npm run build",
     "pretest": "tsc -p spec",

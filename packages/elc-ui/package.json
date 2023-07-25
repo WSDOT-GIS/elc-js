@@ -9,7 +9,6 @@
     "*.css"
   ],
   "scripts": {
-    "lint": "eslint . --fix",
     "build": "node scripts/templates-to-ts.js && node scripts/css-to-ts.js && tsc",
     "postinstall": "npm run build"
   },

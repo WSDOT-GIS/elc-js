@@ -135,7 +135,7 @@ export default class RouteLocation implements IRouteLocation {
     this.Back = typeof json.Back !== "undefined" ? json.Back : null;
     this.ReferenceDate =
       typeof json.ReferenceDate !== "undefined"
-        ? (json.ReferenceDate as Date as Date)
+        ? (json.ReferenceDate as Date )
         : null;
     this.ResponseDate =
       typeof json.ResponseDate !== "undefined"

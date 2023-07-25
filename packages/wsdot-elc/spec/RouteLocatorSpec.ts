@@ -1,23 +1,23 @@
 import { flattenArray, RouteLocation, RouteLocator } from "../src/index";
 
-describe("RouteLocator", async () => {
+describe("RouteLocator", () => {
   const routeLocator = new RouteLocator();
 
   it("should be able to get routes parse them correctly", async () => {
-      const routeList = await routeLocator.getRouteList(true);
-      if (!routeList) {
-        throw new TypeError("route list should not be falsy");
-      }
-      const routeYearRe = /((Current)|(\d{4}))/i;
-      for (const year in routeList) {
-        if (Object.prototype.hasOwnProperty.call(routeList, year)) {
-          expect(year).toMatch(routeYearRe);
-          const routeArray = routeList[year];
-          for (const route of routeArray) {
-            expect(!route.routeId.rrt).toBe(route.isMainline);
-          }
+    const routeList = await routeLocator.getRouteList(true);
+    if (!routeList) {
+      throw new TypeError("route list should not be falsy");
+    }
+    const routeYearRe = /((Current)|(\d{4}))/i;
+    for (const year in routeList) {
+      if (Object.prototype.hasOwnProperty.call(routeList, year)) {
+        expect(year).toMatch(routeYearRe);
+        const routeArray = routeList[year];
+        for (const route of routeArray) {
+          expect(!route.routeId.rrt).toBe(route.isMainline);
         }
       }
+    }
   });
 
   it("should be able to find route locations with minimum parameters supplied.", async () => {
@@ -57,7 +57,7 @@ describe("RouteLocator", async () => {
         done();
       },
       (error) => {
-        done.fail(error);
+        done.fail(`${error}`);
       }
     );
   });
@@ -77,20 +77,20 @@ describe("RouteLocator", async () => {
         done();
       },
       (error) => {
-        done.fail(error);
+        done.fail(`${error}`);
       }
     );
   });
 
   it("should be able to retrieve route data", async () => {
-      const routes = await routeLocator.getRouteList(true);
-      expect(routes).not.toBeNull();
-      if (routes) {
-        expect(routes).toBeTruthy();
-        for (const year in routes) {
-          expect(year).toMatch(/^(\d|(Current))/i);
-        }
+    const routes = await routeLocator.getRouteList(true);
+    expect(routes).not.toBeNull();
+    if (routes) {
+      expect(routes).toBeTruthy();
+      for (const year in routes) {
+        expect(year).toMatch(/^(\d|(Current))/i);
       }
+    }
   });
 });
 
@@ -102,16 +102,12 @@ describe("utils", () => {
     ];
     const flattened = flattenArray(array);
 
-    expect(flattened.length).toEqual(
-      4,
-    );
+    expect(flattened.length).toEqual(4);
 
     const input = [1, 2, 3, 4];
     const output = flattenArray(input);
 
-    expect(input.length).toEqual(
-      output.length,
-    );
+    expect(input.length).toEqual(output.length);
 
     output.forEach((value, i) => {
       expect(value).toEqual(input[i]);
@@ -131,12 +127,8 @@ describe("Serialization", () => {
     });
 
     const json = rl.toJSON();
-    expect(json.ReferenceDate).toEqual(
-      dateString
-    );
-    expect(json.Route).toEqual(
-      rl.Route
-    );
+    expect(json.ReferenceDate).toEqual(dateString);
+    expect(json.Route).toEqual(rl.Route);
     expect(json.Arm).toEqual(rl.Arm);
   });
 });
