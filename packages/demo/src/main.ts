@@ -1,24 +1,23 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { Map } from "maplibre-gl";
+import "maplibre-gl/dist/maplibre-gl.css";
+import "./style.css";
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+const apiKey =
+  "AAPK2fe9d5bf075b4a76b80c3c2df25e34668D6EZOaitj-5PUG9TPt3eUpNHVWdPREfvAXhFIboaxH3jXWzSRt-sZMYUMi7ZGiF";
+const basemapEnum = "ArcGIS:Topographic";
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const map = new Map({
+  container: "map", // container id
+  style: `https://basemaps-api.arcgis.com/arcgis/rest/services/styles/${basemapEnum}?type=style&token=${apiKey}`,
+  center: {
+    lng: -120.81055357905363,
+    lat: 47.290771938843505,
+  }, // starting position [lng, lat]
+  zoom: 6, // starting zoom
+});
+
+console.debug("map", map);
+
+map.on("click", (e) => {
+  console.debug("click", e);
+});
