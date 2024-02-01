@@ -25,6 +25,8 @@
     "cspell": "^8.3.2",
     "eslint": "^8.56.0",
     "prettier": "3.2.4",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vitest": "^1.2.2"
   }
 }
