@@ -14,8 +14,7 @@
   "scripts": {
     "lint": "eslint . --fix",
     "build": "tsc",
-    "postinstall": "npm run build",
-    "pretest": "tsc -p spec",
+    "pretest": "npm run build && tsc -p spec",
     "test": "jasmine",
     "posttest": "git clean src -fx"
   },
