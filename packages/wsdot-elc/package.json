@@ -21,7 +21,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/WSDOT-GIS/elc-js.git"
+    "url": "git+https://github.com/WSDOT-GIS/elc-js.git",
+    "directory": "packages/wsdot-elc"
   },
   "keywords": [
     "ELC",
