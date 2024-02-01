@@ -41,7 +41,7 @@
   "bugs": {
     "url": "https://github.com/WSDOT-GIS/elc-js/issues"
   },
-  "homepage": "https://github.com/WSDOT-GIS/elc-js#readme",
+  "homepage": "https://github.com/WSDOT-GIS/elc-js/tree/master/packages/wsdot-elc#readme",
   "devDependencies": {
     "@types/jasmine": "^5.1.4",
     "@types/node": "^20.11.14",

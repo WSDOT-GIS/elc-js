@@ -14,7 +14,7 @@
     "postinstall": "npm run build"
   },
   "repository": {
-    "url": "git+https://github.com/WSDOT-GIS/elc-ui.git",
+    "url": "git+https://github.com/WSDOT-GIS/elc-js.git",
     "type": "git",
     "directory": "packages/elc-ui"
   },
@@ -29,9 +29,9 @@
   },
   "license": "Unlicense",
   "bugs": {
-    "url": "https://github.com/WSDOT-GIS/elc-ui/issues"
+    "url": "https://github.com/WSDOT-GIS/elc-js/issues"
   },
-  "homepage": "https://github.com/WSDOT-GIS/elc-ui#readme",
+  "homepage": "https://github.com/WSDOT-GIS/elc-js/tree/master/packages/elc-ui#readme",
   "dependencies": {
     "wsdot-elc": "^4.0.0"
   },
