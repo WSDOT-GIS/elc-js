@@ -26,7 +26,7 @@ export function getLrsTypeValue(value: number | string): number {
       output = LrsType.RAMP;
     } else if (/^f/i.test(value)) {
       output = LrsType.FT;
-    } else if (/t/i.test(value)) {
+    } else if (/^t/i.test(value)) {
       output = LrsType.TURNBACK;
     } else {
       throw new Error(`Invalid value: ${value}`);
